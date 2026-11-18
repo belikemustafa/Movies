@@ -1,0 +1,3287 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CineSpotle — Movies, TV Series &amp; Anime</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Cormorant+Garamond:ital,wght@0,600;0,700;1,600&family=Inter:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,700;0,800;1,600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet" />
+  <style>
+    /* ==========================================================================
+       1. DESIGN TOKENS, MIDNIGHT SLATE DEFAULT & PORTAL AESTHETIC
+       ========================================================================== */
+    :root {
+      --bg-primary: #07090f;
+      --bg-secondary: #0d111a;
+      --bg-card: #111622;
+      --bg-card-elevated: #171e2e;
+      --bg-tile: #1b2336;
+      --bg-tile-hover: #222c44;
+      --border-subtle: rgba(255, 255, 255, 0.08);
+      --border-strong: rgba(255, 255, 255, 0.15);
+      --text-primary: #f8fafc;
+      --text-secondary: #94a3b8;
+      --text-muted: #64748b;
+
+      --accent: #eab308;
+      --accent-contrast: #07090f;
+      --accent-soft: rgba(234, 179, 8, 0.12);
+      --accent-border: rgba(234, 179, 8, 0.42);
+      --accent-glow: rgba(234, 179, 8, 0.14);
+
+      --green-solid: #1eb954;
+      --green-bg: rgba(30, 185, 84, 0.2);
+      --green-border: #22c55e;
+      --yellow-bg: rgba(234, 179, 8, 0.22);
+      --yellow-border: #eab308;
+      --danger: #ef4444;
+
+      --font-display: 'Plus Jakarta Sans', 'Inter', system-ui, sans-serif;
+      --font-serif: 'Playfair Display', Georgia, serif;
+      --font-body: 'Plus Jakarta Sans', 'Inter', system-ui, -apple-system, sans-serif;
+
+      --shadow-card: 0 20px 46px rgba(0, 0, 0, 0.55);
+    }
+
+    body[data-palette="obsidian"] {
+      --bg-primary: #020305;
+      --bg-secondary: #07080c;
+      --bg-card: #0c0e14;
+      --bg-card-elevated: #12151e;
+      --bg-tile: #161a24;
+      --bg-tile-hover: #1f2433;
+      --border-subtle: rgba(255, 255, 255, 0.09);
+      --border-strong: rgba(255, 255, 255, 0.2);
+      --text-primary: #ffffff;
+      --text-secondary: #9ca3af;
+      --text-muted: #6b7280;
+    }
+
+    body[data-palette="abyssal"] {
+      --bg-primary: #05070a;
+      --bg-secondary: #090c11;
+      --bg-card: #0e1219;
+      --bg-card-elevated: #141923;
+      --bg-tile: #19202c;
+      --bg-tile-hover: #222b3b;
+    }
+
+    body[data-palette="shadow"] {
+      --bg-primary: #06050b;
+      --bg-secondary: #0b0914;
+      --bg-card: #110e1e;
+      --bg-card-elevated: #171329;
+      --bg-tile: #1e1934;
+      --bg-tile-hover: #282144;
+    }
+
+    body[data-palette="velvet"] {
+      --bg-primary: #0d050c;
+      --bg-secondary: #150814;
+      --bg-card: #1d0c1c;
+      --bg-card-elevated: #261024;
+      --bg-tile: #30142d;
+      --bg-tile-hover: #3e1b3a;
+    }
+
+    body[data-palette="ivory"] {
+      --bg-primary: #f6f2e9;
+      --bg-secondary: #ede7da;
+      --bg-card: #ffffff;
+      --bg-card-elevated: #faf7f0;
+      --bg-tile: #f2ece0;
+      --bg-tile-hover: #e8e0cf;
+      --border-subtle: rgba(28, 25, 23, 0.1);
+      --border-strong: rgba(28, 25, 23, 0.2);
+      --text-primary: #1c1917;
+      --text-secondary: #57534e;
+      --text-muted: #78716c;
+      --shadow-card: 0 12px 30px rgba(28, 25, 23, 0.08);
+    }
+
+    /* 12 Accents */
+    body[data-accent="gold"] { --accent: #eab308; --accent-contrast: #07090f; --accent-soft: rgba(234,179,8,0.13); --accent-border: rgba(234,179,8,0.45); --accent-glow: rgba(234,179,8,0.14); }
+    body[data-accent="crimson"] { --accent: #e11d48; --accent-contrast: #ffffff; --accent-soft: rgba(225,29,72,0.15); --accent-border: rgba(225,29,72,0.48); --accent-glow: rgba(225,29,72,0.16); }
+    body[data-accent="coral"] { --accent: #f97316; --accent-contrast: #07090f; --accent-soft: rgba(249,115,22,0.15); --accent-border: rgba(249,115,22,0.48); --accent-glow: rgba(249,115,22,0.15); }
+    body[data-accent="cobalt"] { --accent: #3b82f6; --accent-contrast: #ffffff; --accent-soft: rgba(59,130,246,0.15); --accent-border: rgba(59,130,246,0.48); --accent-glow: rgba(59,130,246,0.16); }
+    body[data-accent="emerald"] { --accent: #10b981; --accent-contrast: #062118; --accent-soft: rgba(16,185,129,0.15); --accent-border: rgba(16,185,129,0.48); --accent-glow: rgba(16,185,129,0.15); }
+    body[data-accent="amethyst"] { --accent: #a855f7; --accent-contrast: #ffffff; --accent-soft: rgba(168,85,247,0.15); --accent-border: rgba(168,85,247,0.48); --accent-glow: rgba(168,85,247,0.16); }
+    body[data-accent="rose"] { --accent: #ec4899; --accent-contrast: #ffffff; --accent-soft: rgba(236,72,153,0.15); --accent-border: rgba(236,72,153,0.48); --accent-glow: rgba(236,72,153,0.16); }
+    body[data-accent="teal"] { --accent: #14b8a6; --accent-contrast: #04201d; --accent-soft: rgba(20,184,166,0.15); --accent-border: rgba(20,184,166,0.48); --accent-glow: rgba(20,184,166,0.15); }
+    body[data-accent="copper"] { --accent: #d97706; --accent-contrast: #ffffff; --accent-soft: rgba(217,119,6,0.15); --accent-border: rgba(217,119,6,0.48); --accent-glow: rgba(217,119,6,0.15); }
+    body[data-accent="sapphire"] { --accent: #6366f1; --accent-contrast: #ffffff; --accent-soft: rgba(99,102,241,0.15); --accent-border: rgba(99,102,241,0.48); --accent-glow: rgba(99,102,241,0.16); }
+    body[data-accent="ruby"] { --accent: #dc2626; --accent-contrast: #ffffff; --accent-soft: rgba(220,38,38,0.15); --accent-border: rgba(220,38,38,0.48); --accent-glow: rgba(220,38,38,0.16); }
+    body[data-accent="silver"] { --accent: #cbd5e1; --accent-contrast: #0f172a; --accent-soft: rgba(203,213,225,0.15); --accent-border: rgba(203,213,225,0.48); --accent-glow: rgba(203,213,225,0.14); }
+
+    /* Font Pairings */
+    body[data-font="marquee"] { --font-display: 'Plus Jakarta Sans', 'Inter', sans-serif; --font-serif: 'Plus Jakarta Sans', sans-serif; --font-body: 'Plus Jakarta Sans', 'Inter', sans-serif; }
+    body[data-font="editorial"] { --font-display: 'Cormorant Garamond', Georgia, serif; --font-serif: 'Playfair Display', Georgia, serif; --font-body: 'Inter', system-ui, sans-serif; }
+    body[data-font="modern"] { --font-display: 'Playfair Display', Georgia, serif; --font-serif: 'Playfair Display', Georgia, serif; --font-body: 'Plus Jakarta Sans', 'Inter', sans-serif; }
+    body[data-font="silverscreen"] { --font-display: 'Cinzel', Georgia, serif; --font-serif: 'Cinzel', Georgia, serif; --font-body: 'Inter', system-ui, sans-serif; }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body {
+      min-height: 100%;
+      background-color: var(--bg-primary);
+      color: var(--text-primary);
+      font-family: var(--font-body);
+      line-height: 1.45;
+      overflow-x: hidden;
+      transition: background-color 0.25s ease, color 0.25s ease;
+    }
+
+    body.cinema-glow::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      background:
+        radial-gradient(ellipse 64% 40% at 50% -2%, var(--accent-glow), rgba(99, 102, 241, 0.05) 48%, transparent 74%);
+    }
+
+    .app-shell {
+      position: relative;
+      z-index: 1;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px 16px 56px;
+    }
+
+    /* ==========================================================================
+       2. MINIMAL TOP CORNER BAR
+       ========================================================================== */
+    .minimal-top-bar {
+      width: 100%;
+      max-width: 1240px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    .top-bar-group { display: flex; align-items: center; gap: 9px; }
+
+    .icon-circle-btn {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--border-subtle);
+      color: var(--text-secondary);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      position: relative;
+      transition: all 0.16s ease;
+    }
+    .icon-circle-btn:hover {
+      border-color: var(--accent-border);
+      color: var(--text-primary);
+      background: var(--bg-card-elevated);
+      transform: translateY(-1px);
+    }
+    .icon-circle-btn svg {
+      width: 17px;
+      height: 17px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 1.9;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .account-nav-pill {
+      height: 40px;
+      padding: 0 14px 0 7px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--border-subtle);
+      color: var(--text-primary);
+      font-family: var(--font-body);
+      font-size: 0.79rem;
+      font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+      transition: all 0.16s ease;
+    }
+    .account-nav-pill:hover {
+      border-color: var(--accent-border);
+      background: var(--bg-card-elevated);
+    }
+    .account-avatar-dot {
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      background: var(--accent-soft);
+      border: 1px solid var(--accent-border);
+      color: var(--accent);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.72rem;
+      font-weight: 800;
+    }
+
+    .mini-dot-badge {
+      position: absolute;
+      top: -2px;
+      right: -2px;
+      min-width: 16px;
+      height: 16px;
+      padding: 0 4px;
+      border-radius: 999px;
+      background: var(--accent);
+      color: var(--accent-contrast);
+      font-size: 0.62rem;
+      font-weight: 800;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* ==========================================================================
+       3. PORTAL-STYLE HERO HEADER
+       ========================================================================== */
+    .portal-hero {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      max-width: 640px;
+      margin: 4px auto 24px;
+    }
+
+    .hero-status-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 5px 13px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--border-subtle);
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: var(--text-secondary);
+      margin-bottom: 14px;
+    }
+    .hero-status-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 8px var(--accent);
+    }
+
+    .hero-brand-row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 13px;
+      margin-bottom: 8px;
+    }
+    .hero-emblem-box {
+      width: 42px;
+      height: 42px;
+      border-radius: 11px;
+      background: var(--accent-soft);
+      border: 1px solid var(--accent-border);
+      color: var(--accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .hero-emblem-box svg {
+      width: 20px;
+      height: 20px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 1.9;
+    }
+
+    .hero-wordmark {
+      font-family: var(--font-display);
+      font-size: clamp(2.1rem, 4.5vw, 2.85rem);
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      line-height: 1.05;
+      color: var(--text-primary);
+    }
+    .hero-wordmark span {
+      background: linear-gradient(135deg, var(--accent) 0%, #f59e0b 55%, #818cf8 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero-subtitle {
+      font-size: 0.88rem;
+      color: var(--text-secondary);
+      margin-bottom: 16px;
+      max-width: 460px;
+    }
+
+    .hero-actions-row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .hero-pill-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      height: 38px;
+      padding: 0 15px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--border-strong);
+      color: var(--text-primary);
+      font-family: var(--font-body);
+      font-size: 0.8rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.16s ease;
+    }
+    .hero-pill-btn:hover:not(:disabled) {
+      border-color: var(--accent-border);
+      background: var(--bg-card-elevated);
+      transform: translateY(-1px);
+    }
+    .hero-pill-btn:disabled { opacity: 0.55; cursor: not-allowed; }
+    .hero-pill-btn kbd, .portal-footer-tip kbd {
+      font-family: var(--font-body);
+      font-size: 0.68rem;
+      font-weight: 700;
+      padding: 2px 6px;
+      border-radius: 5px;
+      background: rgba(255, 255, 255, 0.07);
+      border: 1px solid var(--border-subtle);
+      color: var(--text-secondary);
+    }
+
+    /* ==========================================================================
+       4. CENTER STAGE, HUD & UNIFIED SEARCH BAR
+       ========================================================================== */
+    .center-stage-col {
+      width: 100%;
+      max-width: 740px;
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+    }
+
+    .stage-hud-row {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+    .stage-hud-left { display: flex; justify-content: flex-start; }
+    .stage-hud-right { display: flex; justify-content: flex-end; }
+
+    .hud-subtle-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      height: 34px;
+      padding: 0 13px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--border-subtle);
+      color: var(--text-secondary);
+      font-family: var(--font-body);
+      font-size: 0.78rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      white-space: nowrap;
+    }
+    .hud-subtle-pill:hover:not(:disabled) {
+      border-color: var(--accent-border);
+      color: var(--text-primary);
+      background: var(--bg-card-elevated);
+    }
+    .hud-subtle-pill.ready { border-color: var(--accent-border); color: var(--accent); }
+    .hud-subtle-pill:disabled { opacity: 0.5; cursor: not-allowed; }
+
+    .guess-status-center {
+      font-size: 0.88rem;
+      font-weight: 700;
+      color: var(--text-secondary);
+      text-align: center;
+      white-space: nowrap;
+    }
+    .guess-status-center .accent-num { color: var(--accent); font-weight: 800; }
+
+    .search-input-shell {
+      position: relative;
+      display: flex;
+      align-items: center;
+      margin-bottom: 18px;
+    }
+
+    .spotle-search-input {
+      width: 100%;
+      height: 52px;
+      padding: 0 46px 0 18px;
+      border-radius: 14px;
+      background: var(--bg-card);
+      border: 1px solid var(--border-strong);
+      color: var(--text-primary);
+      font-family: var(--font-body);
+      font-size: 0.93rem;
+      font-weight: 500;
+      outline: none;
+      transition: border-color 0.16s ease, box-shadow 0.16s ease, background 0.16s ease;
+    }
+    .spotle-search-input::placeholder { color: var(--text-muted); }
+    .spotle-search-input:focus {
+      border-color: var(--accent-border);
+      background: var(--bg-card-elevated);
+      box-shadow: 0 0 0 3px var(--accent-glow);
+    }
+    .spotle-search-input:disabled { opacity: 0.5; cursor: not-allowed; }
+
+    .search-right-icon {
+      position: absolute;
+      right: 16px;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      pointer-events: none;
+    }
+    .search-right-icon svg { width: 17px; height: 17px; stroke: currentColor; fill: none; stroke-width: 2; }
+
+    .autocomplete-dropdown {
+      position: absolute;
+      top: calc(100% + 6px);
+      left: 0;
+      right: 0;
+      background: var(--bg-card-elevated);
+      border: 1px solid var(--accent-border);
+      border-radius: 14px;
+      max-height: 320px;
+      overflow-y: auto;
+      z-index: 65;
+      box-shadow: 0 24px 52px rgba(0, 0, 0, 0.82);
+      display: none;
+    }
+    .autocomplete-dropdown.open { display: block; }
+
+    .ac-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 10px 15px;
+      border-bottom: 1px solid var(--border-subtle);
+      cursor: pointer;
+      transition: background 0.12s ease;
+    }
+    .ac-row:last-child { border-bottom: none; }
+    .ac-row:hover, .ac-row.highlighted { background: var(--accent-soft); }
+    .ac-row-left { display: flex; align-items: center; gap: 11px; min-width: 0; }
+    .ac-thumb {
+      width: 34px;
+      height: 48px;
+      border-radius: 6px;
+      background: var(--bg-tile);
+      object-fit: cover;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.7rem;
+      font-weight: 800;
+      color: var(--accent);
+    }
+    .ac-row-title { font-weight: 700; font-size: 0.9rem; color: var(--text-primary); }
+    .ac-row-sub { font-size: 0.75rem; color: var(--text-secondary); }
+    .ac-row-badge {
+      font-size: 0.7rem;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: var(--bg-tile);
+      border: 1px solid var(--border-subtle);
+      color: var(--accent);
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    /* ==========================================================================
+       5. GUESS CARDS (Large Poster + 6 Separate Tiles + Cast/Director/Studio Photos)
+       ========================================================================== */
+    .guess-stack { display: flex; flex-direction: column; gap: 16px; }
+
+    .spotle-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 18px;
+      padding: 18px 20px;
+      box-shadow: var(--shadow-card);
+      animation: cardSlideIn 0.25s ease-out;
+      transition: border-color 0.2s ease;
+    }
+    .spotle-card:hover { border-color: var(--border-strong); }
+    .spotle-card.exact-win {
+      border: 1.5px solid var(--green-border);
+      box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.18), var(--shadow-card);
+    }
+    @keyframes cardSlideIn {
+      from { opacity: 0; transform: translateY(-8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .card-upper-split {
+      display: grid;
+      grid-template-columns: 188px 1fr;
+      gap: 20px;
+      align-items: stretch;
+    }
+
+    .media-poster-box {
+      width: 188px;
+      height: 278px;
+      border-radius: 13px;
+      background: var(--bg-tile);
+      border: 1px solid var(--border-strong);
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 1.8rem;
+      color: var(--accent);
+      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.5);
+      flex-shrink: 0;
+    }
+    .media-poster-box img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .card-right-main {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      min-width: 0;
+    }
+
+    .card-entity-title {
+      font-size: 1.32rem;
+      font-weight: 800;
+      letter-spacing: -0.015em;
+      color: var(--text-primary);
+      line-height: 1.22;
+      margin-bottom: 7px;
+    }
+
+    .genre-pills-row { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 12px; }
+    .genre-chip {
+      font-size: 0.71rem;
+      font-weight: 600;
+      padding: 3px 10px;
+      border-radius: 999px;
+      background: var(--bg-tile);
+      border: 1px solid var(--border-subtle);
+      color: var(--text-secondary);
+    }
+    .genre-chip.exact { background: var(--green-bg); border-color: var(--green-border); color: #4ade80; }
+    body[data-palette="ivory"] .genre-chip.exact { color: #15803d; }
+
+    /* 3x2 Tiles Grid: Separate IMDb & Letterboxd tiles */
+    .reference-tiles-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      grid-template-rows: repeat(2, 1fr);
+      gap: 8px;
+      flex: 1;
+    }
+
+    .s-tile {
+      border-radius: 11px;
+      background: var(--bg-tile);
+      border: 1px solid var(--border-subtle);
+      padding: 8px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      min-height: 76px;
+    }
+    .s-tile.exact { background: #1eb954; border-color: #22c55e; color: #ffffff; }
+    body[data-palette="ivory"] .s-tile.exact { background: #16a34a; color: #ffffff; }
+    .s-tile.close { background: var(--yellow-bg); border-color: var(--yellow-border); }
+
+    .s-tile-lbl {
+      font-size: 0.61rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      color: var(--text-muted);
+      margin-bottom: 4px;
+    }
+    .s-tile.exact .s-tile-lbl { color: rgba(255, 255, 255, 0.92); }
+    .s-tile.close .s-tile-lbl { color: var(--text-primary); opacity: 0.88; }
+    .s-tile-val { font-size: 0.91rem; font-weight: 800; line-height: 1.2; word-break: break-word; }
+
+    .studio-logo-wrap {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.92);
+      border: 1.5px solid rgba(255, 255, 255, 0.35);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      padding: 4px;
+      margin-bottom: 4px;
+      flex-shrink: 0;
+    }
+    .studio-logo-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: block;
+    }
+    .studio-logo-fallback {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      border: 1.5px solid currentColor;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.72rem;
+      font-weight: 800;
+      margin-bottom: 4px;
+    }
+
+    .card-credits-footer {
+      margin-top: 15px;
+      padding-top: 13px;
+      border-top: 1px solid var(--border-subtle);
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+      overflow-x: auto;
+    }
+
+    .credit-group { display: flex; flex-direction: column; align-items: center; gap: 8px; }
+    .credit-group.grow { flex: 1; }
+    .credit-group-title { font-size: 0.59rem; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-muted); text-align: center; }
+    .credit-avatars-row { display: flex; align-items: flex-start; justify-content: center; gap: 14px; }
+    .credit-divider-v { width: 1px; align-self: stretch; background: var(--border-subtle); margin-top: 14px; }
+
+    .person-node { display: flex; flex-direction: column; align-items: center; width: 68px; text-align: center; }
+    .person-avatar-circle {
+      width: 46px;
+      height: 46px;
+      border-radius: 50%;
+      background: var(--bg-tile);
+      border: 2px solid var(--border-strong);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.75rem;
+      font-weight: 800;
+      color: var(--text-secondary);
+      margin-bottom: 6px;
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+    .person-avatar-circle img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: top center;
+      display: block;
+    }
+    .person-node.exact .person-avatar-circle {
+      border-color: #22c55e;
+      box-shadow: 0 0 0 2.5px rgba(34, 197, 94, 0.38);
+      color: #4ade80;
+    }
+    .person-short-name { font-size: 0.7rem; font-weight: 600; color: var(--text-secondary); line-height: 1.18; word-break: break-word; }
+    .person-node.exact .person-short-name { color: #4ade80; font-weight: 800; }
+    body[data-palette="ivory"] .person-node.exact .person-short-name { color: #15803d; }
+
+    /* ==========================================================================
+       6. PROGRESS BAR, FOOTER TIP, DRAWERS & MODALS
+       ========================================================================== */
+    .guess-segments-bar { display: grid; grid-template-columns: repeat(10, 1fr); gap: 6px; margin: 18px 0 8px; }
+    .guess-seg { height: 4px; border-radius: 999px; background: var(--border-strong); transition: background 0.2s ease; }
+    .guess-seg.done { background: var(--text-secondary); }
+    .guess-seg.won { background: #22c55e; }
+    .guess-seg.active { background: var(--accent); }
+
+    .portal-footer-tip {
+      text-align: center;
+      font-size: 0.76rem;
+      color: var(--text-muted);
+      margin-top: 14px;
+    }
+
+    .timer-bar-panel, .revealed-clues-banner, .ost-player-panel {
+      display: none;
+      padding: 12px 16px;
+      margin-bottom: 14px;
+      border-radius: 13px;
+      background: var(--bg-card);
+      border: 1px solid var(--accent-border);
+    }
+    .timer-bar-panel.active, .ost-player-panel.active { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px; }
+    .revealed-clues-banner.active { display: flex; flex-direction: column; gap: 8px; }
+    .timer-readout { font-size: 1.15rem; font-weight: 800; font-variant-numeric: tabular-nums; color: var(--accent); }
+    .timer-readout.urgent { color: var(--danger); }
+
+    .clue-item-line { font-size: 0.83rem; color: var(--text-primary); display: flex; align-items: flex-start; gap: 8px; }
+    .clue-item-tag { font-size: 0.68rem; font-weight: 800; text-transform: uppercase; padding: 2px 7px; border-radius: 6px; background: var(--accent-soft); border: 1px solid var(--accent-border); color: var(--accent); white-space: nowrap; margin-top: 1px; }
+
+    .eq-bars { display: inline-flex; align-items: flex-end; gap: 3px; height: 15px; }
+    .eq-bar { width: 3px; height: 5px; background: var(--accent); border-radius: 2px; }
+    .eq-bars.playing .eq-bar { animation: eqBounce 0.55s infinite alternate; }
+    .eq-bars.playing .eq-bar:nth-child(2) { animation-delay: 0.15s; }
+    .eq-bars.playing .eq-bar:nth-child(3) { animation-delay: 0.3s; }
+    .eq-bars.playing .eq-bar:nth-child(4) { animation-delay: 0.1s; }
+    @keyframes eqBounce { from { height: 4px; } to { height: 15px; } }
+
+    /* Left Drawer */
+    .left-drawer-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(3, 6, 14, 0.76);
+      backdrop-filter: blur(6px);
+      display: none;
+      justify-content: flex-start;
+      z-index: 115;
+    }
+    .left-drawer-backdrop.open { display: flex; }
+
+    .left-menu-drawer {
+      width: 100%;
+      max-width: 360px;
+      height: 100%;
+      background: var(--bg-secondary);
+      border-right: 1px solid var(--border-strong);
+      padding: 22px 20px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .menu-brand-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-bottom: 14px;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+    .brand-lockup { display: flex; align-items: center; gap: 11px; }
+    .brand-emblem {
+      width: 38px;
+      height: 38px;
+      border-radius: 10px;
+      border: 1.5px solid var(--accent-border);
+      background: var(--bg-card);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 0.8rem;
+      color: var(--accent);
+    }
+    .brand-title { font-size: 1.1rem; font-weight: 800; }
+    .brand-subtitle { font-size: 0.66rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); }
+
+    .menu-field-group { display: flex; flex-direction: column; gap: 6px; }
+    .menu-field-label { font-size: 0.71rem; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-secondary); }
+
+    .studio-select-wrap { position: relative; display: flex; align-items: center; width: 100%; }
+    .studio-select {
+      width: 100%;
+      appearance: none;
+      -webkit-appearance: none;
+      min-height: 42px;
+      padding: 0 36px 0 14px;
+      border-radius: 11px;
+      background: var(--bg-card);
+      border: 1px solid var(--border-strong);
+      color: var(--text-primary);
+      font-family: var(--font-body);
+      font-weight: 700;
+      font-size: 0.86rem;
+      cursor: pointer;
+      outline: none;
+    }
+    .studio-select option { background: var(--bg-secondary); color: var(--text-primary); }
+    .select-chevron { position: absolute; right: 13px; pointer-events: none; color: var(--accent); font-size: 0.78rem; font-weight: 800; }
+
+    .studio-pill-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+      min-height: 40px;
+      padding: 8px 14px;
+      border-radius: 11px;
+      border: 1px solid var(--border-strong);
+      background: var(--bg-card);
+      color: var(--text-primary);
+      font-family: var(--font-body);
+      font-size: 0.83rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.14s ease;
+    }
+    .studio-pill-btn:hover { border-color: var(--accent); background: var(--bg-card-elevated); }
+    .studio-pill-btn.accent-solid { background: var(--accent); color: var(--accent-contrast); border-color: var(--accent); }
+    .studio-pill-btn.danger-solid { background: #dc2626; color: #ffffff; border-color: #ef4444; }
+
+    .filter-drawer-box {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 14px;
+      padding: 13px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .filter-slot-header { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+    .slot-label-text { font-weight: 700; font-size: 0.82rem; }
+    .slot-status-pill { font-size: 0.69rem; font-weight: 700; color: var(--accent); background: var(--accent-soft); padding: 2px 8px; border-radius: 6px; }
+    .filter-pills-wrap { display: flex; flex-wrap: wrap; gap: 5px; }
+
+    .mini-filter-pill {
+      padding: 4px 10px;
+      min-height: 29px;
+      border-radius: 999px;
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-subtle);
+      color: var(--text-secondary);
+      font-family: var(--font-body);
+      font-size: 0.74rem;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    .mini-filter-pill.active { background: var(--accent); border-color: var(--accent); color: var(--accent-contrast); }
+
+    /* Modals */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(3, 6, 14, 0.82);
+      backdrop-filter: blur(8px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      z-index: 120;
+    }
+    .modal-overlay.open { display: flex; }
+
+    .modal-dialog {
+      width: 100%;
+      max-width: 580px;
+      max-height: 90vh;
+      overflow-y: auto;
+      border-radius: 22px;
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-strong);
+      padding: 24px;
+      box-shadow: 0 30px 70px rgba(0, 0, 0, 0.78);
+    }
+    .modal-dialog.settings-wide { max-width: 780px; }
+
+    .settings-modal-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 14px;
+      padding-bottom: 14px;
+      margin-bottom: 18px;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+    .settings-modal-title { font-size: 1.4rem; font-weight: 800; }
+    .settings-modal-sub { font-size: 0.82rem; color: var(--text-secondary); margin-top: 3px; }
+
+    .circle-close-btn {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: var(--bg-card);
+      border: 1px solid var(--border-strong);
+      color: var(--text-primary);
+      font-size: 0.95rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .circle-close-btn:hover { border-color: var(--accent); color: var(--accent); }
+
+    .settings-sec-label { font-size: 0.71rem; font-weight: 800; letter-spacing: 0.09em; text-transform: uppercase; color: var(--accent); margin: 16px 0 9px; }
+    .settings-sec-label:first-of-type { margin-top: 0; }
+
+    .palette-grid-2x2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+    .palette-card { display: flex; align-items: center; gap: 12px; padding: 12px 14px; border-radius: 14px; background: var(--bg-card); border: 1.5px solid var(--border-subtle); color: var(--text-primary); text-align: left; cursor: pointer; }
+    .palette-card.active { border-color: var(--accent); box-shadow: 0 0 0 1px var(--accent); }
+    .palette-swatch-box { width: 32px; height: 32px; border-radius: 9px; border: 1px solid rgba(255, 255, 255, 0.16); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .palette-swatch-ring { width: 13px; height: 13px; border-radius: 50%; border: 1.5px solid var(--accent); }
+    .palette-name { font-weight: 700; font-size: 0.86rem; }
+    .palette-desc { font-size: 0.72rem; color: var(--text-secondary); }
+
+    .accents-grid-4x3 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 9px; }
+    .accent-pill-card { display: flex; align-items: center; gap: 8px; padding: 9px 11px; border-radius: 12px; background: var(--bg-card); border: 1.5px solid var(--border-subtle); color: var(--text-primary); font-family: var(--font-body); font-size: 0.79rem; font-weight: 700; cursor: pointer; }
+    .accent-pill-card.active { border-color: var(--accent); box-shadow: 0 0 0 1px var(--accent); }
+    .accent-dot { width: 13px; height: 13px; border-radius: 50%; flex-shrink: 0; }
+
+    .font-grid-2x2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+    .font-card { padding: 12px 14px; border-radius: 14px; background: var(--bg-card); border: 1.5px solid var(--border-subtle); color: var(--text-primary); text-align: left; cursor: pointer; }
+    .font-card.active { border-color: var(--accent); box-shadow: 0 0 0 1px var(--accent); }
+    .font-card-sample { font-size: 1rem; font-weight: 800; margin-bottom: 3px; }
+    .font-card-sub { font-size: 0.73rem; color: var(--text-secondary); }
+
+    .settings-box-panel { margin-top: 14px; padding: 14px 16px; border-radius: 15px; background: var(--bg-card); border: 1px solid var(--border-subtle); }
+    .settings-box-top { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+    .status-pill-green { font-size: 0.71rem; font-weight: 700; padding: 3px 9px; border-radius: 999px; background: rgba(16, 185, 129, 0.14); border: 1px solid rgba(16, 185, 129, 0.45); color: #34d399; }
+    .key-input-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+    .studio-text-input { flex: 1; min-width: 200px; min-height: 40px; padding: 8px 13px; border-radius: 11px; background: var(--bg-primary); border: 1px solid var(--border-strong); color: var(--text-primary); font-family: var(--font-body); font-size: 0.83rem; outline: none; }
+    .studio-text-input:focus { border-color: var(--accent); }
+
+    .hint-choice-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 12px 14px; border-radius: 13px; background: var(--bg-card); border: 1px solid var(--border-subtle); margin-bottom: 9px; cursor: pointer; }
+    .hint-choice-row:hover:not(.used) { border-color: var(--accent); background: var(--bg-card-elevated); }
+    .hint-choice-row.used { opacity: 0.5; cursor: not-allowed; }
+
+    /* Profile & Scoreboard */
+    .profile-header-card {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 14px;
+      border-radius: 14px;
+      background: var(--bg-card);
+      border: 1px solid var(--accent-border);
+      margin-bottom: 14px;
+    }
+    .profile-big-avatar {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      background: var(--accent);
+      color: var(--accent-contrast);
+      font-weight: 800;
+      font-size: 0.95rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .dist-bars-wrap { display: flex; flex-direction: column; gap: 5px; margin-bottom: 14px; }
+    .dist-row { display: flex; align-items: center; gap: 8px; font-size: 0.74rem; font-weight: 700; }
+    .dist-num { width: 18px; text-align: right; color: var(--text-secondary); }
+    .dist-bar-bg { flex: 1; height: 18px; border-radius: 6px; background: var(--bg-card); overflow: hidden; }
+    .dist-bar-fill {
+      height: 100%;
+      min-width: 24px;
+      background: var(--accent);
+      color: var(--accent-contrast);
+      font-size: 0.7rem;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      padding-right: 7px;
+      border-radius: 6px;
+    }
+    .history-scroll-list {
+      max-height: 180px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+    }
+    .history-item-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 9px 12px;
+      border-radius: 10px;
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      font-size: 0.8rem;
+    }
+
+    .drawer-backdrop { position: fixed; inset: 0; background: rgba(3, 6, 14, 0.76); backdrop-filter: blur(6px); display: none; justify-content: flex-end; z-index: 115; }
+    .drawer-backdrop.open { display: flex; }
+    .guide-drawer { width: 100%; max-width: 420px; height: 100%; background: var(--bg-secondary); border-left: 1px solid var(--border-strong); padding: 24px; overflow-y: auto; }
+
+    .stats-4-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin: 14px 0 18px; }
+    .stat-box { padding: 11px 6px; border-radius: 12px; background: var(--bg-card); border: 1px solid var(--border-subtle); text-align: center; }
+    .stat-num { font-size: 1.25rem; font-weight: 800; color: var(--accent); }
+    .stat-lbl { font-size: 0.66rem; text-transform: uppercase; color: var(--text-secondary); letter-spacing: 0.05em; }
+
+    .studio-toast {
+      position: fixed;
+      bottom: 22px;
+      left: 50%;
+      transform: translateX(-50%) translateY(90px);
+      background: var(--bg-card-elevated);
+      border: 1.5px solid var(--accent);
+      color: var(--text-primary);
+      padding: 10px 18px;
+      border-radius: 999px;
+      font-size: 0.84rem;
+      font-weight: 700;
+      box-shadow: 0 16px 38px rgba(0, 0, 0, 0.7);
+      z-index: 160;
+      opacity: 0;
+      pointer-events: none;
+      transition: transform 0.25s ease, opacity 0.25s ease;
+    }
+    .studio-toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+    @media (max-width: 680px) {
+      .card-upper-split { grid-template-columns: 1fr; }
+      .media-poster-box { width: 200px; height: 295px; margin: 0 auto; }
+      .reference-tiles-grid { grid-template-columns: repeat(2, 1fr); grid-template-rows: auto; }
+      .accents-grid-4x3 { grid-template-columns: repeat(2, 1fr); }
+      .palette-grid-2x2, .font-grid-2x2 { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+
+<body class="cinema-glow" data-palette="midnight" data-accent="gold" data-font="marquee">
+  <div class="app-shell">
+    <!-- Minimal Top Navigation -->
+    <nav class="minimal-top-bar" aria-label="CineSpotle Navigation">
+      <div class="top-bar-group">
+        <button class="icon-circle-btn" id="btnOpenLeftMenu" title="Category, Mode &amp; Region Filters">
+          <svg viewBox="0 0 24 24">
+            <line x1="4" y1="7" x2="20" y2="7"></line>
+            <line x1="4" y1="12" x2="20" y2="12"></line>
+            <line x1="4" y1="17" x2="20" y2="17"></line>
+          </svg>
+          <span class="mini-dot-badge" id="filterActiveChip" style="display: none;">0</span>
+        </button>
+      </div>
+
+      <div class="top-bar-group">
+        <button class="icon-circle-btn" id="btnViewRoundSummary" title="Round Summary" style="display: none;">
+          <svg viewBox="0 0 24 24">
+            <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"></path>
+            <path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"></path>
+            <path d="M4 22h16"></path>
+            <path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"></path>
+            <path d="M14 14.66V17c0 .55-.47.98-.97 1.21C16.15 18.75 17 20.24 17 22"></path>
+            <path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"></path>
+          </svg>
+        </button>
+
+        <button class="icon-circle-btn" id="btnOpenGuideDrawer" title="How to Play">
+          <svg viewBox="0 0 24 24">
+            <circle cx="12" cy="12" r="10"></circle>
+            <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
+            <line x1="12" y1="17" x2="12.01" y2="17"></line>
+          </svg>
+        </button>
+
+        <button class="icon-circle-btn" id="btnOpenSettings" title="Settings &amp; Theme">
+          <svg viewBox="0 0 24 24">
+            <circle cx="12" cy="12" r="3"></circle>
+            <path
+              d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z">
+            </path>
+          </svg>
+        </button>
+
+        <button class="account-nav-pill" id="btnOpenAccount" title="Login &amp; Saved Scores">
+          <span class="account-avatar-dot" id="accountNavAvatar">👤</span>
+          <span id="accountNavLabel">Sign In</span>
+        </button>
+      </div>
+    </nav>
+
+    <!-- Portal-Style Hero Header -->
+    <header class="portal-hero">
+      <div class="hero-status-pill" id="heroStatusPill">
+        <span class="hero-status-dot"></span>
+        <span id="heroStatusText">Movies • Hollywood</span>
+      </div>
+
+      <div class="hero-brand-row">
+        <div class="hero-emblem-box">
+          <svg viewBox="0 0 24 24">
+            <rect x="2" y="3" width="20" height="18" rx="3"></rect>
+            <line x1="7" y1="3" x2="7" y2="21"></line>
+            <line x1="17" y1="3" x2="17" y2="21"></line>
+            <line x1="2" y1="9" x2="7" y2="9"></line>
+            <line x1="2" y1="15" x2="7" y2="15"></line>
+            <line x1="17" y1="9" x2="22" y2="9"></line>
+            <line x1="17" y1="15" x2="22" y2="15"></line>
+          </svg>
+        </div>
+        <h1 class="hero-wordmark">Cine<span>Spotle</span></h1>
+      </div>
+
+      <p class="hero-subtitle" id="heroSubtitle">
+        Enter a secret mystery title below or pick a random live film to begin
+      </p>
+
+      <div class="hero-actions-row">
+        <button class="hero-pill-btn" id="heroRandomBtn" title="Pick a random live title (Shortcut: R)">
+          <span>🔀 Random Pick</span>
+          <kbd>R</kbd>
+        </button>
+        <button class="hero-pill-btn" id="heroChangeTargetBtn" style="display: none;" title="Change mystery target">
+          <span>🎯 New Target</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- Centered Stage Column -->
+    <div class="center-stage-col">
+      <!-- Compact HUD Row (Visible once target is locked) -->
+      <div class="stage-hud-row" id="stageHudRow" style="display: none;">
+        <div class="stage-hud-left">
+          <button class="hud-subtle-pill ready" id="btnHintTrigger" title="Hints &amp; Soundtrack">
+            <span>💡</span>
+            <span id="hintBtnLabel">Hints (0/3)</span>
+          </button>
+        </div>
+
+        <div class="guess-status-center" id="spotleGuessHeader">
+          Guess <span class="accent-num">1</span> of 10
+        </div>
+
+        <div class="stage-hud-right">
+          <button class="hud-subtle-pill" id="btnGiveUp">
+            <span>🏳️</span>
+            <span>Give up</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Single Unified Search Input (Sets Target first, then switches to Guessing) -->
+      <div class="search-input-shell">
+        <input type="text" id="mainSearchInput" class="spotle-search-input"
+          placeholder="Search a movie to set as the mystery target..." autocomplete="off" spellcheck="false" />
+        <span class="search-right-icon">
+          <svg viewBox="0 0 24 24">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+        </span>
+        <div class="autocomplete-dropdown" id="searchDropdown"></div>
+      </div>
+
+      <!-- Optional Timer Bar -->
+      <section class="timer-bar-panel" id="timerBarPanel">
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <span style="font-size: 0.8rem; font-weight: 700;">⏱️ Time:</span>
+          <span class="timer-readout" id="timerDisplay">01:30</span>
+        </div>
+        <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 5px;">
+          <button class="mini-filter-pill preset-sec-btn" data-sec="60">60s</button>
+          <button class="mini-filter-pill preset-sec-btn" data-sec="90">90s</button>
+          <button class="mini-filter-pill preset-sec-btn" data-sec="120">120s</button>
+          <input type="number" id="customSecondsInput" min="15" max="900" value="90"
+            style="width: 56px; height: 28px; border-radius: 7px; background: var(--bg-primary); border: 1px solid var(--border-strong); color: var(--text-primary); text-align: center; font-weight: 700; font-size: 0.76rem;" />
+          <button class="studio-pill-btn accent-solid" id="btnStartTimerRound"
+            style="min-height: 28px; padding: 3px 10px; font-size: 0.74rem;">Restart</button>
+        </div>
+      </section>
+
+      <!-- Revealed Clues -->
+      <section class="revealed-clues-banner" id="revealedCluesBanner"></section>
+
+      <!-- Matched OST Player (Unlocks on Guess 5) -->
+      <section class="ost-player-panel" id="ostPlayerPanel">
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <div class="eq-bars" id="ostEqBars">
+            <span class="eq-bar"></span><span class="eq-bar"></span><span class="eq-bar"></span><span
+              class="eq-bar"></span>
+          </div>
+          <span style="font-size: 0.8rem; font-weight: 700;" id="ostStatusLabel">12s Mystery Soundtrack Ready</span>
+        </div>
+        <div style="display: flex; gap: 6px;">
+          <button class="studio-pill-btn accent-solid" id="btnOstPlay"
+            style="min-height: 30px; padding: 3px 12px; font-size: 0.75rem;">▶ Play</button>
+          <button class="studio-pill-btn" id="btnOstStop"
+            style="min-height: 30px; padding: 3px 10px; font-size: 0.75rem;">⏹ Stop</button>
+        </div>
+      </section>
+
+      <!-- Guess Cards Stack -->
+      <main class="guess-stack" id="guessStack"></main>
+
+      <!-- 10-Segment Guess Progress Bar -->
+      <div class="guess-segments-bar" id="guessSegmentsBar" style="display: none;" aria-label="Guess Progress"></div>
+
+      <!-- Subtle Keyboard Tip Footer -->
+      <div class="portal-footer-tip">
+        Tip: Press <kbd>R</kbd> for a Random Pick, or click <kbd>☰</kbd> to switch Movies, TV &amp; Anime.
+      </div>
+    </div>
+  </div>
+
+  <!-- Left Menu Drawer -->
+  <div class="left-drawer-backdrop" id="leftDrawerBackdrop">
+    <aside class="left-menu-drawer">
+      <div class="menu-brand-row">
+        <div class="brand-lockup">
+          <div class="brand-emblem">C·S</div>
+          <div>
+            <div class="brand-title">CineSpotle</div>
+            <div class="brand-subtitle">Movies • TV • Anime</div>
+          </div>
+        </div>
+        <button class="circle-close-btn" id="btnCloseLeftMenu" aria-label="Close Menu">✕</button>
+      </div>
+
+      <div class="menu-field-group">
+        <label class="menu-field-label" for="categorySelect">Category</label>
+        <div class="studio-select-wrap">
+          <select id="categorySelect" class="studio-select">
+            <option value="movies">🎬 Movies</option>
+            <option value="tv">📺 TV Series</option>
+            <option value="anime">⛩️ Anime</option>
+          </select>
+          <span class="select-chevron">▾</span>
+        </div>
+      </div>
+
+      <div class="menu-field-group">
+        <label class="menu-field-label" for="playModeSelect">Play Mode</label>
+        <div class="studio-select-wrap">
+          <select id="playModeSelect" class="studio-select">
+            <option value="endless">♾️ Endless</option>
+            <option value="timelimit">⏱️ Time Limit</option>
+            <option value="challenge">⚔️ Challenge Builder</option>
+          </select>
+          <span class="select-chevron">▾</span>
+        </div>
+      </div>
+
+      <div class="menu-field-group" id="filterMenuSection">
+        <div style="display: flex; align-items: center; justify-content: space-between; gap: 8px;">
+          <button class="studio-pill-btn" id="btnToggleFilterStudio" style="flex: 1; justify-content: space-between;">
+            <span>✦ Region / Format</span>
+            <span id="filterMenuSummaryTag" style="font-size: 0.72rem; color: var(--accent);">Hollywood</span>
+          </button>
+          <button class="studio-pill-btn" id="btnResetPoolFilters" style="padding: 8px 11px;">Reset</button>
+        </div>
+
+        <div class="filter-drawer-box" id="filterStudioCard" style="display: none; margin-top: 6px;">
+          <div id="slotRegionFormatBox">
+            <div class="filter-slot-header">
+              <span class="slot-label-text" id="slot01Label">Cinema Region</span>
+              <span class="slot-status-pill" id="slot01Status">Hollywood</span>
+            </div>
+            <div class="filter-pills-wrap" id="slot01Pills" style="margin-top: 8px;"></div>
+          </div>
+        </div>
+      </div>
+
+      <button class="studio-pill-btn" id="btnMenuSetTarget">🎯 Set Custom Mystery Target</button>
+      <button class="studio-pill-btn accent-solid" id="btnNewRandomRound">🔀 Random Live Pick</button>
+    </aside>
+  </div>
+
+  <!-- Give Up Confirmation Modal -->
+  <div class="modal-overlay" id="modalGiveUp">
+    <div class="modal-dialog" style="max-width: 420px; text-align: center;">
+      <div style="font-size: 2rem; margin-bottom: 8px;">🏳️</div>
+      <h2 class="settings-modal-title" style="font-size: 1.25rem; margin-bottom: 8px;">Give Up This Round?</h2>
+      <p style="font-size: 0.84rem; color: var(--text-secondary); margin-bottom: 20px;">
+        Are you sure you want to reveal the mystery target? Your current streak will reset.
+      </p>
+      <div style="display: flex; gap: 10px;">
+        <button class="studio-pill-btn" id="btnCancelGiveUpNo" style="flex: 1;">No, Keep Playing</button>
+        <button class="studio-pill-btn danger-solid" id="btnConfirmGiveUpYes" style="flex: 1;">Yes, Give Up</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Player Login & Saved Scores Modal -->
+  <div class="modal-overlay" id="modalAuth">
+    <div class="modal-dialog" style="max-width: 540px;">
+      <div class="settings-modal-header" style="margin-bottom: 14px; padding-bottom: 12px;">
+        <div>
+          <div class="settings-modal-title" style="font-size: 1.25rem;">👤 Player Profile &amp; Saved Scores</div>
+          <div class="settings-modal-sub">Scores &amp; history are cached locally in your browser</div>
+        </div>
+        <button class="circle-close-btn" data-close="modalAuth">✕</button>
+      </div>
+
+      <div id="authLoggedOutView">
+        <p style="font-size: 0.82rem; color: var(--text-secondary); margin-bottom: 14px;">
+          Sign in or create a local profile to save and view your scores, streaks, and guess history.
+        </p>
+        <div style="display: flex; flex-direction: column; gap: 10px; margin-bottom: 14px;">
+          <input type="text" id="authUsernameInput" class="studio-text-input" placeholder="Player Name / Handle" />
+          <input type="password" id="authPinInput" class="studio-text-input" maxlength="12"
+            placeholder="Optional 4-digit PIN" />
+          <button class="studio-pill-btn accent-solid" id="btnAuthSubmit">Sign In / Create Profile</button>
+        </div>
+
+        <div id="authSavedAccountsWrap" style="display: none;">
+          <div class="settings-sec-label">SAVED PROFILES</div>
+          <div id="authSavedAccountsList" style="display: flex; flex-wrap: wrap; gap: 8px;"></div>
+        </div>
+      </div>
+
+      <div id="authLoggedInView" style="display: none;">
+        <div class="profile-header-card">
+          <div style="display: flex; align-items: center; gap: 12px;">
+            <div class="profile-big-avatar" id="profileBigAvatar">CB</div>
+            <div>
+              <div style="font-weight: 800; font-size: 1.02rem;" id="profileUserTitle">Player</div>
+              <div style="font-size: 0.75rem; color: var(--text-secondary);" id="profileUserSub">Cached locally</div>
+            </div>
+          </div>
+          <button class="studio-pill-btn" id="btnAuthLogout" style="min-height: 34px; padding: 5px 12px; font-size: 0.78rem;">Sign Out</button>
+        </div>
+
+        <div class="stats-4-grid" id="profileStatsGrid"></div>
+
+        <div class="settings-sec-label">GUESS DISTRIBUTION</div>
+        <div id="profileDistBars" class="dist-bars-wrap"></div>
+
+        <div class="settings-sec-label" style="display: flex; justify-content: space-between; align-items: center;">
+          <span>RECENT MATCHES</span>
+          <button class="mini-filter-pill" id="btnResetUserScores" style="font-size: 0.68rem;">Clear Cache</button>
+        </div>
+        <div id="profileHistoryList" class="history-scroll-list"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Settings Modal -->
+  <div class="modal-overlay" id="modalSettings">
+    <div class="modal-dialog settings-wide">
+      <div class="settings-modal-header">
+        <div>
+          <h2 class="settings-modal-title">Settings &amp; Theme</h2>
+          <p class="settings-modal-sub">Customize your theme palette, accent colour, font &amp; API keys</p>
+        </div>
+        <button class="circle-close-btn" data-close="modalSettings">✕</button>
+      </div>
+
+      <div class="settings-sec-label">COLOR THEME (MIDNIGHT SLATE DEFAULT)</div>
+      <div class="palette-grid-2x2">
+        <button class="palette-card active" data-palette-opt="midnight">
+          <div class="palette-swatch-box" style="background: #0b0f19;"><span class="palette-swatch-ring"></span></div>
+          <div>
+            <div class="palette-name">Midnight Slate</div>
+            <div class="palette-desc">Default studio dark</div>
+          </div>
+        </button>
+        <button class="palette-card" data-palette-opt="obsidian">
+          <div class="palette-swatch-box" style="background: #020305;"><span class="palette-swatch-ring"></span></div>
+          <div>
+            <div class="palette-name">Pure Obsidian</div>
+            <div class="palette-desc">True OLED pitch-black</div>
+          </div>
+        </button>
+        <button class="palette-card" data-palette-opt="abyssal">
+          <div class="palette-swatch-box" style="background: #05070a;"><span class="palette-swatch-ring"></span></div>
+          <div>
+            <div class="palette-name">Abyssal Carbon</div>
+            <div class="palette-desc">Dark graphite &amp; charcoal</div>
+          </div>
+        </button>
+        <button class="palette-card" data-palette-opt="shadow">
+          <div class="palette-swatch-box" style="background: #06050b;"><span class="palette-swatch-ring"></span></div>
+          <div>
+            <div class="palette-name">Shadow Eclipse</div>
+            <div class="palette-desc">Indigo-noir screening room</div>
+          </div>
+        </button>
+        <button class="palette-card" data-palette-opt="velvet">
+          <div class="palette-swatch-box" style="background: #0d050c;"><span class="palette-swatch-ring"></span></div>
+          <div>
+            <div class="palette-name">Velvet Cinema</div>
+            <div class="palette-desc">Plum-black &amp; warm cream</div>
+          </div>
+        </button>
+        <button class="palette-card" data-palette-opt="ivory">
+          <div class="palette-swatch-box" style="background: #f6f2e9;"><span class="palette-swatch-ring"></span></div>
+          <div>
+            <div class="palette-name">Matinee Ivory</div>
+            <div class="palette-desc">Daylight warm paper</div>
+          </div>
+        </button>
+      </div>
+
+      <div class="settings-sec-label">ACCENT COLOUR</div>
+      <div class="accents-grid-4x3">
+        <button class="accent-pill-card active" data-accent-opt="gold"><span class="accent-dot" style="background:#eab308;"></span>Royal Gold</button>
+        <button class="accent-pill-card" data-accent-opt="crimson"><span class="accent-dot" style="background:#e11d48;"></span>Crimson</button>
+        <button class="accent-pill-card" data-accent-opt="coral"><span class="accent-dot" style="background:#f97316;"></span>Coral</button>
+        <button class="accent-pill-card" data-accent-opt="cobalt"><span class="accent-dot" style="background:#3b82f6;"></span>Cobalt</button>
+        <button class="accent-pill-card" data-accent-opt="emerald"><span class="accent-dot" style="background:#10b981;"></span>Emerald</button>
+        <button class="accent-pill-card" data-accent-opt="amethyst"><span class="accent-dot" style="background:#a855f7;"></span>Amethyst</button>
+        <button class="accent-pill-card" data-accent-opt="rose"><span class="accent-dot" style="background:#ec4899;"></span>Rose</button>
+        <button class="accent-pill-card" data-accent-opt="teal"><span class="accent-dot" style="background:#14b8a6;"></span>Teal</button>
+        <button class="accent-pill-card" data-accent-opt="copper"><span class="accent-dot" style="background:#d97706;"></span>Copper</button>
+        <button class="accent-pill-card" data-accent-opt="sapphire"><span class="accent-dot" style="background:#6366f1;"></span>Sapphire</button>
+        <button class="accent-pill-card" data-accent-opt="ruby"><span class="accent-dot" style="background:#dc2626;"></span>Ruby</button>
+        <button class="accent-pill-card" data-accent-opt="silver"><span class="accent-dot" style="background:#cbd5e1;"></span>Silver</button>
+      </div>
+
+      <div class="settings-sec-label">FONT PAIRING</div>
+      <div class="font-grid-2x2">
+        <button class="font-card active" data-font-opt="marquee">
+          <div class="font-card-sample" style="font-family: 'Plus Jakarta Sans', sans-serif;">Modern Portal</div>
+          <div class="font-card-sub">Plus Jakarta Sans + Inter</div>
+        </button>
+        <button class="font-card" data-font-opt="editorial">
+          <div class="font-card-sample" style="font-family: 'Cormorant Garamond', serif;">Editorial Prestige</div>
+          <div class="font-card-sub">Cormorant + Inter</div>
+        </button>
+        <button class="font-card" data-font-opt="modern">
+          <div class="font-card-sample" style="font-family: 'Playfair Display', serif;">Cinema Serif</div>
+          <div class="font-card-sub">Playfair + Jakarta Sans</div>
+        </button>
+        <button class="font-card" data-font-opt="silverscreen">
+          <div class="font-card-sample" style="font-family: 'Cinzel', serif;">CLASSIC MARQUEE</div>
+          <div class="font-card-sub">Cinzel + Inter</div>
+        </button>
+      </div>
+
+      <div class="settings-box-panel">
+        <label style="display: flex; align-items: center; justify-content: space-between; gap: 14px; cursor: pointer;">
+          <div>
+            <div style="font-weight: 800; font-size: 0.85rem;">AMBIENT SPOTLIGHT GLOW</div>
+            <div style="font-size: 0.78rem; color: var(--text-secondary);">Subtle top radial glow behind the header</div>
+          </div>
+          <input type="checkbox" id="chkCinemaGlow" checked
+            style="width: 20px; height: 20px; accent-color: var(--accent); cursor: pointer;" />
+        </label>
+      </div>
+
+      <div class="settings-box-panel">
+        <div class="settings-box-top">
+          <div style="font-weight: 800; font-size: 0.82rem; color: var(--accent);">TMDB V3 API KEY</div>
+          <span class="status-pill-green" id="tmdbKeyStatusBadge">Built-in Key Active</span>
+        </div>
+        <div class="key-input-row">
+          <input type="password" id="inputTmdbKeyOverride" class="studio-text-input" placeholder="Optional custom TMDB v3 key..." />
+          <button class="studio-pill-btn accent-solid" id="btnSaveTmdbOverride">Save</button>
+          <button class="studio-pill-btn" id="btnResetTmdbOverride">Reset</button>
+        </div>
+      </div>
+
+      <div class="settings-box-panel">
+        <div class="settings-box-top">
+          <div style="font-weight: 800; font-size: 0.82rem; color: var(--accent);">GOOGLE AI (GEMINI) KEY</div>
+          <span class="status-pill-green" id="geminiKeyStatusBadge">Built-in Workspace AI Active</span>
+        </div>
+        <div class="key-input-row">
+          <input type="password" id="inputGeminiKeyOverride" class="studio-text-input" placeholder="Optional Google AI Studio key..." />
+          <button class="studio-pill-btn accent-solid" id="btnSaveGeminiOverride">Save</button>
+          <button class="studio-pill-btn" id="btnResetGeminiOverride">Reset</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Hints Modal -->
+  <div class="modal-overlay" id="modalHints">
+    <div class="modal-dialog">
+      <div class="settings-modal-header" style="margin-bottom: 12px; padding-bottom: 12px;">
+        <div>
+          <div class="settings-modal-title" style="font-size: 1.25rem;">💡 Hints &amp; Soundtrack</div>
+          <div class="settings-modal-sub">Ask Google Search AI anytime, unlock clues from Guess 3, or play the matched OST on Guess 5.</div>
+        </div>
+        <button class="circle-close-btn" data-close="modalHints">✕</button>
+      </div>
+      <div id="hintsOptionList"></div>
+    </div>
+  </div>
+
+  <!-- Challenge Builder Modal (Play Now OR Copy Link) -->
+  <div class="modal-overlay" id="modalChallenge">
+    <div class="modal-dialog">
+      <div class="settings-modal-header" style="margin-bottom: 12px; padding-bottom: 12px;">
+        <div>
+          <div class="settings-modal-title" style="font-size: 1.25rem;">⚔️ Create Challenge</div>
+          <div class="settings-modal-sub">Search live on TMDB, then play it yourself or send the link to friends.</div>
+        </div>
+        <button class="circle-close-btn" data-close="modalChallenge">✕</button>
+      </div>
+
+      <div class="menu-field-group" style="margin-bottom: 12px;">
+        <div class="search-input-shell" style="margin-bottom: 0;">
+          <input type="text" id="challengeSearchInput" class="spotle-search-input"
+            placeholder="Search a movie, TV series, or anime..." autocomplete="off" />
+          <div class="autocomplete-dropdown" id="challengeSearchDropdown"></div>
+        </div>
+      </div>
+
+      <div id="challengeSelectedBox" class="settings-box-panel" style="display: none; margin-top: 0;">
+        <div style="font-size: 0.7rem; font-weight: 800; color: var(--accent);">SELECTED TARGET</div>
+        <div style="font-size: 1rem; font-weight: 800; margin: 3px 0 10px;" id="challengeSelectedTitle">—</div>
+        <input type="text" id="challengeUrlOutput" class="studio-text-input" style="width: 100%; margin-bottom: 10px;" readonly />
+        <div style="display: flex; gap: 8px;">
+          <button class="studio-pill-btn accent-solid" id="btnPlayChallengeNow" style="flex: 1;">▶ Play Challenge</button>
+          <button class="studio-pill-btn" id="btnCopyChallengeLink" style="flex: 1;">📋 Copy Link</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Round Summary Modal -->
+  <div class="modal-overlay" id="modalSummary">
+    <div class="modal-dialog">
+      <div class="settings-modal-header" style="margin-bottom: 12px; padding-bottom: 12px;">
+        <div>
+          <div class="settings-modal-title" id="summaryHeadline" style="font-size: 1.3rem;">🎉 Mystery Solved!</div>
+          <div class="settings-modal-sub">Verified via TMDB &amp; Google Search</div>
+        </div>
+        <button class="circle-close-btn" data-close="modalSummary">✕</button>
+      </div>
+      <div id="summaryRevealCard"
+        style="background: var(--bg-card); border: 1px solid var(--border-strong); border-radius: 14px; padding: 14px; margin-bottom: 14px;">
+      </div>
+      <div style="display: flex; flex-wrap: wrap; gap: 8px; justify-content: flex-end;">
+        <button class="studio-pill-btn" id="btnShareResultGrid">📤 Copy Grid</button>
+        <button class="studio-pill-btn" id="btnSummarySetCustom">🎯 Enter New Target</button>
+        <button class="studio-pill-btn accent-solid" id="btnSummaryNextRound">🔀 Random Pick</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Right Drawer: How to Play -->
+  <div class="drawer-backdrop" id="drawerBackdrop">
+    <aside class="guide-drawer">
+      <div class="settings-modal-header" style="margin-bottom: 12px; padding-bottom: 12px;">
+        <div>
+          <div class="settings-modal-title" style="font-size: 1.25rem;">How to Play</div>
+          <div class="settings-modal-sub">CineSpotle Guessing Rules</div>
+        </div>
+        <button class="circle-close-btn" id="btnCloseGuideDrawer">✕</button>
+      </div>
+
+      <div class="stats-4-grid" id="statsSummaryGrid"></div>
+
+      <div style="display: flex; flex-direction: column; gap: 10px; font-size: 0.82rem; color: var(--text-secondary);">
+        <div class="settings-box-panel" style="margin-top: 0;">
+          <div style="font-weight: 800; color: var(--text-primary); margin-bottom: 4px;">1. Set or Pick a Mystery Target</div>
+          <p>Search any movie, TV series, or anime in the search box to lock it as the mystery target, or click <strong>Random Pick (R)</strong> for a live TMDB title.</p>
+        </div>
+        <div class="settings-box-panel" style="margin-top: 0;">
+          <div style="font-weight: 800; color: var(--text-primary); margin-bottom: 4px;">2. Read the Color Clues</div>
+          <p><strong>Green</strong> means an exact match (within ±0.1 on separate IMDb &amp; Letterboxd tiles, or ±$12M on Box Office). <strong>Yellow</strong> with <strong>↑ / ↓</strong> means you are close.</p>
+        </div>
+        <div class="settings-box-panel" style="margin-top: 0;">
+          <div style="font-weight: 800; color: var(--text-primary); margin-bottom: 4px;">3. Hints &amp; Matched Soundtrack</div>
+          <p>Use Google Search AI clues anytime, unlock subtle clues on Guess 3, and play a 12-second clip of the real matched soundtrack on Guess 5.</p>
+        </div>
+      </div>
+    </aside>
+  </div>
+
+  <div class="studio-toast" id="studioToast"></div>
+
+  <script>
+    const MAX_GUESSES = 10;
+    const MAX_HINTS = 3;
+    const OST_UNLOCK_AT = 5;
+    const DEFAULT_TMDB_KEY = '2dca580c2a14b55200e784d157207b4d';
+
+    const STORAGE_KEYS = {
+      PREFS: 'cinespotle_prefs_v3',
+      GUEST_STATS: 'cinespotle_guest_stats_v3',
+      USERS: 'cinespotle_users_v3',
+      ACTIVE_USER: 'cinespotle_active_user_v3',
+      RATINGS_CACHE: 'cinespotle_ratings_cache_v3'
+    };
+
+    const Prefs = {
+      palette: 'midnight',
+      accent: 'gold',
+      font: 'marquee',
+      cinemaGlow: true,
+      region: 'Hollywood',
+      animeFormat: 'All',
+      tmdbKeyOverride: '',
+      geminiKeyOverride: ''
+    };
+
+    const MediaCache = { posters: {}, ratings: {}, entities: {}, ost: {} };
+    const REGIONS_LIST = ['Hollywood', 'Bollywood', 'Kannada', 'Tamil', 'Telugu', 'Malayalam', 'Other International', 'All'];
+    const ANIME_FORMATS_LIST = ['All', 'TV Series', 'Anime Movie'];
+
+    const REGION_TO_LANG = {
+      Hollywood: 'en',
+      Bollywood: 'hi',
+      Kannada: 'kn',
+      Tamil: 'ta',
+      Telugu: 'te',
+      Malayalam: 'ml'
+    };
+    const LANG_TO_REGION = { en: 'Hollywood', hi: 'Bollywood', kn: 'Kannada', ta: 'Tamil', te: 'Telugu', ml: 'Malayalam' };
+
+    function createEmptyStats() {
+      return {
+        played: 0,
+        won: 0,
+        streak: 0,
+        maxStreak: 0,
+        dist: { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0, 7: 0, 8: 0, 9: 0, 10: 0 },
+        history: []
+      };
+    }
+
+    const state = {
+      category: 'movies',
+      playMode: 'endless',
+      region: 'Hollywood',
+      animeFormat: 'All',
+      target: null,
+      guesses: [],
+      revealedHints: [],
+      lastHintGuessCount: -1,
+      ostUnlocked: false,
+      gameOver: false,
+      won: false,
+      timerSecondsLeft: 90,
+      timerInterval: null,
+      searchResults: [],
+      highlightedIndex: -1,
+      selectedChallengeCandidate: null,
+      activeUser: null,
+      stats: createEmptyStats()
+    };
+
+    /* ==========================================================================
+       LOCAL CACHE & USER LOGIN / SCORE PERSISTENCE
+       ========================================================================== */
+    function loadLocalCache() {
+      try {
+        const savedPrefs = JSON.parse(localStorage.getItem(STORAGE_KEYS.PREFS) || 'null');
+        if (savedPrefs && typeof savedPrefs === 'object') {
+          Object.assign(Prefs, savedPrefs);
+          if (!Prefs.palette) Prefs.palette = 'midnight';
+          if (!Prefs.region) Prefs.region = 'Hollywood';
+          state.region = Prefs.region;
+          state.animeFormat = Prefs.animeFormat || 'All';
+        }
+        const savedRatings = JSON.parse(localStorage.getItem(STORAGE_KEYS.RATINGS_CACHE) || 'null');
+        if (savedRatings && typeof savedRatings === 'object') {
+          MediaCache.ratings = savedRatings;
+        }
+        const activeUser = localStorage.getItem(STORAGE_KEYS.ACTIVE_USER);
+        if (activeUser) {
+          const users = getSavedUsersMap();
+          if (users[activeUser]) {
+            state.activeUser = activeUser;
+            state.stats = { ...createEmptyStats(), ...(users[activeUser].stats || {}) };
+            return;
+          }
+        }
+        const guestStats = JSON.parse(localStorage.getItem(STORAGE_KEYS.GUEST_STATS) || 'null');
+        if (guestStats && typeof guestStats === 'object') {
+          state.stats = { ...createEmptyStats(), ...guestStats };
+        }
+      } catch (_) {}
+    }
+
+    function savePrefsCache() {
+      try { localStorage.setItem(STORAGE_KEYS.PREFS, JSON.stringify(Prefs)); } catch (_) {}
+    }
+    function saveRatingsCache() {
+      try { localStorage.setItem(STORAGE_KEYS.RATINGS_CACHE, JSON.stringify(MediaCache.ratings)); } catch (_) {}
+    }
+    function getSavedUsersMap() {
+      try { return JSON.parse(localStorage.getItem(STORAGE_KEYS.USERS) || '{}'); } catch (_) { return {}; }
+    }
+    function saveUsersMap(map) {
+      try { localStorage.setItem(STORAGE_KEYS.USERS, JSON.stringify(map)); } catch (_) {}
+    }
+    function persistCurrentStats() {
+      try {
+        if (state.activeUser) {
+          const users = getSavedUsersMap();
+          if (users[state.activeUser]) {
+            users[state.activeUser].stats = state.stats;
+            saveUsersMap(users);
+          }
+        } else {
+          localStorage.setItem(STORAGE_KEYS.GUEST_STATS, JSON.stringify(state.stats));
+        }
+      } catch (_) {}
+    }
+
+    function updateAccountNavUi() {
+      const avatarEl = document.getElementById('accountNavAvatar');
+      const labelEl = document.getElementById('accountNavLabel');
+      if (!avatarEl || !labelEl) return;
+      if (state.activeUser) {
+        avatarEl.textContent = getMonogram(state.activeUser);
+        labelEl.textContent = state.activeUser;
+      } else {
+        avatarEl.textContent = '👤';
+        labelEl.textContent = 'Sign In';
+      }
+    }
+
+    function renderAuthModal() {
+      const loggedOutView = document.getElementById('authLoggedOutView');
+      const loggedInView = document.getElementById('authLoggedInView');
+      const users = getSavedUsersMap();
+      const userKeys = Object.keys(users);
+
+      if (state.activeUser && users[state.activeUser]) {
+        loggedOutView.style.display = 'none';
+        loggedInView.style.display = 'block';
+        document.getElementById('profileBigAvatar').textContent = getMonogram(state.activeUser);
+        document.getElementById('profileUserTitle').textContent = state.activeUser;
+        document.getElementById('profileUserSub').textContent = `${state.stats.played} Rounds Saved Locally`;
+
+        const winPct = state.stats.played ? Math.round((state.stats.won / state.stats.played) * 100) : 0;
+        document.getElementById('profileStatsGrid').innerHTML = `
+          <div class="stat-box"><div class="stat-num">${state.stats.played}</div><div class="stat-lbl">Played</div></div>
+          <div class="stat-box"><div class="stat-num">${winPct}%</div><div class="stat-lbl">Win %</div></div>
+          <div class="stat-box"><div class="stat-num">${state.stats.streak}</div><div class="stat-lbl">Streak</div></div>
+          <div class="stat-box"><div class="stat-num">${state.stats.maxStreak}</div><div class="stat-lbl">Max</div></div>
+        `;
+
+        const dist = state.stats.dist || {};
+        const maxVal = Math.max(1, ...Object.values(dist));
+        document.getElementById('profileDistBars').innerHTML = Array.from({ length: 10 }, (_, i) => {
+          const step = i + 1;
+          const count = dist[step] || 0;
+          const pct = Math.max(8, Math.round((count / maxVal) * 100));
+          return `<div class="dist-row">
+            <span class="dist-num">${step}</span>
+            <div class="dist-bar-bg"><div class="dist-bar-fill" style="width:${pct}%;">${count}</div></div>
+          </div>`;
+        }).join('');
+
+        const hist = state.stats.history || [];
+        document.getElementById('profileHistoryList').innerHTML = hist.length
+          ? hist.slice(0, 15).map(h => `<div class="history-item-row">
+              <div><strong>${h.title}</strong> <span style="color:var(--text-secondary); font-size:0.72rem;">(${h.category.toUpperCase()})</span></div>
+              <span style="font-weight:800; color:${h.won ? '#22c55e' : '#ef4444'};">${h.won ? `Won (${h.guesses}/10)` : 'Missed'}</span>
+            </div>`).join('')
+          : `<div style="font-size:0.8rem; color:var(--text-secondary); padding:6px 0;">No completed rounds on this profile yet.</div>`;
+      } else {
+        loggedOutView.style.display = 'block';
+        loggedInView.style.display = 'none';
+        const wrap = document.getElementById('authSavedAccountsWrap');
+        const listEl = document.getElementById('authSavedAccountsList');
+        if (userKeys.length) {
+          wrap.style.display = 'block';
+          listEl.innerHTML = userKeys.map(uname => `<button class="mini-filter-pill" data-quick-login="${uname}">👤 ${uname}</button>`).join('');
+          listEl.querySelectorAll('[data-quick-login]').forEach(btn => {
+            btn.addEventListener('click', () => {
+              document.getElementById('authUsernameInput').value = btn.getAttribute('data-quick-login');
+              document.getElementById('authPinInput').focus();
+            });
+          });
+        } else {
+          wrap.style.display = 'none';
+        }
+      }
+    }
+
+    /* ==========================================================================
+       HELPERS & COMPARATORS
+       ========================================================================== */
+    function normalizeStr(s) { return String(s || '').toLowerCase().replace(/[^a-z0-9]/g, ''); }
+    function indexSafeId(id) { return String(id || '').replace(/[^a-zA-Z0-9_]/g, '_'); }
+    function getMonogram(title) {
+      const words = String(title || '?').trim().split(/\s+/);
+      return words.length === 1 ? words[0].slice(0, 2).toUpperCase() : (words[0][0] + words[1][0]).toUpperCase();
+    }
+    function namesMatch(a, b) {
+      const na = normalizeStr(a), nb = normalizeStr(b);
+      return Boolean(na && nb && (na === nb || na.includes(nb) || nb.includes(na)));
+    }
+    function formatGross(grossM) {
+      if (!grossM || Number.isNaN(Number(grossM)) || Number(grossM) <= 0) return 'N/A';
+      const val = Number(grossM);
+      return val >= 1000 ? `$${(val / 1000).toFixed(2)}B` : `$${Math.round(val)}M`;
+    }
+    function compareGross(g, t) {
+      if (!g || !t) return { cls: '', arrow: '' };
+      const diff = Math.abs(g - t);
+      if (diff <= Math.max(12, t * 0.08)) return { cls: 'exact', arrow: '' };
+      return { cls: diff <= Math.max(100, t * 0.35) ? 'close' : '', arrow: g < t ? ' ↑' : ' ↓' };
+    }
+    function compareNum(g, t, windowVal, decimals = 0) {
+      if (g === null || g === undefined || t === null || t === undefined) return { cls: '', arrow: '' };
+      const diff = Number((g - t).toFixed(decimals));
+      if (Math.abs(diff) <= (decimals > 0 ? 0.1 : 0)) return { cls: 'exact', arrow: '' };
+      return { cls: Math.abs(diff) <= windowVal ? 'close' : '', arrow: g < t ? ' ↑' : ' ↓' };
+    }
+
+    let toastTimer = null;
+    function showToast(msg) {
+      const el = document.getElementById('studioToast');
+      if (!el) return;
+      el.textContent = msg;
+      el.classList.add('show');
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => el.classList.remove('show'), 2600);
+    }
+    function openModal(id) { document.getElementById(id)?.classList.add('open'); }
+    function closeModal(id) { document.getElementById(id)?.classList.remove('open'); }
+
+    /* ==========================================================================
+       GOOGLE SEARCH VERIFIER (RATINGS, CLUES & MATCHED OST)
+       ========================================================================== */
+    const GoogleSearchVerifier = (() => {
+      const inFlight = new Map();
+
+      async function callGeminiWithSearch(userQuery, maxRetries = 2) {
+        const apiKey = Prefs.geminiKeyOverride || '';
+        const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${apiKey}`;
+        const payload = { contents: [{ parts: [{ text: userQuery }] }], tools: [{ google_search: {} }] };
+
+        for (let attempt = 0; attempt <= maxRetries; attempt++) {
+          try {
+            const response = await fetch(apiUrl, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
+            if (response.status === 429 || response.status >= 500) {
+              if (attempt < maxRetries) { await new Promise(r => setTimeout(r, Math.pow(2, attempt) * 900)); continue; }
+              return null;
+            }
+            if (!response.ok) return null;
+            const result = await response.json();
+            const text = result.candidates?.[0]?.content?.parts?.[0]?.text || '';
+            return { text };
+          } catch (_) {
+            if (attempt < maxRetries) { await new Promise(r => setTimeout(r, Math.pow(2, attempt) * 900)); continue; }
+            return null;
+          }
+        }
+        return null;
+      }
+
+      async function verifyTitleRatings(item, cat) {
+        if (!item) return null;
+        const cacheKey = `${cat}_${item.id}`;
+        if (MediaCache.ratings[cacheKey]?.verified) {
+          const c = MediaCache.ratings[cacheKey];
+          if (c.imdb !== null) item.imdb = c.imdb;
+          if (c.letterboxd !== null) item.letterboxd = c.letterboxd;
+          if (c.mal !== null) item.mal = c.mal;
+          if (c.crunchyroll !== null) item.crunchyroll = c.crunchyroll;
+          if (c.grossM) item.grossM = c.grossM;
+          if (c.rated) item.rated = c.rated;
+          return c;
+        }
+        if (inFlight.has(cacheKey)) return await inFlight.get(cacheKey);
+
+        const task = (async () => {
+          let prompt = '';
+          if (cat === 'movies') {
+            prompt = `Use Google Search to verify the current IMDb rating (out of 10), Letterboxd rating (out of 5), worldwide box office gross in millions USD, and MPAA/CBFC age rating for the movie "${item.title}" (${item.year || ''}).
+Reply strictly in this exact 4-line format:
+IMDB: <number or N/A>
+LETTERBOXD: <number or N/A>
+GROSS_M: <number in millions or N/A>
+RATED: <certification or N/A>`;
+          } else if (cat === 'tv') {
+            prompt = `Use Google Search to verify the current IMDb rating (out of 10) and Letterboxd rating (out of 5, or N/A) for the TV series "${item.title}" (${item.year || ''}).
+Reply strictly in this exact 2-line format:
+IMDB: <number or N/A>
+LETTERBOXD: <number or N/A>`;
+          } else {
+            prompt = `Use Google Search to verify the current MyAnimeList (MAL) score (out of 10) and Crunchyroll star rating (out of 5) for the anime "${item.title}" (${item.year || ''}).
+Reply strictly in this exact 2-line format:
+MAL: <number or N/A>
+CRUNCHYROLL: <number or N/A>`;
+          }
+
+          const res = await callGeminiWithSearch(prompt, 2);
+          const parsed = {
+            verified: false,
+            imdb: typeof item.imdb === 'number' ? item.imdb : null,
+            letterboxd: typeof item.letterboxd === 'number' ? item.letterboxd : null,
+            mal: typeof item.mal === 'number' ? item.mal : null,
+            crunchyroll: typeof item.crunchyroll === 'number' ? item.crunchyroll : null,
+            grossM: typeof item.grossM === 'number' ? item.grossM : null,
+            rated: item.rated || null
+          };
+
+          if (res?.text) {
+            parsed.verified = true;
+            const imdbM = res.text.match(/IMDB:\s*([0-9]+(?:\.[0-9]+)?)/i);
+            const lbM = res.text.match(/LETTERBOXD:\s*([0-9]+(?:\.[0-9]+)?)/i);
+            const malM = res.text.match(/MAL:\s*([0-9]+(?:\.[0-9]+)?)/i);
+            const crM = res.text.match(/CRUNCHYROLL:\s*([0-9]+(?:\.[0-9]+)?)/i);
+            const grossM = res.text.match(/GROSS_M:\s*([0-9]+(?:\.[0-9]+)?)/i);
+            const ratedM = res.text.match(/RATED:\s*([A-Z0-9\-+]+)/i);
+
+            if (imdbM) { const v = parseFloat(imdbM[1]); if (v > 0 && v <= 10) parsed.imdb = Number(v.toFixed(1)); }
+            if (lbM) { const v = parseFloat(lbM[1]); if (v > 0 && v <= 5) parsed.letterboxd = Number(v.toFixed(1)); }
+            if (malM) { const v = parseFloat(malM[1]); if (v > 0 && v <= 10) parsed.mal = Number(v.toFixed(2)); }
+            if (crM) { const v = parseFloat(crM[1]); if (v > 0 && v <= 5) parsed.crunchyroll = Number(v.toFixed(1)); }
+            if (grossM) { const v = parseFloat(grossM[1]); if (v > 0) parsed.grossM = Math.round(v); }
+            if (ratedM && ratedM[1].toUpperCase() !== 'N/A') parsed.rated = ratedM[1].trim().toUpperCase();
+          }
+
+          if (parsed.imdb !== null) item.imdb = parsed.imdb;
+          if (parsed.letterboxd !== null) item.letterboxd = parsed.letterboxd;
+          if (parsed.mal !== null) item.mal = parsed.mal;
+          if (parsed.crunchyroll !== null) item.crunchyroll = parsed.crunchyroll;
+          if (parsed.grossM !== null && (!item.grossM || item.grossM === 0)) item.grossM = parsed.grossM;
+          if (parsed.rated) item.rated = parsed.rated;
+
+          MediaCache.ratings[cacheKey] = parsed;
+          saveRatingsCache();
+          inFlight.delete(cacheKey);
+          return parsed;
+        })();
+
+        inFlight.set(cacheKey, task);
+        return await task;
+      }
+
+      async function generateGroundedClue(target, cat) {
+        if (!target) return null;
+        const prompt = `You are a trivia host for a guessing game. The secret ${cat} answer is "${target.title}" (${target.year || ''}). Use Google Search to find one interesting, accurate, spoiler-free trivia clue. CRITICAL: Do NOT include the title "${target.title}" or any direct words from the title in your clue. Keep it under 24 words.`;
+        const res = await callGeminiWithSearch(prompt, 2);
+        return res?.text ? res.text.trim() : null;
+      }
+
+      async function findOstTrackMetadata(target, cat) {
+        if (!target) return null;
+        const cacheKey = `${cat}_${target.id}`;
+        if (MediaCache.ost[cacheKey]) return MediaCache.ost[cacheKey];
+
+        const prompt = `Use Google Search to identify the single most famous main theme soundtrack track or opening theme song for the ${cat} "${target.title}" (${target.year || ''}) and its composer or artist.
+Reply strictly in 2 lines:
+TRACK: <track name>
+ARTIST: <composer or singer name>`;
+        const res = await callGeminiWithSearch(prompt, 2);
+        let track = `${target.title} Main Theme`;
+        let artist = target.composer || '';
+        if (res?.text) {
+          const tMatch = res.text.match(/TRACK:\s*(.+)/i);
+          const aMatch = res.text.match(/ARTIST:\s*(.+)/i);
+          if (tMatch) track = tMatch[1].trim();
+          if (aMatch) artist = aMatch[1].trim();
+        }
+        const info = { track, artist, query: `${track} ${artist}`.trim() };
+        MediaCache.ost[cacheKey] = info;
+        return info;
+      }
+
+      return { verifyTitleRatings, generateGroundedClue, findOstTrackMetadata };
+    })();
+
+    /* ==========================================================================
+       TMDB LIVE SEARCH, DISCOVER & ENTITY RESOLUTION (ZERO HARDCODED TITLES)
+       ========================================================================== */
+    function getActiveTmdbKey() { return Prefs.tmdbKeyOverride || DEFAULT_TMDB_KEY; }
+    function tmdbImg(path, size = 'w185') { return path ? `https://image.tmdb.org/t/p/${size}${path}` : null; }
+
+    async function searchLiveCatalog(queryStr, cat) {
+      const q = queryStr.trim();
+      if (q.length < 2) return [];
+      const key = getActiveTmdbKey();
+      try {
+        if (cat === 'movies') {
+          const res = await fetch(`https://api.themoviedb.org/3/search/movie?api_key=${key}&query=${encodeURIComponent(q)}&include_adult=false`);
+          if (!res.ok) return [];
+          const data = await res.json();
+          return (data.results || []).slice(0, 7).map(m => ({
+            isRemote: true,
+            cat: 'movies',
+            mediaType: 'movie',
+            tmdbId: m.id,
+            id: `tmdb_m_${m.id}`,
+            title: m.title,
+            year: m.release_date ? Number(m.release_date.slice(0, 4)) : 2020,
+            posterThumb: tmdbImg(m.poster_path, 'w92'),
+            sub: `${m.release_date ? m.release_date.slice(0, 4) : 'Movie'} • ${LANG_TO_REGION[m.original_language] || 'Cinema'}`
+          }));
+        }
+        if (cat === 'tv') {
+          const res = await fetch(`https://api.themoviedb.org/3/search/tv?api_key=${key}&query=${encodeURIComponent(q)}&include_adult=false`);
+          if (!res.ok) return [];
+          const data = await res.json();
+          return (data.results || []).slice(0, 7).map(t => ({
+            isRemote: true,
+            cat: 'tv',
+            mediaType: 'tv',
+            tmdbId: t.id,
+            id: `tmdb_tv_${t.id}`,
+            title: t.name,
+            year: t.first_air_date ? Number(t.first_air_date.slice(0, 4)) : 2020,
+            posterThumb: tmdbImg(t.poster_path, 'w92'),
+            sub: `${t.first_air_date ? t.first_air_date.slice(0, 4) : 'Series'} • TV Series`
+          }));
+        }
+        if (cat === 'anime') {
+          const res = await fetch(`https://api.themoviedb.org/3/search/multi?api_key=${key}&query=${encodeURIComponent(q)}&include_adult=false`);
+          if (!res.ok) return [];
+          const data = await res.json();
+          const filtered = (data.results || []).filter(
+            x => (x.media_type === 'tv' || x.media_type === 'movie') && (x.original_language === 'ja' || (x.genre_ids || []).includes(16))
+          );
+          const list = filtered.length ? filtered : (data.results || []).filter(x => x.media_type === 'tv' || x.media_type === 'movie');
+          return list.slice(0, 7).map(a => {
+            const isMovie = a.media_type === 'movie';
+            const yr = (isMovie ? a.release_date : a.first_air_date || '').slice(0, 4);
+            return {
+              isRemote: true,
+              cat: 'anime',
+              mediaType: a.media_type,
+              tmdbId: a.id,
+              id: `tmdb_an_${a.media_type}_${a.id}`,
+              title: isMovie ? a.title : a.name,
+              year: yr ? Number(yr) : 2018,
+              posterThumb: tmdbImg(a.poster_path, 'w92'),
+              sub: `${yr || 'Anime'} • ${isMovie ? 'Anime Movie' : 'TV Series'}`
+            };
+          });
+        }
+      } catch (_) {}
+      return [];
+    }
+
+    async function fetchRandomLiveTargetFromTmdb(cat) {
+      const key = getActiveTmdbKey();
+      const randomPage = Math.floor(Math.random() * 8) + 1;
+      try {
+        if (cat === 'movies') {
+          const lang = REGION_TO_LANG[state.region];
+          const langParam = lang ? `&with_original_language=${lang}` : '';
+          const url = `https://api.themoviedb.org/3/discover/movie?api_key=${key}&sort_by=popularity.desc&vote_count.gte=150${langParam}&page=${randomPage}`;
+          const res = await fetch(url);
+          if (!res.ok) return null;
+          const data = await res.json();
+          const results = (data.results || []).filter(m => m.poster_path);
+          if (!results.length) return null;
+          const pick = results[Math.floor(Math.random() * results.length)];
+          return await resolveSelectedEntity({ isRemote: true, cat: 'movies', mediaType: 'movie', tmdbId: pick.id, id: `tmdb_m_${pick.id}` });
+        }
+        if (cat === 'tv') {
+          const url = `https://api.themoviedb.org/3/discover/tv?api_key=${key}&sort_by=popularity.desc&vote_count.gte=150&with_original_language=en&page=${randomPage}`;
+          const res = await fetch(url);
+          if (!res.ok) return null;
+          const data = await res.json();
+          const results = (data.results || []).filter(t => t.poster_path);
+          if (!results.length) return null;
+          const pick = results[Math.floor(Math.random() * results.length)];
+          return await resolveSelectedEntity({ isRemote: true, cat: 'tv', mediaType: 'tv', tmdbId: pick.id, id: `tmdb_tv_${pick.id}` });
+        }
+        if (cat === 'anime') {
+          const useMovie = state.animeFormat === 'Anime Movie' ? true : state.animeFormat === 'TV Series' ? false : Math.random() < 0.3;
+          const endpoint = useMovie ? 'movie' : 'tv';
+          const url = `https://api.themoviedb.org/3/discover/${endpoint}?api_key=${key}&sort_by=popularity.desc&with_genres=16&with_original_language=ja&vote_count.gte=80&page=${Math.min(5, randomPage)}`;
+          const res = await fetch(url);
+          if (!res.ok) return null;
+          const data = await res.json();
+          const results = (data.results || []).filter(a => a.poster_path);
+          if (!results.length) return null;
+          const pick = results[Math.floor(Math.random() * results.length)];
+          return await resolveSelectedEntity({
+            isRemote: true,
+            cat: 'anime',
+            mediaType: endpoint,
+            tmdbId: pick.id,
+            id: `tmdb_an_${endpoint}_${pick.id}`
+          });
+        }
+      } catch (_) {}
+      return null;
+    }
+
+    async function resolveSelectedEntity(candidate) {
+      if (!candidate) return null;
+      if (!candidate.isRemote && candidate.resolved) return candidate;
+      if (MediaCache.entities[candidate.id]) return MediaCache.entities[candidate.id];
+
+      const key = getActiveTmdbKey();
+      try {
+        if (candidate.cat === 'movies') {
+          const res = await fetch(`https://api.themoviedb.org/3/movie/${candidate.tmdbId}?api_key=${key}&append_to_response=credits,release_dates`);
+          if (!res.ok) return null;
+          const data = await res.json();
+          const year = data.release_date ? Number(data.release_date.slice(0, 4)) : 2020;
+          const genres = (data.genres || []).map(g => g.name).slice(0, 3);
+          const crew = data.credits?.crew || [];
+          const castArr = data.credits?.cast || [];
+          const dirObj = crew.find(c => c.job === 'Director');
+          const compObj = crew.find(c => c.job === 'Original Music Composer' || c.job === 'Music');
+          const prodComp = data.production_companies?.[0];
+          const studio = prodComp?.name || 'Independent Studio';
+          const studioLogo = tmdbImg(prodComp?.logo_path, 'w185');
+
+          let rated = 'UA';
+          const relResults = data.release_dates?.results || [];
+          const usRel = relResults.find(r => r.iso_3166_1 === 'US') || relResults.find(r => r.iso_3166_1 === 'IN');
+          const cert = usRel?.release_dates?.find(d => d.certification)?.certification;
+          if (cert) rated = cert;
+
+          const posterUrl = tmdbImg(data.poster_path, 'w500');
+          const tmdbAvg = data.vote_average ? Number(data.vote_average.toFixed(1)) : 7.5;
+          const revMillions = data.revenue && data.revenue > 0 ? Math.max(1, Math.round(data.revenue / 1000000)) : null;
+
+          const entity = {
+            resolved: true,
+            cat: 'movies',
+            mediaType: 'movie',
+            id: candidate.id,
+            tmdbId: Number(candidate.tmdbId),
+            title: data.title,
+            year,
+            region: LANG_TO_REGION[data.original_language] || 'Other International',
+            genres: genres.length ? genres : ['Drama'],
+            grossM: revMillions,
+            imdb: tmdbAvg,
+            letterboxd: Number((tmdbAvg / 2).toFixed(1)),
+            rated,
+            studio,
+            studioLogo,
+            director: dirObj ? dirObj.name : 'Director',
+            directorPhoto: tmdbImg(dirObj?.profile_path, 'w185'),
+            composer: compObj ? compObj.name : 'Original Score',
+            cast: castArr.length
+              ? castArr.slice(0, 5).map(c => ({ name: c.name, photo: tmdbImg(c.profile_path, 'w185') }))
+              : [{ name: 'Lead Cast', photo: null }],
+            posterUrl,
+            riddle: data.overview ? data.overview.slice(0, 140) + '...' : 'A notable feature film.',
+            taglineWords: genres.length ? genres : ['Cinema', 'Feature']
+          };
+          MediaCache.entities[candidate.id] = entity;
+          return entity;
+        }
+
+        if (candidate.cat === 'tv') {
+          const res = await fetch(`https://api.themoviedb.org/3/tv/${candidate.tmdbId}?api_key=${key}&append_to_response=credits,aggregate_credits,content_ratings`);
+          if (!res.ok) return null;
+          const data = await res.json();
+          const year = data.first_air_date ? Number(data.first_air_date.slice(0, 4)) : 2020;
+          const genres = (data.genres || []).map(g => g.name).slice(0, 3);
+          const rawCast = data.credits?.cast?.length ? data.credits.cast : (data.aggregate_credits?.cast || []);
+          const creatorObj = data.created_by?.[0];
+          const creator = creatorObj?.name || 'Showrunner';
+          const creatorPhoto = tmdbImg(creatorObj?.profile_path, 'w185');
+          const netObj = data.networks?.[0];
+          const network = netObj?.name || 'Streaming';
+          const networkLogo = tmdbImg(netObj?.logo_path, 'w185');
+          const ratingObj = (data.content_ratings?.results || []).find(r => r.iso_3166_1 === 'US');
+          const rated = ratingObj?.rating || 'TV-14';
+          const posterUrl = tmdbImg(data.poster_path, 'w500');
+          const tmdbAvg = data.vote_average ? Number(data.vote_average.toFixed(1)) : 8.0;
+
+          const entity = {
+            resolved: true,
+            cat: 'tv',
+            mediaType: 'tv',
+            id: candidate.id,
+            tmdbId: Number(candidate.tmdbId),
+            title: data.name,
+            year,
+            seasons: data.number_of_seasons || 1,
+            genres: genres.length ? genres : ['Drama'],
+            imdb: tmdbAvg,
+            letterboxd: Number((tmdbAvg / 2).toFixed(1)),
+            rated,
+            network,
+            networkLogo,
+            creator,
+            creatorPhoto,
+            composer: 'Series Score',
+            cast: rawCast.length
+              ? rawCast.slice(0, 5).map(c => ({ name: c.name, photo: tmdbImg(c.profile_path, 'w185') }))
+              : [{ name: 'Lead Cast', photo: null }],
+            posterUrl,
+            riddle: data.overview ? data.overview.slice(0, 140) + '...' : 'An acclaimed television series.',
+            taglineWords: genres.length ? genres : ['Series', 'Drama']
+          };
+          MediaCache.entities[candidate.id] = entity;
+          return entity;
+        }
+
+        if (candidate.cat === 'anime') {
+          const isMovie = candidate.mediaType === 'movie';
+          const endpoint = isMovie ? 'movie' : 'tv';
+          const res = await fetch(`https://api.themoviedb.org/3/${endpoint}/${candidate.tmdbId}?api_key=${key}&append_to_response=credits,aggregate_credits`);
+          if (!res.ok) return null;
+          const data = await res.json();
+          const title = isMovie ? data.title : data.name;
+          const rawDate = isMovie ? data.release_date : data.first_air_date;
+          const year = rawDate ? Number(rawDate.slice(0, 4)) : 2018;
+          const genres = (data.genres || []).map(g => g.name).slice(0, 3);
+          const crew = data.credits?.crew?.length ? data.credits.crew : (data.aggregate_credits?.crew || []);
+          const castArr = data.credits?.cast?.length ? data.credits.cast : (data.aggregate_credits?.cast || []);
+          const dirObj = crew.find(c => c.job === 'Director' || c.jobs?.[0]?.job === 'Director') || data.created_by?.[0];
+          const compObj = crew.find(c => c.job === 'Original Music Composer' || c.job === 'Music' || c.jobs?.[0]?.job === 'Original Music Composer');
+          const prodComp = data.production_companies?.[0];
+          const studio = prodComp?.name || 'Anime Studio';
+          const studioLogo = tmdbImg(prodComp?.logo_path, 'w185');
+          const posterUrl = tmdbImg(data.poster_path, 'w500');
+          const tmdbAvg = data.vote_average ? Number(data.vote_average.toFixed(1)) : 8.2;
+
+          const entity = {
+            resolved: true,
+            cat: 'anime',
+            mediaType: endpoint,
+            id: candidate.id,
+            tmdbId: Number(candidate.tmdbId),
+            title,
+            year,
+            format: isMovie ? 'Anime Movie' : 'TV Series',
+            episodes: isMovie ? null : (data.number_of_episodes || 24),
+            genres: genres.length ? genres : ['Animation'],
+            mal: tmdbAvg,
+            crunchyroll: Number(Math.min(5, Math.max(3.8, tmdbAvg / 2 + 0.5)).toFixed(1)),
+            rated: isMovie ? 'PG-13' : 'TV-14',
+            studio,
+            studioLogo,
+            director: dirObj ? dirObj.name : 'Anime Director',
+            directorPhoto: tmdbImg(dirObj?.profile_path, 'w185'),
+            composer: compObj ? compObj.name : 'Anime Composer',
+            composerPhoto: tmdbImg(compObj?.profile_path, 'w185'),
+            leadCast: castArr.slice(0, 2).map(c => ({ name: c.name, photo: tmdbImg(c.profile_path, 'w185') })),
+            supportCast: castArr.slice(2, 4).map(c => ({ name: c.name, photo: tmdbImg(c.profile_path, 'w185') })),
+            posterUrl,
+            riddle: data.overview ? data.overview.slice(0, 140) + '...' : 'A renowned anime title.',
+            taglineWords: genres.length ? genres : ['Anime', 'Animation']
+          };
+          MediaCache.entities[candidate.id] = entity;
+          return entity;
+        }
+      } catch (_) {}
+      return null;
+    }
+
+    /* ==========================================================================
+       MATCHED SOUNDTRACK PLAYER (GOOGLE SEARCH + ITUNES 12s REAL AUDIO)
+       ========================================================================== */
+    const OstAudio = (() => {
+      let audioEl = null;
+      let stopTimer = null;
+
+      function stop() {
+        clearTimeout(stopTimer);
+        if (audioEl) {
+          try { audioEl.pause(); audioEl.currentTime = 0; } catch (_) {}
+        }
+        document.getElementById('ostEqBars')?.classList.remove('playing');
+        const lbl = document.getElementById('ostStatusLabel');
+        if (lbl) lbl.textContent = '12s Mystery Soundtrack Ready';
+      }
+
+      async function findPreviewUrl(queryStr) {
+        try {
+          const res = await fetch(`https://itunes.apple.com/search?term=${encodeURIComponent(queryStr)}&media=music&entity=song&limit=5`);
+          if (!res.ok) return null;
+          const data = await res.json();
+          const match = (data.results || []).find(r => r.previewUrl);
+          return match ? match.previewUrl : null;
+        } catch (_) {
+          return null;
+        }
+      }
+
+      async function playMatchedOst(target, cat) {
+        if (!target) return;
+        stop();
+        const lbl = document.getElementById('ostStatusLabel');
+        if (lbl) lbl.textContent = 'Matching official soundtrack...';
+
+        const ostMeta = await GoogleSearchVerifier.findOstTrackMetadata(target, cat);
+        let previewUrl = await findPreviewUrl(ostMeta?.query || `${target.title} soundtrack`);
+        if (!previewUrl) previewUrl = await findPreviewUrl(`${target.title} theme`);
+
+        if (!previewUrl) {
+          if (lbl) lbl.textContent = 'Soundtrack preview unavailable for this title';
+          showToast('No playable OST preview found for this title.');
+          return;
+        }
+
+        try {
+          if (!audioEl) audioEl = new Audio();
+          audioEl.src = previewUrl;
+          audioEl.volume = 0.85;
+          audioEl.currentTime = 0;
+          await audioEl.play();
+          document.getElementById('ostEqBars')?.classList.add('playing');
+          if (lbl) lbl.textContent = 'Playing 12s Matched Soundtrack Clip...';
+          stopTimer = setTimeout(stop, 12000);
+        } catch (_) {
+          stop();
+          showToast('Click Play again to allow browser audio playback.');
+        }
+      }
+
+      return { playMatchedOst, stop };
+    })();
+
+    /* ==========================================================================
+       TIMER, HINTS & ROUND LIFECYCLE
+       ========================================================================== */
+    function stopTimer() { if (state.timerInterval) { clearInterval(state.timerInterval); state.timerInterval = null; } }
+    function updateTimerUi() {
+      const el = document.getElementById('timerDisplay');
+      if (!el) return;
+      const mins = Math.floor(Math.max(0, state.timerSecondsLeft) / 60);
+      const secs = Math.max(0, state.timerSecondsLeft) % 60;
+      el.textContent = `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+      el.classList.toggle('urgent', state.timerSecondsLeft <= 15);
+    }
+    function startTimer() {
+      stopTimer();
+      const inputVal = Number(document.getElementById('customSecondsInput')?.value || 90);
+      state.timerSecondsLeft = Math.max(15, Math.min(900, inputVal || 90));
+      updateTimerUi();
+      state.timerInterval = setInterval(() => {
+        if (state.gameOver || state.playMode !== 'timelimit' || !state.target) { stopTimer(); return; }
+        state.timerSecondsLeft--;
+        updateTimerUi();
+        if (state.timerSecondsLeft <= 0) { stopTimer(); finishRound(false, '⏱️ Time expired!'); }
+      }, 1000);
+    }
+
+    function canTriggerHint() {
+      if (!state.target || state.gameOver || state.guesses.length < 2 || state.revealedHints.length >= MAX_HINTS) return false;
+      return state.lastHintGuessCount !== state.guesses.length;
+    }
+    function canTriggerOst() { return Boolean(state.target) && !state.gameOver && state.guesses.length >= (OST_UNLOCK_AT - 1); }
+
+    function buildClueOptions(target, cat) {
+      if (!target) return [];
+      const opts = [
+        { id: 'clue_riddle', title: '🎭 Plot Overview Clue', desc: 'Reveals a summary snippet from TMDB', value: target.riddle || 'A memorable entry in its genre.' },
+        { id: 'clue_tags', title: '🏷️ Genre & Motifs', desc: 'Reveals defining genres associated with the target', value: (target.taglineWords || target.genres || []).join(' • ') }
+      ];
+      if (cat === 'movies') opts.push({ id: 'clue_crew', title: '🎬 Region & Composer', desc: 'Reveals the cinema region and composer', value: `${target.region} Cinema • Score by ${target.composer}` });
+      else if (cat === 'tv') opts.push({ id: 'clue_crew', title: '📺 Network & Creator', desc: 'Reveals the network and creator', value: `${target.network} • Created by ${target.creator}` });
+      else opts.push({ id: 'clue_crew', title: '⛩️ Studio & Composer', desc: 'Reveals the animation studio and composer', value: `${target.studio} • Score by ${target.composer}` });
+      return opts;
+    }
+
+    function resetToTargetSelection() {
+      OstAudio.stop();
+      stopTimer();
+      state.target = null;
+      state.guesses = [];
+      state.revealedHints = [];
+      state.lastHintGuessCount = -1;
+      state.ostUnlocked = false;
+      state.gameOver = false;
+      state.won = false;
+      state.searchResults = [];
+      state.highlightedIndex = -1;
+      const inp = document.getElementById('mainSearchInput');
+      if (inp) inp.value = '';
+      document.getElementById('searchDropdown')?.classList.remove('open');
+      renderAll();
+    }
+
+    function lockMysteryTarget(resolvedEntity, toastMessage = '🔒 Mystery target locked! Start guessing.') {
+      if (!resolvedEntity) return;
+      OstAudio.stop();
+      stopTimer();
+      state.target = resolvedEntity;
+      state.guesses = [];
+      state.revealedHints = [];
+      state.lastHintGuessCount = -1;
+      state.ostUnlocked = false;
+      state.gameOver = false;
+      state.won = false;
+      state.searchResults = [];
+      state.highlightedIndex = -1;
+      const inp = document.getElementById('mainSearchInput');
+      if (inp) inp.value = '';
+      document.getElementById('searchDropdown')?.classList.remove('open');
+      if (state.playMode === 'timelimit') startTimer();
+      GoogleSearchVerifier.verifyTitleRatings(state.target, state.category);
+      GoogleSearchVerifier.findOstTrackMetadata(state.target, state.category);
+      renderAll();
+      if (toastMessage) showToast(toastMessage);
+    }
+
+    async function startRandomLiveRound() {
+      const btn = document.getElementById('heroRandomBtn');
+      const menuBtn = document.getElementById('btnNewRandomRound');
+      if (btn) btn.disabled = true;
+      if (menuBtn) menuBtn.disabled = true;
+      showToast('🔀 Picking a random live title...');
+      const entity = await fetchRandomLiveTargetFromTmdb(state.category);
+      if (btn) btn.disabled = false;
+      if (menuBtn) menuBtn.disabled = false;
+      if (entity) {
+        lockMysteryTarget(entity, '🔀 Random live target locked! Start guessing.');
+      } else {
+        showToast('Could not fetch from TMDB right now. Type a title to set it manually.');
+      }
+    }
+
+    function submitGuess(item) {
+      if (!item || state.gameOver || !state.target) return;
+      if (state.guesses.some(g => g.id === item.id || normalizeStr(g.title) === normalizeStr(item.title))) {
+        showToast('Already guessed this title!'); return;
+      }
+      state.guesses.push(item);
+      if (state.guesses.length >= (OST_UNLOCK_AT - 1)) state.ostUnlocked = true;
+      const isWin = item.id === state.target.id || normalizeStr(gTitle(item)) === normalizeStr(gTitle(state.target));
+      if (isWin) finishRound(true);
+      else if (state.guesses.length >= MAX_GUESSES) finishRound(false);
+      else renderAll();
+    }
+    function gTitle(x) { return x?.title || ''; }
+
+    function finishRound(won, customReason = null) {
+      state.gameOver = true;
+      state.won = won;
+      stopTimer();
+      state.stats.played++;
+      if (won) {
+        state.stats.won++;
+        state.stats.streak++;
+        state.stats.maxStreak = Math.max(state.stats.maxStreak, state.stats.streak);
+        const gCount = Math.min(10, Math.max(1, state.guesses.length));
+        state.stats.dist[gCount] = (state.stats.dist[gCount] || 0) + 1;
+      } else {
+        state.stats.streak = 0;
+      }
+      state.stats.history.unshift({
+        title: state.target?.title || 'Unknown',
+        category: state.category,
+        won,
+        guesses: state.guesses.length,
+        date: new Date().toLocaleDateString()
+      });
+      state.stats.history = state.stats.history.slice(0, 30);
+      persistCurrentStats();
+      renderAll();
+      openSummaryModal(customReason);
+    }
+
+    /* ==========================================================================
+       CARD RENDERING (BIG POSTER + SEPARATE IMDB/LETTERBOXD TILES + CREW PHOTOS)
+       ========================================================================== */
+    function formatShortPersonName(fullName) {
+      const clean = String(fullName || '—').trim();
+      const parts = clean.split(/\s+/);
+      return parts.length <= 1 ? clean : `${parts[0][0]}. ${parts.slice(1).join(' ')}`;
+    }
+
+    function renderPersonAvatarHtml(personObj) {
+      const name = typeof personObj === 'string' ? personObj : (personObj?.name || '—');
+      const photo = typeof personObj === 'object' ? personObj?.photo : null;
+      const mono = getMonogram(name);
+      if (photo) {
+        return `<div class="person-avatar-circle" title="${name}">
+          <img src="${photo}" alt="${name}" onerror="this.parentElement.textContent='${mono}'" />
+        </div>`;
+      }
+      return `<div class="person-avatar-circle" title="${name}">${mono}</div>`;
+    }
+
+    function renderStudioLogoHtml(studioName, logoUrl) {
+      const mono = getMonogram(studioName);
+      if (logoUrl) {
+        return `<div class="studio-logo-wrap" title="${studioName}">
+          <img src="${logoUrl}" alt="${studioName}" onerror="this.parentElement.outerHTML='<div class=\\'studio-logo-fallback\\'>${mono}</div>'" />
+        </div>`;
+      }
+      return `<div class="studio-logo-fallback">${mono}</div>`;
+    }
+
+    function renderCastStrip(groups) {
+      return `<div class="card-credits-footer">${groups.map((grp, gIdx) => `
+        ${gIdx > 0 ? '<div class="credit-divider-v"></div>' : ''}
+        <div class="credit-group ${grp.grow ? 'grow' : ''}">
+          <div class="credit-group-title">${grp.heading}</div>
+          <div class="credit-avatars-row">
+            ${grp.people.map(p => {
+              const pName = typeof p.person === 'string' ? p.person : (p.person?.name || '—');
+              return `<div class="person-node ${p.cls}" title="${pName}">
+                ${renderPersonAvatarHtml(p.person)}
+                <div class="person-short-name">${formatShortPersonName(pName)}</div>
+              </div>`;
+            }).join('')}
+          </div>
+        </div>
+      `).join('')}</div>`;
+    }
+
+    function renderGuessCard(item, index) {
+      const target = state.target, cat = state.category;
+      const isExactWin = normalizeStr(item.title) === normalizeStr(target.title) && item.id === target.id;
+      const cardUid = `${index}_${indexSafeId(item.id)}`;
+      const imdbTileId = `g_imdb_${cardUid}`, lbTileId = `g_lb_${cardUid}`, grossTileId = `g_gross_${cardUid}`, ratedTileId = `g_rated_${cardUid}`;
+
+      const card = document.createElement('article');
+      card.className = `spotle-card${isExactWin ? ' exact-win' : ''}`;
+      const targetGenresNorm = (target.genres || []).map(normalizeStr);
+      const genrePillsHtml = (item.genres || []).map(g => `<span class="genre-chip ${targetGenresNorm.includes(normalizeStr(g)) ? 'exact' : ''}">${g}</span>`).join('');
+
+      let tilesHtml = '', peopleHtml = '';
+
+      if (cat === 'movies') {
+        const yCmp = compareNum(item.year, target.year, 4);
+        const gCmp = compareGross(item.grossM, target.grossM);
+        const imdbCmp = compareNum(item.imdb, target.imdb, 0.5, 1);
+        const lbCmp = compareNum(item.letterboxd, target.letterboxd, 0.3, 1);
+        const ratedExact = normalizeStr(item.rated) === normalizeStr(target.rated);
+        const studioExact = namesMatch(item.studio, target.studio);
+
+        tilesHtml = `<div class="reference-tiles-grid">
+          <div class="s-tile ${yCmp.cls}"><div class="s-tile-lbl">Year</div><div class="s-tile-val">${item.year}${yCmp.arrow}</div></div>
+          <div class="s-tile ${gCmp.cls}" id="${grossTileId}"><div class="s-tile-lbl">Box Office</div><div class="s-tile-val">${formatGross(item.grossM)}${item.grossM ? gCmp.arrow : ''}</div></div>
+          <div class="s-tile ${studioExact ? 'exact' : ''}"><div class="s-tile-lbl">Studio</div>${renderStudioLogoHtml(item.studio, item.studioLogo)}<div class="s-tile-val" style="font-size: 0.72rem;">${item.studio}</div></div>
+          <div class="s-tile ${ratedExact ? 'exact' : ''}" id="${ratedTileId}"><div class="s-tile-lbl">Rated</div><div class="s-tile-val">${item.rated || 'UA'}</div></div>
+          <div class="s-tile ${imdbCmp.cls}" id="${imdbTileId}"><div class="s-tile-lbl">IMDb</div><div class="s-tile-val">★ ${item.imdb || '—'}${imdbCmp.arrow}</div></div>
+          <div class="s-tile ${lbCmp.cls}" id="${lbTileId}"><div class="s-tile-lbl">Letterboxd</div><div class="s-tile-val">● ${item.letterboxd || '—'}${lbCmp.arrow}</div></div>
+        </div>`;
+
+        const castArr = item.cast || [];
+        const targetCastNames = (target.cast || []).map(c => typeof c === 'string' ? c : c.name);
+        const leadPerson = castArr[0] || { name: '—', photo: null };
+        const leadName = typeof leadPerson === 'string' ? leadPerson : leadPerson.name;
+
+        peopleHtml = renderCastStrip([
+          { heading: 'Director', people: [{ person: { name: item.director, photo: item.directorPhoto }, cls: namesMatch(item.director, target.director) ? 'exact' : '' }] },
+          { heading: 'Lead Actor', people: [{ person: leadPerson, cls: targetCastNames.some(tc => namesMatch(leadName, tc)) ? 'exact' : '' }] },
+          { heading: 'Supporting Cast', grow: true, people: castArr.slice(1, 5).map(c => {
+            const cName = typeof c === 'string' ? c : c.name;
+            return { person: c, cls: targetCastNames.some(tc => namesMatch(cName, tc)) ? 'exact' : '' };
+          }) }
+        ]);
+      } else if (cat === 'tv') {
+        const yCmp = compareNum(item.year, target.year, 3);
+        const snCmp = compareNum(item.seasons, target.seasons, 1);
+        const ratedExact = normalizeStr(item.rated) === normalizeStr(target.rated);
+        const imdbCmp = compareNum(item.imdb, target.imdb, 0.5, 1);
+        const lbCmp = compareNum(item.letterboxd, target.letterboxd, 0.3, 1);
+        const netExact = namesMatch(item.network, target.network);
+
+        tilesHtml = `<div class="reference-tiles-grid">
+          <div class="s-tile ${yCmp.cls}"><div class="s-tile-lbl">Year</div><div class="s-tile-val">${item.year}${yCmp.arrow}</div></div>
+          <div class="s-tile ${snCmp.cls}"><div class="s-tile-lbl">Seasons</div><div class="s-tile-val">${item.seasons} Szn${snCmp.arrow}</div></div>
+          <div class="s-tile ${netExact ? 'exact' : ''}"><div class="s-tile-lbl">Network</div>${renderStudioLogoHtml(item.network, item.networkLogo)}<div class="s-tile-val" style="font-size: 0.72rem;">${item.network}</div></div>
+          <div class="s-tile ${ratedExact ? 'exact' : ''}"><div class="s-tile-lbl">Rated</div><div class="s-tile-val">${item.rated || 'TV-14'}</div></div>
+          <div class="s-tile ${imdbCmp.cls}" id="${imdbTileId}"><div class="s-tile-lbl">IMDb</div><div class="s-tile-val">★ ${item.imdb || '—'}${imdbCmp.arrow}</div></div>
+          <div class="s-tile ${lbCmp.cls}" id="${lbTileId}"><div class="s-tile-lbl">Letterboxd</div><div class="s-tile-val">● ${item.letterboxd || 'N/A'}${item.letterboxd ? lbCmp.arrow : ''}</div></div>
+        </div>`;
+
+        const castArr = item.cast || [];
+        const targetCastNames = (target.cast || []).map(c => typeof c === 'string' ? c : c.name);
+        const leadPerson = castArr[0] || { name: '—', photo: null };
+        const leadName = typeof leadPerson === 'string' ? leadPerson : leadPerson.name;
+
+        peopleHtml = renderCastStrip([
+          { heading: 'Creator', people: [{ person: { name: item.creator, photo: item.creatorPhoto }, cls: namesMatch(item.creator, target.creator) ? 'exact' : '' }] },
+          { heading: 'Lead Cast', people: [{ person: leadPerson, cls: targetCastNames.some(tc => namesMatch(leadName, tc)) ? 'exact' : '' }] },
+          { heading: 'Supporting Cast', grow: true, people: castArr.slice(1, 5).map(c => {
+            const cName = typeof c === 'string' ? c : c.name;
+            return { person: c, cls: targetCastNames.some(tc => namesMatch(cName, tc)) ? 'exact' : '' };
+          }) }
+        ]);
+      } else {
+        const fmtExact = item.format === target.format;
+        const yCmp = compareNum(item.year, target.year, 3);
+        const ratedExact = normalizeStr(item.rated) === normalizeStr(target.rated);
+        const malCmp = compareNum(item.mal, target.mal, 0.4, 2);
+        const crCmp = compareNum(item.crunchyroll, target.crunchyroll, 0.3, 1);
+        const studioExact = normalizeStr(item.studio) === normalizeStr(target.studio);
+        const studioClose = !studioExact && namesMatch(item.studio, target.studio);
+
+        let lenVal = item.format === 'Anime Movie' ? 'Movie' : `${item.episodes} Eps`;
+        let lenCls = fmtExact ? 'exact' : '';
+        if (item.format === 'TV Series' && target.format === 'TV Series') {
+          const c = compareNum(item.episodes, target.episodes, 12);
+          lenCls = c.cls; lenVal = `${item.episodes} Eps${c.arrow}`;
+        }
+
+        tilesHtml = `<div class="reference-tiles-grid">
+          <div class="s-tile ${yCmp.cls}"><div class="s-tile-lbl">Year</div><div class="s-tile-val">${item.year}${yCmp.arrow}</div></div>
+          <div class="s-tile ${lenCls}"><div class="s-tile-lbl">Format</div><div class="s-tile-val">${lenVal}</div></div>
+          <div class="s-tile ${studioExact ? 'exact' : studioClose ? 'close' : ''}"><div class="s-tile-lbl">Studio</div>${renderStudioLogoHtml(item.studio, item.studioLogo)}<div class="s-tile-val" style="font-size: 0.72rem;">${item.studio}</div></div>
+          <div class="s-tile ${ratedExact ? 'exact' : ''}"><div class="s-tile-lbl">Rated</div><div class="s-tile-val">${item.rated || 'PG-13'}</div></div>
+          <div class="s-tile ${malCmp.cls}" id="${imdbTileId}"><div class="s-tile-lbl">MyAnimeList</div><div class="s-tile-val">★ ${item.mal || '—'}${malCmp.arrow}</div></div>
+          <div class="s-tile ${crCmp.cls}" id="${lbTileId}"><div class="s-tile-lbl">Crunchyroll</div><div class="s-tile-val">🟠 ${item.crunchyroll || '—'}${crCmp.arrow}</div></div>
+        </div>`;
+
+        const targetLeads = (target.leadCast || []).map(x => typeof x === 'string' ? x : x.name);
+        const targetSup = (target.supportCast || []).map(x => typeof x === 'string' ? x : x.name);
+        peopleHtml = renderCastStrip([
+          { heading: 'Director', people: [{ person: { name: item.director, photo: item.directorPhoto }, cls: namesMatch(item.director, target.director) ? 'exact' : '' }] },
+          { heading: 'Composer', people: [{ person: { name: item.composer, photo: item.composerPhoto }, cls: namesMatch(item.composer, target.composer) ? 'exact' : '' }] },
+          { heading: 'Voice Cast', grow: true, people: [
+            ...(item.leadCast || []).slice(0, 2).map(v => {
+              const vName = typeof v === 'string' ? v : v.name;
+              return { person: v, cls: targetLeads.some(x => namesMatch(vName, x)) ? 'exact' : '' };
+            }),
+            ...(item.supportCast || []).slice(0, 2).map(v => {
+              const vName = typeof v === 'string' ? v : v.name;
+              return { person: v, cls: targetSup.some(x => namesMatch(vName, x)) ? 'exact' : '' };
+            })
+          ] }
+        ]);
+      }
+
+      const posterHtml = item.posterUrl
+        ? `<img src="${item.posterUrl}" alt="${item.title}" onerror="this.parentElement.textContent='${getMonogram(item.title)}'" />`
+        : getMonogram(item.title);
+
+      card.innerHTML = `<div class="card-upper-split">
+        <div class="media-poster-box">${posterHtml}</div>
+        <div class="card-right-main">
+          <div><div class="card-entity-title">${item.title}</div><div class="genre-pills-row">${genrePillsHtml}</div></div>
+          ${tilesHtml}
+        </div>
+      </div>${peopleHtml}`;
+
+      GoogleSearchVerifier.verifyTitleRatings(item, cat).then(info => {
+        if (!info) return;
+        const imdbBox = card.querySelector(`#${imdbTileId}`);
+        const lbBox = card.querySelector(`#${lbTileId}`);
+
+        if ((cat === 'movies' || cat === 'tv') && imdbBox && lbBox) {
+          const imdbCmp = compareNum(info.imdb, target.imdb, 0.5, 1);
+          imdbBox.className = `s-tile ${imdbCmp.cls}`;
+          imdbBox.innerHTML = `<div class="s-tile-lbl">IMDb</div><div class="s-tile-val">★ ${info.imdb || 'N/A'}${info.imdb ? imdbCmp.arrow : ''}</div>`;
+
+          const lbCmp = compareNum(info.letterboxd, target.letterboxd, 0.3, 1);
+          lbBox.className = `s-tile ${lbCmp.cls}`;
+          lbBox.innerHTML = `<div class="s-tile-lbl">Letterboxd</div><div class="s-tile-val">● ${info.letterboxd || 'N/A'}${info.letterboxd ? lbCmp.arrow : ''}</div>`;
+        } else if (cat === 'anime' && imdbBox && lbBox) {
+          const malCmp = compareNum(info.mal, target.mal, 0.4, 2);
+          imdbBox.className = `s-tile ${malCmp.cls}`;
+          imdbBox.innerHTML = `<div class="s-tile-lbl">MyAnimeList</div><div class="s-tile-val">★ ${info.mal || 'N/A'}${info.mal ? malCmp.arrow : ''}</div>`;
+
+          const crCmp = compareNum(info.crunchyroll, target.crunchyroll, 0.3, 1);
+          lbBox.className = `s-tile ${crCmp.cls}`;
+          lbBox.innerHTML = `<div class="s-tile-lbl">Crunchyroll</div><div class="s-tile-val">🟠 ${info.crunchyroll || 'N/A'}${info.crunchyroll ? crCmp.arrow : ''}</div>`;
+        }
+
+        const grossBox = card.querySelector(`#${grossTileId}`);
+        if (grossBox && cat === 'movies') {
+          const gCmp = compareGross(item.grossM, target.grossM);
+          grossBox.className = `s-tile ${gCmp.cls}`;
+          grossBox.innerHTML = `<div class="s-tile-lbl">Box Office</div><div class="s-tile-val">${formatGross(item.grossM)}${item.grossM ? gCmp.arrow : ''}</div>`;
+        }
+
+        const ratedBox = card.querySelector(`#${ratedTileId}`);
+        if (ratedBox && cat === 'movies' && item.rated) {
+          ratedBox.className = `s-tile ${normalizeStr(item.rated) === normalizeStr(target.rated) ? 'exact' : ''}`;
+          ratedBox.innerHTML = `<div class="s-tile-lbl">Rated</div><div class="s-tile-val">${item.rated}</div>`;
+        }
+      });
+
+      return card;
+    }
+
+    /* ==========================================================================
+       MAIN RENDER & UNIFIED SEARCH
+       ========================================================================== */
+    function renderFilterPoolSlots() {
+      const filterSec = document.getElementById('filterMenuSection');
+      const slot01Label = document.getElementById('slot01Label');
+      const slot01Status = document.getElementById('slot01Status');
+      const slot01Pills = document.getElementById('slot01Pills');
+
+      if (state.category === 'movies') {
+        filterSec.style.display = 'flex';
+        slot01Label.textContent = 'Cinema Region';
+        slot01Status.textContent = state.region;
+        slot01Pills.innerHTML = REGIONS_LIST.map(r => `<button class="mini-filter-pill ${state.region === r ? 'active' : ''}" data-region-pill="${r}">${r}</button>`).join('');
+        slot01Pills.querySelectorAll('[data-region-pill]').forEach(btn => {
+          btn.addEventListener('click', () => {
+            state.region = btn.getAttribute('data-region-pill');
+            Prefs.region = state.region;
+            savePrefsCache();
+            renderAll();
+            showToast(`🎬 Region: ${state.region}`);
+          });
+        });
+      } else if (state.category === 'anime') {
+        filterSec.style.display = 'flex';
+        slot01Label.textContent = 'Anime Format';
+        slot01Status.textContent = state.animeFormat;
+        slot01Pills.innerHTML = ANIME_FORMATS_LIST.map(f => `<button class="mini-filter-pill ${state.animeFormat === f ? 'active' : ''}" data-format-pill="${f}">${f}</button>`).join('');
+        slot01Pills.querySelectorAll('[data-format-pill]').forEach(btn => {
+          btn.addEventListener('click', () => {
+            state.animeFormat = btn.getAttribute('data-format-pill');
+            Prefs.animeFormat = state.animeFormat;
+            savePrefsCache();
+            renderAll();
+            showToast(`⛩️ Format: ${state.animeFormat}`);
+          });
+        });
+      } else {
+        filterSec.style.display = 'none';
+      }
+    }
+
+    function renderAll() {
+      document.getElementById('categorySelect').value = state.category;
+      document.getElementById('playModeSelect').value = state.playMode;
+      updateAccountNavUi();
+
+      const catNames = { movies: 'Movies', tv: 'TV Series', anime: 'Anime' };
+      const subName = state.category === 'movies' ? state.region : state.category === 'anime' ? state.animeFormat : 'Global';
+      document.getElementById('heroStatusText').textContent = `${catNames[state.category]} • ${subName}`;
+
+      const searchInput = document.getElementById('mainSearchInput');
+      const heroSubtitle = document.getElementById('heroSubtitle');
+      const heroChangeBtn = document.getElementById('heroChangeTargetBtn');
+      const hudRow = document.getElementById('stageHudRow');
+      const segBar = document.getElementById('guessSegmentsBar');
+
+      if (!state.target) {
+        const setPlaceholders = {
+          movies: 'Search a movie to set as the mystery target...',
+          tv: 'Search a TV series to set as the mystery target...',
+          anime: 'Search an anime to set as the mystery target...'
+        };
+        searchInput.placeholder = setPlaceholders[state.category];
+        searchInput.disabled = false;
+        heroSubtitle.textContent = `Enter a secret ${catNames[state.category].toLowerCase()} below or click Random Pick to start`;
+        heroChangeBtn.style.display = 'none';
+        hudRow.style.display = 'none';
+        segBar.style.display = 'none';
+      } else {
+        const guessPlaceholders = {
+          movies: 'Search for a movie to guess...',
+          tv: 'Search for a TV series to guess...',
+          anime: 'Search for an anime to guess...'
+        };
+        searchInput.placeholder = guessPlaceholders[state.category];
+        searchInput.disabled = state.gameOver;
+        heroSubtitle.textContent = state.won
+          ? 'Mystery solved! Start a new target or pick another random title.'
+          : state.gameOver
+          ? 'Round finished. Start a new target or pick another random title.'
+          : 'Mystery target locked — deduce it from the clues below';
+        heroChangeBtn.style.display = 'inline-flex';
+        hudRow.style.display = 'grid';
+        segBar.style.display = 'grid';
+      }
+
+      let activeFilterCount = 0;
+      if (state.category === 'movies' && state.region !== 'Hollywood') activeFilterCount++;
+      if (state.category === 'anime' && state.animeFormat !== 'All') activeFilterCount++;
+      const filterChip = document.getElementById('filterActiveChip');
+      filterChip.style.display = activeFilterCount > 0 ? 'inline-flex' : 'none';
+      filterChip.textContent = activeFilterCount;
+
+      const filterTag = document.getElementById('filterMenuSummaryTag');
+      if (filterTag) filterTag.textContent = state.category === 'movies' ? state.region : state.animeFormat;
+
+      document.getElementById('timerBarPanel').classList.toggle('active', state.playMode === 'timelimit' && Boolean(state.target));
+      document.getElementById('btnViewRoundSummary').style.display = state.gameOver ? 'inline-flex' : 'none';
+
+      const currentGuessNum = state.gameOver ? state.guesses.length : Math.min(MAX_GUESSES, state.guesses.length + 1);
+      document.getElementById('spotleGuessHeader').innerHTML = state.won
+        ? `Solved in <span class="accent-num">${state.guesses.length}</span> of 10`
+        : state.gameOver
+        ? `Round Over (<span class="accent-num">${state.guesses.length}</span> of 10)`
+        : `Guess <span class="accent-num">${currentGuessNum}</span> of 10`;
+
+      document.getElementById('btnHintTrigger').disabled = state.gameOver || !state.target;
+      document.getElementById('hintBtnLabel').textContent = `Hints (${state.revealedHints.length}/${MAX_HINTS})`;
+      document.getElementById('ostPlayerPanel').classList.toggle('active', state.ostUnlocked && Boolean(state.target));
+      document.getElementById('btnGiveUp').disabled = state.gameOver || !state.target;
+
+      renderFilterPoolSlots();
+
+      const cluesBanner = document.getElementById('revealedCluesBanner');
+      if (state.revealedHints.length > 0 && state.target) {
+        cluesBanner.classList.add('active');
+        cluesBanner.innerHTML = state.revealedHints.map(h => `<div class="clue-item-line"><span class="clue-item-tag">${h.title}</span><span>${h.value}</span></div>`).join('');
+      } else {
+        cluesBanner.classList.remove('active');
+        cluesBanner.innerHTML = '';
+      }
+
+      const stack = document.getElementById('guessStack');
+      stack.innerHTML = '';
+      for (let i = state.guesses.length - 1; i >= 0; i--) stack.appendChild(renderGuessCard(state.guesses[i], i));
+
+      segBar.innerHTML = Array.from({ length: MAX_GUESSES }, (_, idx) => {
+        let cls = 'guess-seg';
+        if (state.target && idx < state.guesses.length) {
+          const g = state.guesses[idx];
+          cls += (g.id === state.target.id || normalizeStr(g.title) === normalizeStr(state.target.title)) ? ' won' : ' done';
+        } else if (state.target && idx === state.guesses.length && !state.gameOver) cls += ' active';
+        return `<span class="${cls}"></span>`;
+      }).join('');
+    }
+
+    function renderDropdownList(ddEl, items, badgeLabel, onPick) {
+      if (!items.length) { ddEl.classList.remove('open'); ddEl.innerHTML = ''; return; }
+      ddEl.innerHTML = items.map((item, idx) => {
+        const thumbHtml = item.posterThumb
+          ? `<img class="ac-thumb" src="${item.posterThumb}" alt="" />`
+          : `<div class="ac-thumb">${getMonogram(item.title)}</div>`;
+        return `<div class="ac-row ${idx === state.highlightedIndex ? 'highlighted' : ''}" data-ac-idx="${idx}">
+          <div class="ac-row-left">
+            ${thumbHtml}
+            <div><div class="ac-row-title">${item.title}</div><div class="ac-row-sub">${item.sub}</div></div>
+          </div>
+          <span class="ac-row-badge">${badgeLabel}</span>
+        </div>`;
+      }).join('');
+      ddEl.classList.add('open');
+      ddEl.querySelectorAll('.ac-row').forEach(row => {
+        row.addEventListener('click', () => {
+          const picked = items[Number(row.getAttribute('data-ac-idx'))];
+          if (picked) onPick(picked);
+        });
+      });
+    }
+
+    let searchDebounce = null;
+    function handleMainSearchInput(val) {
+      const q = val.trim();
+      const dd = document.getElementById('searchDropdown');
+      if (q.length < 2) { state.searchResults = []; state.highlightedIndex = -1; dd.classList.remove('open'); return; }
+      clearTimeout(searchDebounce);
+      searchDebounce = setTimeout(async () => {
+        const remote = await searchLiveCatalog(q, state.category);
+        state.searchResults = remote;
+        state.highlightedIndex = remote.length ? 0 : -1;
+        const actionLabel = state.target ? 'Guess' : 'Lock Target';
+        renderDropdownList(dd, remote, actionLabel, async picked => {
+          dd.classList.remove('open');
+          document.getElementById('mainSearchInput').value = '';
+          if (!state.target) showToast('🔒 Locking mystery target...');
+          const resolved = await resolveSelectedEntity(picked);
+          if (!resolved) return;
+          if (!state.target) lockMysteryTarget(resolved);
+          else submitGuess(resolved);
+        });
+      }, 240);
+    }
+
+    /* ==========================================================================
+       MODALS & CHALLENGE BUILDER
+       ========================================================================== */
+    function openSummaryModal(customReason = null) {
+      const t = state.target;
+      if (!t) return;
+      document.getElementById('summaryHeadline').textContent = state.won ? `🎉 Solved in ${state.guesses.length} of ${MAX_GUESSES}!` : (customReason || `🎬 Mystery Revealed (${state.guesses.length}/${MAX_GUESSES})`);
+      const detailLine = state.category === 'movies'
+        ? `${t.year} • ${t.region} • Rated ${t.rated} • Box Office: ${formatGross(t.grossM)} • IMDb ★ ${t.imdb}/10 • Letterboxd ● ${t.letterboxd}/5`
+        : state.category === 'tv'
+        ? `${t.year} • ${t.network} • ${t.seasons} Seasons • IMDb ★ ${t.imdb}/10 • Letterboxd ● ${t.letterboxd || 'N/A'}/5`
+        : `${t.year} • ${t.format} • ${t.studio} • MyAnimeList ★ ${t.mal}/10 • Crunchyroll 🟠 ${t.crunchyroll}/5`;
+      document.getElementById('summaryRevealCard').innerHTML = `<div style="font-size: 0.7rem; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); margin-bottom: 4px;">SECRET MYSTERY TARGET</div><div style="font-size: 1.35rem; font-weight: 800; margin-bottom: 6px;">${t.title}</div><div style="font-size: 0.82rem; color: var(--text-secondary);">${detailLine}</div>`;
+      openModal('modalSummary');
+    }
+
+    let challengeSearchDebounce = null;
+    function openChallengeBuilder() {
+      state.selectedChallengeCandidate = null;
+      document.getElementById('challengeSearchInput').value = '';
+      document.getElementById('challengeSearchDropdown').classList.remove('open');
+      document.getElementById('challengeSelectedBox').style.display = 'none';
+      openModal('modalChallenge');
+    }
+
+    function handleChallengeSearchInput(val) {
+      const q = val.trim();
+      const dd = document.getElementById('challengeSearchDropdown');
+      if (q.length < 2) { dd.classList.remove('open'); return; }
+      clearTimeout(challengeSearchDebounce);
+      challengeSearchDebounce = setTimeout(async () => {
+        const results = await searchLiveCatalog(q, state.category);
+        renderDropdownList(dd, results, 'Select', picked => {
+          dd.classList.remove('open');
+          state.selectedChallengeCandidate = picked;
+          document.getElementById('challengeSearchInput').value = picked.title;
+          document.getElementById('challengeSelectedTitle').textContent = `${picked.title} (${picked.year})`;
+          const payload = btoa(unescape(encodeURIComponent(JSON.stringify({
+            c: state.category,
+            tmdbId: picked.tmdbId,
+            mediaType: picked.mediaType || (state.category === 'tv' ? 'tv' : 'movie')
+          }))));
+          document.getElementById('challengeUrlOutput').value = `${window.location.href.split('#')[0]}#challenge=${payload}`;
+          document.getElementById('challengeSelectedBox').style.display = 'block';
+        });
+      }, 240);
+    }
+
+    function renderGuideAndStats() {
+      const winPct = state.stats.played ? Math.round((state.stats.won / state.stats.played) * 100) : 0;
+      document.getElementById('statsSummaryGrid').innerHTML = `
+        <div class="stat-box"><div class="stat-num">${state.stats.played}</div><div class="stat-lbl">Played</div></div>
+        <div class="stat-box"><div class="stat-num">${winPct}%</div><div class="stat-lbl">Win %</div></div>
+        <div class="stat-box"><div class="stat-num">${state.stats.streak}</div><div class="stat-lbl">Streak</div></div>
+        <div class="stat-box"><div class="stat-num">${state.stats.maxStreak}</div><div class="stat-lbl">Max</div></div>
+      `;
+    }
+
+    function applyThemePrefs() {
+      document.body.setAttribute('data-palette', Prefs.palette);
+      document.body.setAttribute('data-accent', Prefs.accent);
+      document.body.setAttribute('data-font', Prefs.font);
+      document.body.classList.toggle('cinema-glow', Boolean(Prefs.cinemaGlow));
+      const glowChk = document.getElementById('chkCinemaGlow');
+      if (glowChk) glowChk.checked = Boolean(Prefs.cinemaGlow);
+      document.querySelectorAll('[data-palette-opt]').forEach(el => el.classList.toggle('active', el.getAttribute('data-palette-opt') === Prefs.palette));
+      document.querySelectorAll('[data-accent-opt]').forEach(el => el.classList.toggle('active', el.getAttribute('data-accent-opt') === Prefs.accent));
+      document.querySelectorAll('[data-font-opt]').forEach(el => el.classList.toggle('active', el.getAttribute('data-font-opt') === Prefs.font));
+    }
+
+    /* ==========================================================================
+       EVENT BINDINGS
+       ========================================================================== */
+    function bindEvents() {
+      document.getElementById('btnOpenLeftMenu').addEventListener('click', () => document.getElementById('leftDrawerBackdrop').classList.add('open'));
+      document.getElementById('btnCloseLeftMenu').addEventListener('click', () => document.getElementById('leftDrawerBackdrop').classList.remove('open'));
+      document.getElementById('leftDrawerBackdrop').addEventListener('click', e => { if (e.target.id === 'leftDrawerBackdrop') e.target.classList.remove('open'); });
+
+      document.getElementById('heroRandomBtn').addEventListener('click', () => startRandomLiveRound());
+      document.getElementById('heroChangeTargetBtn').addEventListener('click', () => resetToTargetSelection());
+      document.getElementById('btnMenuSetTarget').addEventListener('click', () => {
+        document.getElementById('leftDrawerBackdrop').classList.remove('open');
+        resetToTargetSelection();
+      });
+      document.getElementById('btnNewRandomRound').addEventListener('click', () => {
+        document.getElementById('leftDrawerBackdrop').classList.remove('open');
+        startRandomLiveRound();
+      });
+
+      // Keyboard shortcut 'R' for Random Pick (matching portal hub)
+      document.addEventListener('keydown', e => {
+        const tag = (e.target?.tagName || '').toLowerCase();
+        if (tag === 'input' || tag === 'textarea' || tag === 'select') return;
+        if (e.key === 'r' || e.key === 'R') {
+          e.preventDefault();
+          startRandomLiveRound();
+        }
+      });
+
+      document.getElementById('categorySelect').addEventListener('change', e => {
+        state.category = e.target.value;
+        resetToTargetSelection();
+      });
+
+      document.getElementById('playModeSelect').addEventListener('change', e => {
+        state.playMode = e.target.value;
+        if (state.playMode === 'challenge') {
+          document.getElementById('leftDrawerBackdrop').classList.remove('open');
+          openChallengeBuilder();
+          return;
+        }
+        if (state.playMode === 'timelimit' && state.target && !state.gameOver) startTimer();
+        else stopTimer();
+        renderAll();
+      });
+
+      document.getElementById('btnToggleFilterStudio').addEventListener('click', () => {
+        const card = document.getElementById('filterStudioCard');
+        card.style.display = card.style.display === 'none' ? 'flex' : 'none';
+      });
+
+      document.getElementById('btnResetPoolFilters').addEventListener('click', () => {
+        state.region = 'Hollywood';
+        state.animeFormat = 'All';
+        Prefs.region = 'Hollywood';
+        Prefs.animeFormat = 'All';
+        savePrefsCache();
+        renderAll();
+        showToast('✦ Filter reset to Hollywood / All');
+      });
+
+      const searchInput = document.getElementById('mainSearchInput');
+      searchInput.addEventListener('input', e => handleMainSearchInput(e.target.value));
+      searchInput.addEventListener('keydown', async e => {
+        if (!state.searchResults.length) return;
+        const actionLabel = state.target ? 'Guess' : 'Lock Target';
+        if (e.key === 'ArrowDown') {
+          e.preventDefault();
+          state.highlightedIndex = (state.highlightedIndex + 1) % state.searchResults.length;
+          renderDropdownList(document.getElementById('searchDropdown'), state.searchResults, actionLabel, async p => {
+            document.getElementById('searchDropdown').classList.remove('open');
+            searchInput.value = '';
+            const res = await resolveSelectedEntity(p);
+            if (res) (!state.target ? lockMysteryTarget(res) : submitGuess(res));
+          });
+        } else if (e.key === 'ArrowUp') {
+          e.preventDefault();
+          state.highlightedIndex = (state.highlightedIndex - 1 + state.searchResults.length) % state.searchResults.length;
+          renderDropdownList(document.getElementById('searchDropdown'), state.searchResults, actionLabel, async p => {
+            document.getElementById('searchDropdown').classList.remove('open');
+            searchInput.value = '';
+            const res = await resolveSelectedEntity(p);
+            if (res) (!state.target ? lockMysteryTarget(res) : submitGuess(res));
+          });
+        } else if (e.key === 'Enter') {
+          e.preventDefault();
+          const picked = state.searchResults[state.highlightedIndex >= 0 ? state.highlightedIndex : 0];
+          if (picked) {
+            document.getElementById('searchDropdown').classList.remove('open');
+            searchInput.value = '';
+            const resolved = await resolveSelectedEntity(picked);
+            if (resolved) (!state.target ? lockMysteryTarget(resolved) : submitGuess(resolved));
+          }
+        }
+      });
+
+      // Challenge Builder
+      document.getElementById('challengeSearchInput').addEventListener('input', e => handleChallengeSearchInput(e.target.value));
+      document.getElementById('btnPlayChallengeNow').addEventListener('click', async () => {
+        if (!state.selectedChallengeCandidate) return;
+        closeModal('modalChallenge');
+        showToast('⚔️ Loading challenge round...');
+        const resolved = await resolveSelectedEntity(state.selectedChallengeCandidate);
+        if (resolved) lockMysteryTarget(resolved, '⚔️ Challenge started! Guess the target.');
+      });
+      document.getElementById('btnCopyChallengeLink').addEventListener('click', () => {
+        const inp = document.getElementById('challengeUrlOutput');
+        inp.select();
+        document.execCommand('copy');
+        showToast('📋 Challenge link copied!');
+      });
+
+      document.addEventListener('click', e => {
+        if (!e.target.closest('.search-input-shell')) {
+          document.getElementById('searchDropdown')?.classList.remove('open');
+          document.getElementById('challengeSearchDropdown')?.classList.remove('open');
+        }
+      });
+
+      // Hints & OST
+      document.getElementById('btnHintTrigger').addEventListener('click', () => {
+        if (state.gameOver || !state.target) return;
+        const subtleAllowed = canTriggerHint(), ostReady = canTriggerOst();
+        const opts = buildClueOptions(state.target, state.category);
+        const usedIds = new Set(state.revealedHints.map(h => h.id));
+        const listEl = document.getElementById('hintsOptionList');
+
+        listEl.innerHTML = `
+          <div class="hint-choice-row" id="hintModalAiBtn" style="border-color: var(--accent-border); background: var(--accent-soft);">
+            <div><div style="font-weight: 800; font-size: 0.9rem; color: var(--accent);">✨ Ask Google Search AI Clue</div><div style="font-size: 0.76rem; color: var(--text-secondary);">Live spoiler-free trivia clue via Google Search</div></div>
+            <span class="ac-row-badge" id="hintModalAiBadge">Ask AI</span>
+          </div>
+          <div class="hint-choice-row ${!ostReady && !state.ostUnlocked ? 'used' : ''}" id="hintModalOstBtn">
+            <div><div style="font-weight: 800; font-size: 0.9rem;">🎵 12s Matched Soundtrack Clip</div><div style="font-size: 0.76rem; color: var(--text-secondary);">Unlocks on Guess 5 to play the matched OST theme</div></div>
+            <span class="ac-row-badge">${state.ostUnlocked ? 'Active' : ostReady ? 'Play OST' : `Guess ${OST_UNLOCK_AT}`}</span>
+          </div>
+          ${opts.map(o => {
+            const used = usedIds.has(o.id), locked = !used && !subtleAllowed;
+            const badgeTxt = used ? 'Used' : locked ? (state.guesses.length < 2 ? 'Guess 3+' : '1/Guess') : 'Reveal';
+            return `<div class="hint-choice-row ${used || locked ? 'used' : ''}" data-cid="${o.id}">
+              <div><div style="font-weight: 800; font-size: 0.88rem;">${o.title}</div><div style="font-size: 0.76rem; color: var(--text-secondary);">${o.desc}</div></div>
+              <span class="ac-row-badge">${badgeTxt}</span>
+            </div>`;
+          }).join('')}
+        `;
+
+        document.getElementById('hintModalAiBtn')?.addEventListener('click', async () => {
+          const btn = document.getElementById('hintModalAiBtn');
+          if (btn.dataset.loading === '1') return;
+          btn.dataset.loading = '1';
+          document.getElementById('hintModalAiBadge').textContent = 'Searching...';
+          const aiClue = await GoogleSearchVerifier.generateGroundedClue(state.target, state.category);
+          btn.dataset.loading = '0';
+          document.getElementById('hintModalAiBadge').textContent = 'Ask AI';
+          if (aiClue) {
+            state.revealedHints.push({ id: `ai_${Date.now()}`, title: '✨ Google AI Clue', value: aiClue });
+            closeModal('modalHints'); renderAll(); showToast('✨ Google AI clue revealed!');
+          } else showToast('Could not fetch AI clue right now.');
+        });
+
+        const ostTrigger = document.getElementById('hintModalOstBtn');
+        if (ostTrigger && (ostReady || state.ostUnlocked)) {
+          ostTrigger.addEventListener('click', () => {
+            state.ostUnlocked = true;
+            closeModal('modalHints');
+            renderAll();
+            OstAudio.playMatchedOst(state.target, state.category);
+          });
+        }
+
+        listEl.querySelectorAll('.hint-choice-row[data-cid]:not(.used)').forEach(row => {
+          row.addEventListener('click', () => {
+            if (!canTriggerHint()) return;
+            const picked = opts.find(x => x.id === row.getAttribute('data-cid'));
+            if (!picked) return;
+            state.revealedHints.push(picked);
+            state.lastHintGuessCount = state.guesses.length;
+            closeModal('modalHints'); renderAll(); showToast('💡 Clue unlocked!');
+          });
+        });
+
+        openModal('modalHints');
+      });
+
+      document.getElementById('btnOstPlay').addEventListener('click', () => OstAudio.playMatchedOst(state.target, state.category));
+      document.getElementById('btnOstStop').addEventListener('click', () => OstAudio.stop());
+
+      // Give Up Yes/No Confirmation
+      document.getElementById('btnGiveUp').addEventListener('click', () => {
+        if (!state.gameOver && state.target) openModal('modalGiveUp');
+      });
+      document.getElementById('btnCancelGiveUpNo').addEventListener('click', () => closeModal('modalGiveUp'));
+      document.getElementById('btnConfirmGiveUpYes').addEventListener('click', () => {
+        closeModal('modalGiveUp');
+        if (!state.gameOver && state.target) finishRound(false, '🏳️ Round Conceded');
+      });
+
+      // Login & Scores
+      document.getElementById('btnOpenAccount').addEventListener('click', () => {
+        renderAuthModal();
+        openModal('modalAuth');
+      });
+
+      document.getElementById('btnAuthSubmit').addEventListener('click', () => {
+        const uname = document.getElementById('authUsernameInput').value.trim();
+        const pin = document.getElementById('authPinInput').value.trim();
+        if (!uname) { showToast('Enter a player name.'); return; }
+        const users = getSavedUsersMap();
+        if (users[uname]) {
+          if (users[uname].pin && users[uname].pin !== pin) { showToast('Incorrect PIN.'); return; }
+          state.activeUser = uname;
+          state.stats = { ...createEmptyStats(), ...(users[uname].stats || {}) };
+        } else {
+          users[uname] = { pin, stats: { ...state.stats } };
+          saveUsersMap(users);
+          state.activeUser = uname;
+        }
+        localStorage.setItem(STORAGE_KEYS.ACTIVE_USER, state.activeUser);
+        document.getElementById('authPinInput').value = '';
+        updateAccountNavUi();
+        renderAuthModal();
+        showToast(`👤 Signed in as ${state.activeUser}`);
+      });
+
+      document.getElementById('btnAuthLogout').addEventListener('click', () => {
+        state.activeUser = null;
+        localStorage.removeItem(STORAGE_KEYS.ACTIVE_USER);
+        const guestStats = JSON.parse(localStorage.getItem(STORAGE_KEYS.GUEST_STATS) || 'null');
+        state.stats = guestStats ? { ...createEmptyStats(), ...guestStats } : createEmptyStats();
+        updateAccountNavUi();
+        renderAuthModal();
+        showToast('Signed out.');
+      });
+
+      document.getElementById('btnResetUserScores').addEventListener('click', () => {
+        state.stats = createEmptyStats();
+        persistCurrentStats();
+        renderAuthModal();
+        showToast('Score cache cleared.');
+      });
+
+      // Timer
+      document.querySelectorAll('.preset-sec-btn').forEach(btn => btn.addEventListener('click', () => {
+        document.getElementById('customSecondsInput').value = btn.getAttribute('data-sec');
+        if (state.target && !state.gameOver) startTimer();
+      }));
+      document.getElementById('btnStartTimerRound').addEventListener('click', () => {
+        if (state.target && !state.gameOver) startTimer();
+      });
+
+      // Guide & Settings
+      document.getElementById('btnOpenGuideDrawer').addEventListener('click', () => { renderGuideAndStats(); document.getElementById('drawerBackdrop').classList.add('open'); });
+      document.getElementById('btnCloseGuideDrawer').addEventListener('click', () => document.getElementById('drawerBackdrop').classList.remove('open'));
+      document.getElementById('drawerBackdrop').addEventListener('click', e => { if (e.target.id === 'drawerBackdrop') e.target.classList.remove('open'); });
+
+      document.getElementById('btnOpenSettings').addEventListener('click', () => openModal('modalSettings'));
+      document.getElementById('btnViewRoundSummary').addEventListener('click', () => openSummaryModal());
+
+      document.querySelectorAll('[data-palette-opt]').forEach(btn => btn.addEventListener('click', () => { Prefs.palette = btn.getAttribute('data-palette-opt'); applyThemePrefs(); savePrefsCache(); }));
+      document.querySelectorAll('[data-accent-opt]').forEach(btn => btn.addEventListener('click', () => { Prefs.accent = btn.getAttribute('data-accent-opt'); applyThemePrefs(); savePrefsCache(); }));
+      document.querySelectorAll('[data-font-opt]').forEach(btn => btn.addEventListener('click', () => { Prefs.font = btn.getAttribute('data-font-opt'); applyThemePrefs(); savePrefsCache(); }));
+      document.getElementById('chkCinemaGlow').addEventListener('change', e => { Prefs.cinemaGlow = e.target.checked; applyThemePrefs(); savePrefsCache(); });
+
+      document.getElementById('btnSaveTmdbOverride').addEventListener('click', () => {
+        const val = document.getElementById('inputTmdbKeyOverride').value.trim();
+        if (val) { Prefs.tmdbKeyOverride = val; savePrefsCache(); document.getElementById('tmdbKeyStatusBadge').textContent = 'Custom Key Active'; showToast('Custom TMDB key saved.'); }
+      });
+      document.getElementById('btnResetTmdbOverride').addEventListener('click', () => {
+        Prefs.tmdbKeyOverride = ''; document.getElementById('inputTmdbKeyOverride').value = ''; savePrefsCache();
+        document.getElementById('tmdbKeyStatusBadge').textContent = 'Built-in Key Active'; showToast('Restored built-in TMDB key.');
+      });
+      document.getElementById('btnSaveGeminiOverride').addEventListener('click', () => {
+        const val = document.getElementById('inputGeminiKeyOverride').value.trim();
+        if (val) { Prefs.geminiKeyOverride = val; savePrefsCache(); document.getElementById('geminiKeyStatusBadge').textContent = 'Custom Key Active'; showToast('Custom Gemini key saved.'); }
+      });
+      document.getElementById('btnResetGeminiOverride').addEventListener('click', () => {
+        Prefs.geminiKeyOverride = ''; document.getElementById('inputGeminiKeyOverride').value = ''; savePrefsCache();
+        document.getElementById('geminiKeyStatusBadge').textContent = 'Built-in Workspace AI Active'; showToast('Restored built-in Workspace AI.');
+      });
+
+      // Summary
+      document.getElementById('btnSummaryNextRound').addEventListener('click', () => { closeModal('modalSummary'); startRandomLiveRound(); });
+      document.getElementById('btnSummarySetCustom').addEventListener('click', () => { closeModal('modalSummary'); resetToTargetSelection(); });
+      document.getElementById('btnShareResultGrid').addEventListener('click', () => {
+        const rows = state.guesses.map(g => (g.id === state.target.id || normalizeStr(g.title) === normalizeStr(state.target.title)) ? '🟩🟩🟩🟩🟩🟩' : '🟨⬛🟩⬛🟨⬛').join('\n');
+        const ta = document.createElement('textarea');
+        ta.value = `CineSpotle (${state.category.toUpperCase()}) — ${state.won ? `${state.guesses.length}/10` : 'X/10'}\n${rows}`;
+        document.body.appendChild(ta); ta.select(); document.execCommand('copy'); document.body.removeChild(ta);
+        showToast('📋 Result grid copied!');
+      });
+
+      document.querySelectorAll('[data-close]').forEach(btn => btn.addEventListener('click', () => closeModal(btn.getAttribute('data-close'))));
+      document.querySelectorAll('.modal-overlay').forEach(ov => ov.addEventListener('click', e => { if (e.target === ov) ov.classList.remove('open'); }));
+    }
+
+    /* ==========================================================================
+       INITIALIZATION
+       ========================================================================== */
+    window.addEventListener('DOMContentLoaded', async () => {
+      loadLocalCache();
+      applyThemePrefs();
+      bindEvents();
+
+      try {
+        const hash = window.location.hash || '';
+        if (hash.startsWith('#challenge=')) {
+          const decoded = JSON.parse(decodeURIComponent(escape(atob(hash.slice('#challenge='.length)))));
+          if (decoded?.c && decoded?.tmdbId) {
+            state.category = decoded.c;
+            state.playMode = 'challenge';
+            renderAll();
+            showToast('⚔️ Loading shared challenge...');
+            const resolved = await resolveSelectedEntity({
+              isRemote: true,
+              cat: decoded.c,
+              tmdbId: decoded.tmdbId,
+              mediaType: decoded.mediaType || (decoded.c === 'tv' ? 'tv' : 'movie'),
+              id: `tmdb_${decoded.c}_${decoded.tmdbId}`
+            });
+            if (resolved) {
+              lockMysteryTarget(resolved, '⚔️ Challenge loaded! Start guessing.');
+              return;
+            }
+          }
+        }
+      } catch (_) {}
+
+      resetToTargetSelection();
+    });
+  </script>
+</body>
+
+</html>
