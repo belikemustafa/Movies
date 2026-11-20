@@ -31,15 +31,16 @@
 
   <style>
     :root {
-      /* Default Theme: Midnight Slate */
-      --bg-base: #070911;
-      --bg-surface: rgba(16, 20, 34, 0.78);
-      --bg-surface-solid: #101422;
-      --bg-elevated: rgba(24, 30, 48, 0.85);
-      --bg-tile: #141929;
-      --bg-input: #0d111d;
-      --border-color: rgba(255, 255, 255, 0.09);
-      --border-strong: rgba(255, 255, 255, 0.16);
+      /* Default Theme: Neon High */
+      --bg-base: #05060f;
+      --bg-header: rgba(7, 9, 20, 0.72);
+      --bg-surface: rgba(14, 17, 34, 0.82);
+      --bg-surface-solid: #0d1021;
+      --bg-elevated: rgba(22, 27, 50, 0.88);
+      --bg-tile: #12172c;
+      --bg-input: #0a0d1b;
+      --border-color: rgba(255, 255, 255, 0.1);
+      --border-strong: rgba(255, 255, 255, 0.18);
       --text-primary: #f8fafc;
       --text-secondary: #94a3b8;
       --text-muted: #64748b;
@@ -85,11 +86,11 @@
       border-radius: 999px;
     }
     ::-webkit-scrollbar-thumb {
-      background: rgba(var(--accent-rgb), 0.42);
+      background: rgba(var(--accent-rgb), 0.5);
       border-radius: 999px;
     }
     ::-webkit-scrollbar-thumb:hover {
-      background: rgba(var(--accent-rgb), 0.72);
+      background: rgba(var(--accent-rgb), 0.85);
     }
 
     /* Ambient Top Spotlight Glow */
@@ -98,12 +99,12 @@
       top: -180px;
       left: 50%;
       transform: translateX(-50%);
-      width: 920px;
-      height: 520px;
+      width: 980px;
+      height: 540px;
       background: radial-gradient(
         ellipse at center,
-        rgba(var(--accent-rgb), 0.16) 0%,
-        rgba(var(--accent-rgb), 0.05) 45%,
+        rgba(var(--accent-rgb), 0.2) 0%,
+        rgba(var(--accent-rgb), 0.06) 45%,
         transparent 75%
       );
       pointer-events: none;
@@ -111,19 +112,28 @@
       transition: opacity 0.35s ease, background 0.35s ease;
     }
 
+    body.neon-high #ambient-spotlight {
+      background: radial-gradient(
+        ellipse at center,
+        rgba(var(--accent-rgb), 0.3) 0%,
+        rgba(var(--accent-rgb), 0.1) 42%,
+        transparent 74%
+      );
+    }
+
     /* Interactive Cursor Aura */
     #cursor-aura {
       position: fixed;
       top: 0;
       left: 0;
-      width: 480px;
-      height: 480px;
+      width: 500px;
+      height: 500px;
       border-radius: 9999px;
       pointer-events: none;
       z-index: 2;
       background: radial-gradient(
         circle,
-        rgba(var(--accent-rgb), 0.13) 0%,
+        rgba(var(--accent-rgb), 0.16) 0%,
         rgba(var(--accent-rgb), 0) 68%
       );
       transform: translate3d(-50%, -50%, 0);
@@ -132,19 +142,51 @@
       will-change: transform;
     }
 
+    body.neon-high #cursor-aura {
+      background: radial-gradient(
+        circle,
+        rgba(var(--accent-rgb), 0.24) 0%,
+        rgba(var(--accent-rgb), 0.07) 36%,
+        rgba(var(--accent-rgb), 0) 70%
+      );
+    }
+
     /* Glass Panels & Tiles */
     .glass-panel {
       background: var(--bg-surface);
-      backdrop-filter: blur(18px);
-      -webkit-backdrop-filter: blur(18px);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
       border: 1px solid var(--border-color);
-      box-shadow: 0 20px 50px -15px rgba(0, 0, 0, 0.55);
+      box-shadow: 0 20px 50px -15px rgba(0, 0, 0, 0.58);
+      transition: border-color 0.25s ease, box-shadow 0.25s ease, transform 0.25s ease;
+    }
+
+    body.neon-high .glass-panel {
+      box-shadow:
+        0 20px 50px -15px rgba(0, 0, 0, 0.72),
+        0 0 28px -12px rgba(var(--accent-rgb), 0.28),
+        inset 0 1px 0 rgba(255, 255, 255, 0.08);
+    }
+
+    body.neon-high .neon-card-latest {
+      border-color: rgba(var(--accent-rgb), 0.65) !important;
+      box-shadow:
+        0 22px 54px -14px rgba(0, 0, 0, 0.78),
+        0 0 34px -8px rgba(var(--accent-rgb), 0.42),
+        inset 0 1px 0 rgba(var(--accent-rgb), 0.32);
+    }
+
+    body.neon-high .neon-search-box:focus-within {
+      border-color: rgba(var(--accent-rgb), 0.88) !important;
+      box-shadow:
+        0 0 0 2px rgba(var(--accent-rgb), 0.32),
+        0 0 28px -4px rgba(var(--accent-rgb), 0.5) !important;
     }
 
     .stat-tile {
       background: var(--bg-tile);
       border: 1px solid var(--border-color);
-      transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1), border-color 0.25s ease, background-color 0.25s ease;
+      transition: transform 0.24s cubic-bezier(0.22, 1, 0.36, 1), border-color 0.24s ease, box-shadow 0.24s ease, background-color 0.24s ease;
     }
 
     .stat-tile:hover {
@@ -152,23 +194,50 @@
       border-color: var(--border-strong);
     }
 
-    /* Match Feedback States */
+    body.neon-high .stat-tile:hover {
+      border-color: rgba(var(--accent-rgb), 0.5);
+      box-shadow: 0 0 18px -6px rgba(var(--accent-rgb), 0.4);
+    }
+
+    /* Match Feedback States (Crisp Neon High Glows) */
     .tile-match {
-      background: linear-gradient(145deg, rgba(16, 185, 129, 0.24), rgba(5, 150, 105, 0.16)) !important;
-      border-color: rgba(52, 211, 153, 0.58) !important;
+      background: linear-gradient(145deg, rgba(16, 185, 129, 0.26), rgba(5, 150, 105, 0.16)) !important;
+      border-color: rgba(52, 211, 153, 0.68) !important;
       color: #ecfdf5 !important;
     }
 
+    body.neon-high .tile-match {
+      background: linear-gradient(145deg, rgba(16, 185, 129, 0.34), rgba(4, 120, 87, 0.2)) !important;
+      border-color: #34d399 !important;
+      box-shadow:
+        0 0 20px -4px rgba(16, 185, 129, 0.55),
+        inset 0 0 14px rgba(52, 211, 153, 0.2) !important;
+      text-shadow: 0 0 10px rgba(52, 211, 153, 0.5);
+    }
+
     .tile-close {
-      background: linear-gradient(145deg, rgba(245, 158, 11, 0.24), rgba(217, 119, 6, 0.15)) !important;
-      border-color: rgba(251, 191, 36, 0.58) !important;
+      background: linear-gradient(145deg, rgba(245, 158, 11, 0.26), rgba(217, 119, 6, 0.15)) !important;
+      border-color: rgba(251, 191, 36, 0.68) !important;
       color: #fffbeb !important;
+    }
+
+    body.neon-high .tile-close {
+      background: linear-gradient(145deg, rgba(245, 158, 11, 0.34), rgba(180, 83, 9, 0.2)) !important;
+      border-color: #fbbf24 !important;
+      box-shadow:
+        0 0 20px -4px rgba(245, 158, 11, 0.55),
+        inset 0 0 14px rgba(251, 191, 36, 0.2) !important;
+      text-shadow: 0 0 10px rgba(251, 191, 36, 0.5);
     }
 
     .genre-pill-match {
       background: rgba(16, 185, 129, 0.22);
-      border-color: rgba(52, 211, 153, 0.55);
+      border-color: rgba(52, 211, 153, 0.6);
       color: #6ee7b7;
+    }
+
+    body.neon-high .genre-pill-match {
+      box-shadow: 0 0 14px -3px rgba(52, 211, 153, 0.55);
     }
 
     .genre-pill-miss {
@@ -182,18 +251,37 @@
       color: var(--accent-hex);
     }
 
+    body.neon-high .neon-text-glow {
+      text-shadow: 0 0 16px rgba(var(--accent-rgb), 0.72), 0 0 32px rgba(var(--accent-rgb), 0.32);
+    }
+
     .accent-bg {
       background-color: var(--accent-hex);
       color: var(--accent-contrast);
+      transition: box-shadow 0.2s ease, transform 0.2s ease;
+    }
+
+    body.neon-high .accent-bg {
+      box-shadow: 0 0 20px -3px rgba(var(--accent-rgb), 0.72);
+    }
+
+    body.neon-high .accent-bg:hover {
+      box-shadow: 0 0 28px -2px rgba(var(--accent-rgb), 0.9);
     }
 
     .accent-soft-bg {
       background-color: rgba(var(--accent-rgb), 0.14);
-      border-color: rgba(var(--accent-rgb), 0.42);
+      border-color: rgba(var(--accent-rgb), 0.45);
       color: var(--accent-hex);
     }
 
-    /* Card Entrance Animation */
+    body.neon-high .accent-soft-bg {
+      background-color: rgba(var(--accent-rgb), 0.18);
+      border-color: rgba(var(--accent-rgb), 0.68);
+      box-shadow: 0 0 14px -4px rgba(var(--accent-rgb), 0.45);
+    }
+
+    /* Card Entrance & Neon Pulse Animations */
     @keyframes cardPopIn {
       from {
         opacity: 0;
@@ -205,8 +293,21 @@
       }
     }
 
+    @keyframes neonPulseSeg {
+      0%, 100% {
+        box-shadow: 0 0 8px rgba(var(--accent-rgb), 0.75);
+      }
+      50% {
+        box-shadow: 0 0 16px rgba(var(--accent-rgb), 1);
+      }
+    }
+
     .animate-card-in {
       animation: cardPopIn 0.35s cubic-bezier(0.22, 1, 0.36, 1) both;
+    }
+
+    body.neon-high .neon-seg-active {
+      animation: neonPulseSeg 2s ease-in-out infinite;
     }
 
     /* Drawer & Modal Transitions */
@@ -260,6 +361,34 @@
     .cool-dropdown-trigger[aria-expanded='true'] .cool-dropdown-chevron {
       transform: rotate(180deg);
     }
+
+    /* Precision-Aligned Attribute Tile Grid:
+       Mobile (<640px): 2 columns (Row 1: Year | Box Office, Row 2: Rated | [IMDb|LB], Row 3: Primary Studio full-width)
+       Desktop (>=640px): 3 columns x 2 rows (Col 1: Year/Rated, Col 2: Box Office/[IMDb|LB], Col 3: Primary Studio spanning both rows) */
+    .attribute-tiles-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 0.5rem;
+    }
+
+    .studio-tile-span {
+      grid-column: span 2 / span 2;
+      min-height: 76px;
+    }
+
+    @media (min-width: 640px) {
+      .attribute-tiles-grid {
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1.28fr) minmax(0, 1fr);
+        grid-template-rows: repeat(2, 76px);
+        gap: 0.625rem;
+      }
+
+      .studio-tile-span {
+        grid-column: 3 / 4;
+        grid-row: 1 / 3;
+        height: 100%;
+      }
+    }
   </style>
 </head>
 <body class="relative min-h-screen flex flex-col justify-between selection:bg-amber-400/30">
@@ -277,7 +406,7 @@
   <!-- =========================================================================
        TOP APPLICATION HEADER
        ========================================================================= -->
-  <header class="relative z-20 w-full border-b" style="border-color: var(--border-color); background: rgba(7, 9, 17, 0.55); backdrop-filter: blur(14px);">
+  <header class="relative z-20 w-full border-b transition-colors" style="border-color: var(--border-color); background: var(--bg-header); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);">
     <div class="max-w-5xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between gap-3">
       <!-- Left: Navigation Drawer Trigger & Brand -->
       <div class="flex items-center gap-3">
@@ -297,8 +426,7 @@
 
         <button id="brand-home-btn" type="button" class="flex items-center gap-2.5 text-left cursor-pointer group">
           <div
-            class="w-9 h-9 rounded-xl border flex items-center justify-center transition-transform group-hover:scale-105"
-            style="border-color: rgba(var(--accent-rgb), 0.45); background: rgba(var(--accent-rgb), 0.14);"
+            class="w-9 h-9 rounded-xl border flex items-center justify-center transition-transform group-hover:scale-105 accent-soft-bg"
           >
             <svg class="w-5 h-5 accent-text" viewBox="0 0 28 28" fill="none">
               <circle cx="14" cy="14" r="10.5" stroke="currentColor" stroke-width="1.8" />
@@ -308,7 +436,7 @@
           </div>
           <div>
             <div class="font-display text-lg sm:text-xl font-extrabold tracking-tight leading-none">
-              Cine<span class="accent-text">Spotle</span>
+              Cine<span class="accent-text neon-text-glow">Spotle</span>
             </div>
             <div id="mode-subtitle" class="text-[11px] font-medium mt-0.5" style="color: var(--text-secondary);">
               Daily Mystery #142
@@ -323,11 +451,21 @@
           id="practice-random-btn"
           type="button"
           title="Load a fresh random mystery title"
-          class="hidden sm:inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl border text-xs font-semibold transition-all hover:scale-[1.02] active:scale-95 cursor-pointer"
+          class="inline-flex items-center gap-1.5 px-3 sm:px-3.5 py-2 rounded-xl border text-xs font-semibold transition-all hover:scale-[1.03] active:scale-95 cursor-pointer"
           style="border-color: var(--border-strong); background: var(--bg-elevated);"
         >
           <span class="accent-text">🎲</span>
-          <span>New Mystery</span>
+          <span class="hidden sm:inline">New Mystery</span>
+        </button>
+
+        <button
+          id="toggle-neon-header-btn"
+          type="button"
+          aria-label="Toggle Neon High Glow"
+          title="Toggle Neon High Mode"
+          class="w-10 h-10 rounded-xl border flex items-center justify-center text-sm font-bold transition-all hover:scale-105 active:scale-95 cursor-pointer accent-soft-bg"
+        >
+          ⚡
         </button>
 
         <button
@@ -361,7 +499,7 @@
   <!-- =========================================================================
        MAIN GAMEPLAY STAGE
        ========================================================================= -->
-  <main class="relative z-10 flex-1 w-full max-w-3xl mx-auto px-4 sm:px-6 py-5 sm:py-6 flex flex-col gap-3.5">
+  <main class="relative z-10 flex-1 w-full max-w-[820px] mx-auto px-4 sm:px-6 py-5 sm:py-6 flex flex-col gap-3.5">
 
     <!-- Cool Glassmorphic Dropdown Menus: Format & Industry -->
     <section aria-label="Filters" class="relative z-30 flex flex-wrap items-center justify-center gap-2.5 sm:gap-3">
@@ -498,7 +636,7 @@
 
       <!-- Center: Guess X of 10 -->
       <div class="font-display text-sm sm:text-base font-bold tracking-tight">
-        Guess <span id="guess-counter-num" class="accent-text font-extrabold">1</span> of 10
+        Guess <span id="guess-counter-num" class="accent-text neon-text-glow font-extrabold">1</span> of 10
       </div>
 
       <!-- Right: Give up Pill -->
@@ -547,7 +685,7 @@
          ========================================================================= -->
     <section aria-label="Search Title" class="relative z-20">
       <div
-        class="relative flex items-center rounded-2xl border transition-all focus-within:ring-2"
+        class="neon-search-box relative flex items-center rounded-2xl border transition-all focus-within:ring-2"
         style="background: var(--bg-input); border-color: var(--border-strong); --tw-ring-color: rgba(var(--accent-rgb), 0.45);"
       >
         <input
@@ -556,7 +694,7 @@
           autocomplete="off"
           spellcheck="false"
           placeholder="Search for a movie, TV series, or anime to guess..."
-          class="w-full bg-transparent pl-5 pr-12 py-3.5 sm:py-4 text-sm sm:text-base font-medium placeholder:text-slate-500 focus:outline-none"
+          class="w-full bg-transparent pl-5 pr-12 py-3.5 sm:py-4 text-sm sm:text-base font-medium placeholder:text-slate-500 focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed"
         />
 
         <!-- Loading Spinner / Search Icon -->
@@ -854,7 +992,7 @@
 
         <div>
           <h3 class="text-xs font-bold uppercase tracking-wider mb-3 accent-text">
-            COLOR THEME (MIDNIGHT SLATE DEFAULT)
+            COLOR THEME (NEON HIGH &amp; MIDNIGHT SLATE)
           </h3>
           <div id="theme-options-grid" class="grid grid-cols-1 sm:grid-cols-2 gap-2.5"></div>
         </div>
@@ -874,6 +1012,17 @@
         </div>
 
         <div class="flex flex-col gap-2.5">
+          <label class="flex items-center justify-between p-4 rounded-2xl border cursor-pointer" style="border-color: rgba(var(--accent-rgb), 0.4); background: rgba(var(--accent-rgb), 0.08);">
+            <div>
+              <div class="text-xs sm:text-sm font-bold uppercase tracking-wide flex items-center gap-1.5">
+                <span class="accent-text">⚡</span>
+                <span>NEON HIGH GLOW OVERDRIVE</span>
+              </div>
+              <div class="text-xs mt-0.5" style="color: var(--text-secondary);">High-contrast neon rim lighting, luminous match tiles &amp; glowing focus halos</div>
+            </div>
+            <input id="toggle-neon-high" type="checkbox" checked class="w-5 h-5 rounded accent-amber-400 cursor-pointer" />
+          </label>
+
           <label class="flex items-center justify-between p-4 rounded-2xl border cursor-pointer" style="border-color: var(--border-color); background: var(--bg-elevated);">
             <div>
               <div class="text-xs sm:text-sm font-bold uppercase tracking-wide">AMBIENT SPOTLIGHT GLOW</div>
@@ -1025,9 +1174,9 @@
       </div>
       <div class="flex-1 overflow-y-auto p-6 flex flex-col gap-3.5 text-xs sm:text-sm leading-relaxed" style="color: var(--text-secondary);">
         <p><strong style="color: var(--text-primary);">1. Guess in 10 Tries:</strong> Use the Format and Industry dropdowns to filter, then search any movie, TV series, or anime powered by TMDB and Google AI Search.</p>
-        <p><strong style="color: var(--text-primary);">2. Read the Attribute Card:</strong> Every guess reveals a full comparison card with <strong>Year</strong>, <strong>Box Office</strong>, <strong>Studio</strong>, <strong>Rated</strong>, <strong>IMDb</strong>, <strong>Letterboxd</strong>, <strong>Director</strong>, <strong>Lead Actor</strong>, and <strong>Supporting Cast</strong>. Scroll down anytime to inspect all your previous guesses.</p>
-        <p><strong style="color: var(--text-primary);">3. Colour &amp; Arrow Clues:</strong> <span class="text-emerald-400 font-semibold">Emerald Green</span> means an exact match. <span class="text-amber-400 font-semibold">Amber Gold</span> means close (within 3 years, 0.5 rating, or 25% box office). Arrows (<code class="px-1 rounded bg-white/10">↑</code> / <code class="px-1 rounded bg-white/10">↓</code>) show whether the secret target is higher or lower.</p>
-        <p><strong style="color: var(--text-primary);">4. Unlock Hints After 5 Tries:</strong> Once you reach your 5th guess, <strong>Hints (0/3)</strong> unlocks at the top-left with 3 progressive clues.</p>
+        <p><strong style="color: var(--text-primary);">2. Read the Attribute Card:</strong> Every guess reveals a full comparison card with <strong>Year</strong>, <strong>Box Office</strong>, <strong>Primary Studio</strong>, <strong>Rated</strong>, side-by-side <strong>IMDb</strong> &amp; <strong>Letterboxd</strong>, <strong>Director</strong>, <strong>Producer</strong>, <strong>Lead Actor</strong>, and <strong>Supporting Cast</strong>. Scroll down anytime to inspect previous guesses.</p>
+        <p><strong style="color: var(--text-primary);">3. Neon Colour &amp; Role Clues:</strong> <span class="text-emerald-400 font-semibold">Neon Emerald</span> means an exact match. <span class="text-amber-400 font-semibold">Neon Amber</span> means close (within 3 years, 0.5 IMDb, 0.3 Letterboxd, 30% box office) — or a <strong>cross-role cast match</strong> (your guessed Lead is in the answer's Supporting Cast, or vice versa). Arrows (<code class="px-1 rounded bg-white/10">↑</code> / <code class="px-1 rounded bg-white/10">↓</code>) show higher or lower.</p>
+        <p><strong style="color: var(--text-primary);">4. Choose 3 of 5 Hints After 5 Tries:</strong> After 5 guesses, <strong>Hints (0/3)</strong> unlocks with 5 selectable categories: Tagline/Quote, Lead Actor's Other Works, Director's Other Works, 3–5 Word Essence, and Production Company &amp; Distributor.</p>
       </div>
     </div>
   </div>
@@ -1050,12 +1199,33 @@
 
       const THEMES = [
         {
+          id: 'neon-high',
+          name: 'Neon High',
+          desc: 'Electric obsidian & luminous rim glow',
+          swatch: '#05060f',
+          vars: {
+            '--bg-base': '#05060f',
+            '--bg-header': 'rgba(7, 9, 20, 0.72)',
+            '--bg-surface': 'rgba(14, 17, 34, 0.82)',
+            '--bg-surface-solid': '#0d1021',
+            '--bg-elevated': 'rgba(22, 27, 50, 0.88)',
+            '--bg-tile': '#12172c',
+            '--bg-input': '#0a0d1b',
+            '--border-color': 'rgba(255, 255, 255, 0.1)',
+            '--border-strong': 'rgba(255, 255, 255, 0.19)',
+            '--text-primary': '#f8fafc',
+            '--text-secondary': '#94a3b8',
+            '--text-muted': '#64748b'
+          }
+        },
+        {
           id: 'midnight-slate',
           name: 'Midnight Slate',
-          desc: 'Default studio dark',
+          desc: 'Classic studio dark',
           swatch: '#0b0e18',
           vars: {
             '--bg-base': '#070911',
+            '--bg-header': 'rgba(7, 9, 17, 0.65)',
             '--bg-surface': 'rgba(16, 20, 34, 0.78)',
             '--bg-surface-solid': '#101422',
             '--bg-elevated': 'rgba(24, 30, 48, 0.85)',
@@ -1075,6 +1245,7 @@
           swatch: '#000000',
           vars: {
             '--bg-base': '#000000',
+            '--bg-header': 'rgba(0, 0, 0, 0.75)',
             '--bg-surface': 'rgba(12, 12, 14, 0.86)',
             '--bg-surface-solid': '#0a0a0c',
             '--bg-elevated': 'rgba(20, 20, 24, 0.9)',
@@ -1094,6 +1265,7 @@
           swatch: '#121316',
           vars: {
             '--bg-base': '#0e0f12',
+            '--bg-header': 'rgba(14, 15, 18, 0.72)',
             '--bg-surface': 'rgba(24, 26, 31, 0.82)',
             '--bg-surface-solid': '#17191e',
             '--bg-elevated': 'rgba(33, 36, 43, 0.88)',
@@ -1113,6 +1285,7 @@
           swatch: '#0a0918',
           vars: {
             '--bg-base': '#080714',
+            '--bg-header': 'rgba(8, 7, 20, 0.72)',
             '--bg-surface': 'rgba(18, 16, 40, 0.8)',
             '--bg-surface-solid': '#121028',
             '--bg-elevated': 'rgba(28, 25, 58, 0.86)',
@@ -1132,6 +1305,7 @@
           swatch: '#160d14',
           vars: {
             '--bg-base': '#110a0f',
+            '--bg-header': 'rgba(17, 10, 15, 0.74)',
             '--bg-surface': 'rgba(29, 17, 26, 0.82)',
             '--bg-surface-solid': '#1c1019',
             '--bg-elevated': 'rgba(42, 24, 37, 0.88)',
@@ -1151,6 +1325,7 @@
           swatch: '#f5f2eb',
           vars: {
             '--bg-base': '#f5f2eb',
+            '--bg-header': 'rgba(245, 242, 235, 0.84)',
             '--bg-surface': 'rgba(255, 253, 249, 0.88)',
             '--bg-surface-solid': '#fffdf9',
             '--bg-elevated': 'rgba(244, 239, 230, 0.92)',
@@ -1224,9 +1399,10 @@
       const state = {
         prefs: Object.assign(
           {
-            themeId: 'midnight-slate',
+            themeId: 'neon-high',
             accentId: 'royal-gold',
             fontId: 'modern-portal',
+            neonHigh: true,
             spotlight: true,
             cursorAura: true,
             dataSource: 'both',
@@ -1238,6 +1414,7 @@
           { played: 0, won: 0, streak: 0, maxStreak: 0 },
           saved.stats || {}
         ),
+        roundToken: 0,
         mode: 'daily',
         dayNumber: 142,
         filter: 'All',
@@ -1292,6 +1469,15 @@
         const parts = String(name).trim().split(/\s+/).filter(Boolean);
         if (parts.length === 1) return parts[0].slice(0, 2).toUpperCase();
         return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
+      }
+
+      function escapeHtml(value) {
+        return String(value == null ? '' : value)
+          .replace(/&/g, '&amp;')
+          .replace(/</g, '&lt;')
+          .replace(/>/g, '&gt;')
+          .replace(/"/g, '&quot;')
+          .replace(/'/g, '&#39;');
       }
 
       function formatShortPersonName(name) {
@@ -1375,13 +1561,14 @@
       // =========================================================================
       const tmdbRawDetailCache = new Map();
       const profileCache = new Map();
+      const aiEnrichmentPromises = new Map();
       const liveSearchCache = new Map();
       const usedMysteryIds = new Set();
       const personCreditsCache = new Map();
 
-      async function fetchPersonTopOtherWorks(personId, excludeTmdbId) {
+      async function fetchPersonTopOtherWorks(personId, excludeTmdbId, roleType = 'cast') {
         if (!personId) return [];
-        const cacheKey = `${personId}-${excludeTmdbId || ''}`;
+        const cacheKey = `${roleType}-${personId}-${excludeTmdbId || ''}`;
         if (personCreditsCache.has(cacheKey)) return personCreditsCache.get(cacheKey);
         try {
           const apiKey = getActiveTmdbKey();
@@ -1390,7 +1577,10 @@
           );
           if (!res.ok) return [];
           const data = await res.json();
-          const pool = [...(data.cast || []), ...(data.crew || []).filter((c) => c.job === 'Director')];
+          const pool =
+            roleType === 'director'
+              ? (data.crew || []).filter((c) => c.job === 'Director')
+              : data.cast || [];
           const seen = new Set();
           const titles = [];
           pool
@@ -1513,29 +1703,30 @@
         }
       }
 
-      // Cross-check & enrich TMDB metadata with Google AI Search (IMDb, Letterboxd, Box Office, Primary Studio, Production & Distributor, Producer, 5 Hints)
+      // Cross-check & enrich TMDB metadata with Google AI Search (Primary Studio, IMDb, Letterboxd, Box Office, Production & Distributor, Producer, 5 Hints)
       async function crossCheckWithGoogleAI(baseProfile) {
-        const prompt = `Cross-check real-world cinema facts for "${baseProfile.title}" (${baseProfile.year}, ${baseProfile.mediaType}, ${baseProfile.industry}).
+        const prompt = `Use Google Search to verify the real-world cinema facts for "${baseProfile.title}" (${baseProfile.year}, ${baseProfile.mediaType}, ${baseProfile.industry}).
+IMPORTANT for "primaryStudio": Return the single most recognized flagship primary studio or network behind this title (for example: "Warner Bros. Pictures", "Marvel Studios", "Universal Pictures", "Paramount Pictures", "Walt Disney Pictures", "20th Century Studios", "Columbia Pictures", "A24", "Pixar", "Studio Ghibli", "MAPPA", "Hombale Films", "Yash Raj Films", "Dharma Productions", "Netflix", "HBO"). Do NOT return minor co-producers, holding shells, or tax-credit entities.
 Return ONLY valid JSON:
 {
+  "primaryStudio": "Flagship Primary Studio Name",
   "imdbRating": 8.2,
   "letterboxdRating": 3.9,
-  "boxOffice": "${baseProfile.boxOffice}",
-  "boxOfficeMillions": ${baseProfile.boxOfficeMillions !== null ? baseProfile.boxOfficeMillions : 'null'},
-  "primaryStudio": "${baseProfile.studio}",
-  "productionCompanies": ${JSON.stringify(baseProfile.productionCompanies || [baseProfile.studio])},
-  "distributor": "${baseProfile.distributor}",
-  "producer": "${baseProfile.producer?.name || ''}",
-  "rated": "${baseProfile.rated}",
+  "boxOffice": "$120.5M or N/A",
+  "boxOfficeMillions": 120.5,
+  "productionCompanies": ["Production Company 1", "Production Company 2"],
+  "distributor": "Official Distributor Name",
+  "producer": "Lead Producer Name",
+  "rated": "PG-13",
   "taglineQuote": "Official tagline or famous quote from this title",
   "leadOtherWorks": ["Other Movie 1", "Other Movie 2", "Other Movie 3"],
   "directorOtherWorks": ["Directed Work 1", "Directed Work 2"],
   "fiveWords": ["Word1", "Word2", "Word3", "Word4"]
 }`;
-        const ai = await callGeminiGroundedWithTimeout(prompt, 4800);
-        if (!ai || typeof ai !== 'object') return baseProfile;
+        const ai = await callGeminiGroundedWithTimeout(prompt, 7000);
+        const updated = Object.assign({}, baseProfile, { aiVerified: true });
+        if (!ai || typeof ai !== 'object') return updated;
 
-        const updated = Object.assign({}, baseProfile);
         if (typeof ai.imdbRating === 'number' && ai.imdbRating > 0 && ai.imdbRating <= 10) {
           updated.imdbRating = Number(ai.imdbRating.toFixed(1));
         }
@@ -1548,8 +1739,18 @@ Return ONLY valid JSON:
         if (typeof ai.boxOfficeMillions === 'number' && ai.boxOfficeMillions > 0) {
           updated.boxOfficeMillions = ai.boxOfficeMillions;
         }
-        if (typeof ai.primaryStudio === 'string' && ai.primaryStudio.trim()) {
-          updated.studio = ai.primaryStudio.trim();
+        if (typeof ai.primaryStudio === 'string' && ai.primaryStudio.trim() && ai.primaryStudio.toLowerCase() !== 'unknown') {
+          const aiStudio = ai.primaryStudio.trim();
+          const aiStudioLower = aiStudio.toLowerCase();
+          updated.studio = aiStudio;
+
+          // Match Google AI's Primary Studio against TMDB's company/network list to pick the exact logo (or clear mismatched logo)
+          const rawCompanies = Array.isArray(updated.rawCompanies) ? updated.rawCompanies : [];
+          const matchedCompany = rawCompanies.find((c) => {
+            const cLower = (c.name || '').toLowerCase();
+            return cLower && (cLower === aiStudioLower || cLower.includes(aiStudioLower) || aiStudioLower.includes(cLower));
+          });
+          updated.studioLogoUrl = matchedCompany?.logoUrl || '';
         }
         if (Array.isArray(ai.productionCompanies) && ai.productionCompanies.length) {
           updated.productionCompanies = ai.productionCompanies.map(String);
@@ -1614,7 +1815,16 @@ Return ONLY valid JSON:
 
         const companies = detail.production_companies || [];
         const networks = detail.networks || [];
-        const primaryCompany = isTv ? networks[0] || companies[0] || {} : companies[0] || {};
+        const rawCompanies = [...networks, ...companies]
+          .filter((c) => c && c.name)
+          .map((c) => ({
+            name: c.name,
+            logoUrl: c.logo_path ? `${TMDB_IMAGE_BASE}/w185${c.logo_path}` : ''
+          }));
+
+        const primaryCompany = isTv
+          ? networks[0] || companies.find((c) => c.logo_path) || companies[0] || {}
+          : companies.find((c) => c.logo_path) || companies[0] || {};
         const studioName = primaryCompany.name || 'Independent';
         const studioLogoUrl = primaryCompany.logo_path ? `${TMDB_IMAGE_BASE}/w185${primaryCompany.logo_path}` : '';
 
@@ -1640,7 +1850,11 @@ Return ONLY valid JSON:
 
         const castList = detail.credits?.cast || [];
         const leadObj = castList[0] || null;
-        const supportingObjs = castList.slice(1, 5);
+        const leadNameNorm = (leadObj?.name || '').toLowerCase().trim();
+        const supportingObjs = castList
+          .slice(1)
+          .filter((p) => p && p.name && p.name.toLowerCase().trim() !== leadNameNorm)
+          .slice(0, 4);
 
         const tmdbVote = Number(detail.vote_average) || 7.2;
         const estimatedLetterboxd = Number(Math.min(4.8, Math.max(2.0, tmdbVote / 2)).toFixed(1));
@@ -1674,6 +1888,8 @@ Return ONLY valid JSON:
           boxOfficeMillions: bo.millions,
           studio: studioName,
           studioLogoUrl,
+          rawCompanies,
+          aiVerified: false,
           productionCompanies: productionCompanies.length ? productionCompanies : [studioName],
           distributor: distributorName,
           posterUrl,
@@ -1779,6 +1995,8 @@ Return ONLY valid JSON:
           boxOfficeMillions: typeof ai.boxOfficeMillions === 'number' ? ai.boxOfficeMillions : null,
           studio: primaryStudioName,
           studioLogoUrl: '',
+          rawCompanies: [],
+          aiVerified: true,
           productionCompanies: prodList,
           distributor: ai.distributor || primaryStudioName,
           posterUrl,
@@ -1800,7 +2018,7 @@ Return ONLY valid JSON:
         };
       }
 
-      // Fast Profile Resolution + Optional Non-Blocking Google AI Cross-Check
+      // Fast Profile Resolution + Reliable Google AI Cross-Check for Primary Studio & Ratings
       async function resolveFastProfile(candidate, onEnrichedCallback = null) {
         const sourceMode = state.prefs.dataSource || 'both';
         const cacheKey = `${sourceMode}|${
@@ -1810,7 +2028,14 @@ Return ONLY valid JSON:
         }`;
 
         if (profileCache.has(cacheKey)) {
-          return profileCache.get(cacheKey);
+          const cached = profileCache.get(cacheKey);
+          // If Google AI enrichment is still in flight for this cached entry, attach the callback
+          if (sourceMode === 'both' && !cached.aiVerified && aiEnrichmentPromises.has(cacheKey) && typeof onEnrichedCallback === 'function') {
+            aiEnrichmentPromises.get(cacheKey).then((enriched) => {
+              if (enriched) onEnrichedCallback(enriched);
+            }).catch(() => {});
+          }
+          return cached;
         }
 
         // Mode 1: Google AI Search Only
@@ -1849,16 +2074,25 @@ Return ONLY valid JSON:
         const tmdbDetail = await fetchTMDBFullDetail(tmdbId, tmdbEndpoint);
         profileCache.set(cacheKey, tmdbDetail);
 
-        // If 'both', run Google AI Cross-Check asynchronously so UI never blocks!
+        // If 'both', run Google AI Search to verify Primary Studio, IMDb, Letterboxd & Hints
         if (sourceMode === 'both') {
-          crossCheckWithGoogleAI(tmdbDetail)
+          const enrichPromise = crossCheckWithGoogleAI(tmdbDetail)
             .then((enriched) => {
               profileCache.set(cacheKey, enriched);
-              if (typeof onEnrichedCallback === 'function') {
-                onEnrichedCallback(enriched);
-              }
+              aiEnrichmentPromises.delete(cacheKey);
+              return enriched;
             })
-            .catch(() => {});
+            .catch(() => {
+              aiEnrichmentPromises.delete(cacheKey);
+              return tmdbDetail;
+            });
+
+          aiEnrichmentPromises.set(cacheKey, enrichPromise);
+          enrichPromise.then((enriched) => {
+            if (typeof onEnrichedCallback === 'function' && enriched) {
+              onEnrichedCallback(enriched);
+            }
+          });
         }
 
         return tmdbDetail;
@@ -1995,23 +2229,29 @@ Return ONLY valid JSON:
           }
         }
 
-        const sliced = results.slice(0, 8);
-        liveSearchCache.set(searchCacheKey, sliced);
+        const finalResults = results.slice(0, 7);
+        liveSearchCache.set(searchCacheKey, finalResults);
 
-        // Prefetch top 3 TMDB details in the background so clicking any item renders in 0ms!
-        sliced.slice(0, 3).forEach((hit) => {
-          if (hit.tmdbId) {
-            fetchTMDBFullDetail(hit.tmdbId, hit.tmdbEndpoint).catch(() => {});
+        // Background prefetch top 2 TMDB results for instant click selection
+        finalResults.slice(0, 2).forEach((item) => {
+          if (item.tmdbId && item.tmdbEndpoint) {
+            fetchTMDBFullDetail(item.tmdbId, item.tmdbEndpoint).catch(() => {});
           }
         });
 
-        return sliced;
+        return finalResults;
       }
 
-      // Build TMDB Discover Query for Mystery Target
-      function buildDiscoverParams(formatFilter, industryFilter, pageNum) {
+      // Build TMDB Discover Query for Mystery Target (Always uses valid single ISO codes)
+      function buildDiscoverParams(formatFilter, industryFilter, pageNum, seedNumber = 142, isRandom = false) {
         const apiKey = getActiveTmdbKey();
-        const isTv = formatFilter === 'TV Series' || formatFilter === 'Anime';
+        let effectiveFormat = formatFilter;
+        if (formatFilter === 'All') {
+          const roll = isRandom ? Math.random() : (seedNumber % 10) / 10;
+          effectiveFormat = roll < 0.7 ? 'Movie' : roll < 0.9 ? 'TV Series' : 'Anime';
+        }
+
+        const isTv = effectiveFormat === 'TV Series' || effectiveFormat === 'Anime';
         const endpoint = isTv ? 'discover/tv' : 'discover/movie';
         const params = new URLSearchParams({
           api_key: apiKey,
@@ -2020,7 +2260,7 @@ Return ONLY valid JSON:
           page: String(pageNum)
         });
 
-        if (formatFilter === 'Anime') {
+        if (effectiveFormat === 'Anime') {
           params.set('with_original_language', 'ja');
           params.set('with_genres', '16');
           params.set('vote_count.gte', '80');
@@ -2049,13 +2289,18 @@ Return ONLY valid JSON:
             params.set('vote_count.gte', '20');
             break;
           case 'Pan India':
-            params.set('with_original_language', 'hi|kn|ta|te|ml');
-            params.set('vote_count.gte', '35');
+            params.set('with_origin_country', 'IN');
+            params.set('vote_count.gte', isTv ? '15' : '40');
             break;
-          case 'Rest of the World':
-            params.set('with_original_language', 'ko|ja|fr|es|de|it|pt|ru|zh|tr|fa|sv|da');
-            params.set('vote_count.gte', '120');
+          case 'Rest of the World': {
+            const worldLangs = ['ko', 'ja', 'fr', 'es', 'de', 'it', 'sv', 'pt', 'zh'];
+            const pickedLang = isRandom
+              ? worldLangs[Math.floor(Math.random() * worldLangs.length)]
+              : worldLangs[seedNumber % worldLangs.length];
+            params.set('with_original_language', pickedLang);
+            params.set('vote_count.gte', isTv ? '60' : '120');
             break;
+          }
           default:
             params.set('vote_count.gte', isTv ? '200' : '450');
             break;
@@ -2065,7 +2310,7 @@ Return ONLY valid JSON:
       }
 
       // Fetch Mystery Target dynamically (Zero Hardcoded Titles)
-      async function fetchMysteryTarget({ seedNumber = 142, isRandom = false, formatFilter = 'All', industryFilter = 'All' }) {
+      async function fetchMysteryTarget({ seedNumber = 142, isRandom = false, formatFilter = 'All', industryFilter = 'All', roundToken }) {
         const sourceMode = state.prefs.dataSource || 'both';
 
         if (sourceMode === 'ai') {
@@ -2080,7 +2325,8 @@ Return ONLY valid JSON:
   "genres": ["Drama", "Thriller"],
   "boxOffice": "$250.0M",
   "boxOfficeMillions": 250.0,
-  "studio": "Studio Name",
+  "primaryStudio": "Studio Name",
+  "productionCompanies": ["Studio Name"],
   "distributor": "Distributor Name",
   "rated": "PG-13",
   "imdbRating": 8.2,
@@ -2098,7 +2344,7 @@ Return ONLY valid JSON:
         }
 
         const pageNum = isRandom ? Math.floor(Math.random() * 4) + 1 : ((seedNumber % 4) + 1);
-        const { endpoint, params } = buildDiscoverParams(formatFilter, industryFilter, pageNum);
+        const { endpoint, params } = buildDiscoverParams(formatFilter, industryFilter, pageNum, seedNumber, isRandom);
 
         const res = await fetch(`${TMDB_BASE_URL}/${endpoint}?${params.toString()}`);
         if (!res.ok) throw new Error(`TMDB discover error ${res.status}`);
@@ -2107,6 +2353,7 @@ Return ONLY valid JSON:
 
         if (!pool.length) {
           params.set('page', '1');
+          params.delete('vote_count.gte');
           const fallbackRes = await fetch(`${TMDB_BASE_URL}/${endpoint}?${params.toString()}`);
           const fallbackData = await fallbackRes.json();
           pool = (fallbackData.results || []).filter((item) => item && item.id);
@@ -2131,12 +2378,15 @@ Return ONLY valid JSON:
         if (sourceMode === 'both') {
           crossCheckWithGoogleAI(tmdbDetail)
             .then((enriched) => {
-              if (state.target && state.target.tmdbId === enriched.tmdbId) {
+              if (state.roundToken === roundToken && state.target && state.target.tmdbId === enriched.tmdbId) {
                 state.target = enriched;
                 state.guesses = state.guesses.map((g) => ({
                   ...g,
                   evalResult: evaluateGuessAgainstTarget(g.item, enriched)
                 }));
+                if (state.gameOver) {
+                  document.getElementById('summary-meta').textContent = `${enriched.year} • ${enriched.industry} ${enriched.mediaType} • ${enriched.studio} • Rated ${enriched.rated} • IMDb ★ ${enriched.imdbRating} • Letterboxd ● ${enriched.letterboxdRating}`;
+                }
                 renderGameplayUI();
               }
             })
@@ -2150,7 +2400,7 @@ Return ONLY valid JSON:
       // 5. Attribute Evaluation Logic (Tile Colours, Arrows & Cast Matching)
       // =========================================================================
       function evaluateGuessAgainstTarget(guess, target) {
-        const yearDiff = guess.year - target.year;
+        const yearDiff = (Number(guess.year) || 0) - (Number(target.year) || 0);
         const yearState = yearDiff === 0 ? 'match' : Math.abs(yearDiff) <= 3 ? 'close' : 'miss';
         const yearArrow = yearDiff === 0 ? '' : yearDiff < 0 ? ' ↑' : ' ↓';
 
@@ -2180,32 +2430,34 @@ Return ONLY valid JSON:
             ? 'match'
             : 'miss';
 
-        const ratedState = guess.rated.toUpperCase().trim() === target.rated.toUpperCase().trim() ? 'match' : 'miss';
+        const ratedState =
+          String(guess.rated || '').toUpperCase().trim() === String(target.rated || '').toUpperCase().trim()
+            ? 'match'
+            : 'miss';
 
-        const imdbDiff = Number((guess.imdbRating - target.imdbRating).toFixed(1));
+        const imdbDiff = Number(((Number(guess.imdbRating) || 0) - (Number(target.imdbRating) || 0)).toFixed(1));
         const imdbState = imdbDiff === 0 ? 'match' : Math.abs(imdbDiff) <= 0.5 ? 'close' : 'miss';
         const imdbArrow = imdbDiff === 0 ? '' : imdbDiff < 0 ? ' ↑' : ' ↓';
 
-        const lbDiff = Number((guess.letterboxdRating - target.letterboxdRating).toFixed(1));
+        const lbDiff = Number(((Number(guess.letterboxdRating) || 0) - (Number(target.letterboxdRating) || 0)).toFixed(1));
         const lbState = lbDiff === 0 ? 'match' : Math.abs(lbDiff) <= 0.3 ? 'close' : 'miss';
         const lbArrow = lbDiff === 0 ? '' : lbDiff < 0 ? ' ↑' : ' ↓';
 
-        const targetGenresLower = new Set((target.genres || []).map((g) => g.toLowerCase()));
-        const directorMatch =
-          guess.director.name.toLowerCase().trim() !== 'unknown' &&
-          guess.director.name.toLowerCase().trim() === target.director.name.toLowerCase().trim();
+        const targetGenresLower = new Set((target.genres || []).map((g) => String(g).toLowerCase()));
+        const gDir = (guess.director?.name || 'unknown').toLowerCase().trim();
+        const tDir = (target.director?.name || 'unknown').toLowerCase().trim();
+        const directorMatch = gDir !== 'unknown' && gDir === tDir;
 
-        const producerMatch =
-          guess.producer &&
-          guess.producer.name.toLowerCase().trim() !== 'unknown' &&
-          guess.producer.name.toLowerCase().trim() === (target.producer?.name || '').toLowerCase().trim();
+        const gProd = (guess.producer?.name || 'unknown').toLowerCase().trim();
+        const tProd = (target.producer?.name || 'unknown').toLowerCase().trim();
+        const producerMatch = gProd !== 'unknown' && gProd === tProd;
 
         // Lead vs Supporting Cross-Role Matching:
-        // - 'match' (Emerald Green): exact role match (Lead === Target Lead, or Supporting in Target Supporting)
-        // - 'close' (Amber Gold): cross-role match (Guessed Supporting === Target Lead, or Guessed Lead in Target Supporting)
+        // - 'match' (Neon Emerald): exact role match (Lead === Target Lead, or Supporting in Target Supporting)
+        // - 'close' (Neon Amber): cross-role match (Guessed Supporting === Target Lead, or Guessed Lead in Target Supporting)
         const targetLeadName = (target.leadActor?.name || '').toLowerCase().trim();
         const targetSupportingSet = new Set(
-          (target.supportingCast || []).map((p) => p.name.toLowerCase().trim())
+          (target.supportingCast || []).map((p) => (p.name || '').toLowerCase().trim()).filter(Boolean)
         );
 
         const guessedLeadName = (guess.leadActor?.name || '').toLowerCase().trim();
@@ -2237,7 +2489,7 @@ Return ONLY valid JSON:
       }
 
       // =========================================================================
-      // 6. Theme, Accent, Font & Data Engine Application
+      // 6. Theme, Accent, Font, Neon High & Data Engine Application
       // =========================================================================
       function applyPreferences() {
         const root = document.documentElement;
@@ -2252,15 +2504,27 @@ Return ONLY valid JSON:
         root.style.setProperty('--font-display', font.display);
         root.style.setProperty('--font-sans', font.sans);
 
+        const isNeonHigh = state.prefs.neonHigh !== false;
+        document.body.classList.toggle('neon-high', isNeonHigh);
+
+        const neonHeaderBtn = document.getElementById('toggle-neon-header-btn');
+        if (neonHeaderBtn) {
+          neonHeaderBtn.classList.toggle('accent-soft-bg', isNeonHigh);
+          neonHeaderBtn.style.opacity = isNeonHigh ? '1' : '0.55';
+          neonHeaderBtn.title = isNeonHigh ? 'Neon High: ON (click to toggle)' : 'Neon High: OFF (click to toggle)';
+        }
+
         const spotlightEl = document.getElementById('ambient-spotlight');
         if (spotlightEl) spotlightEl.style.opacity = state.prefs.spotlight ? '1' : '0';
 
         const auraEl = document.getElementById('cursor-aura');
         if (auraEl && !state.prefs.cursorAura) auraEl.style.opacity = '0';
 
+        const neonCheckbox = document.getElementById('toggle-neon-high');
         const spotCheckbox = document.getElementById('toggle-spotlight');
         const auraCheckbox = document.getElementById('toggle-aura');
         const keyInput = document.getElementById('tmdb-key-input');
+        if (neonCheckbox) neonCheckbox.checked = isNeonHigh;
         if (spotCheckbox) spotCheckbox.checked = Boolean(state.prefs.spotlight);
         if (auraCheckbox) auraCheckbox.checked = Boolean(state.prefs.cursorAura);
         if (keyInput && state.prefs.tmdbApiKey) keyInput.value = state.prefs.tmdbApiKey;
@@ -2354,9 +2618,19 @@ Return ONLY valid JSON:
       // 7. Gameplay UI Renderer (Scrollable Stack of All Guesses + 10-Segment Bar)
       // =========================================================================
       function renderGameplayUI() {
-        // 1. Guess Counter (1..10)
+        // 1. Guess Counter (1..10) & Input Lock on Game Over
         const guessNum = state.gameOver ? state.guesses.length : Math.min(MAX_GUESSES, state.guesses.length + 1);
         document.getElementById('guess-counter-num').textContent = String(guessNum);
+
+        const inputEl = document.getElementById('guess-search-input');
+        if (inputEl) {
+          inputEl.disabled = state.gameOver || state.isTargetLoading;
+          inputEl.placeholder = state.gameOver
+            ? 'Round complete! Click "Play Next Mystery" or "New Mystery" to play again.'
+            : state.isTargetLoading
+            ? 'Loading mystery target...'
+            : 'Search for a movie, TV series, or anime to guess...';
+        }
 
         // 2. Hints Button (Locked until 5 tries completed)
         const hintsBtn = document.getElementById('hints-btn');
@@ -2447,7 +2721,7 @@ Return ONLY valid JSON:
               aria-label="Scroll to Guess ${i + 1} of ${MAX_GUESSES}"
               class="h-1.5 flex-1 rounded-full transition-all ${
                 isCompleted ? 'cursor-pointer hover:opacity-90' : 'cursor-default'
-              }"
+              } ${isLatest ? 'neon-seg-active' : ''}"
               style="background: ${bg};"
             ></button>
           `;
@@ -2458,40 +2732,52 @@ Return ONLY valid JSON:
       function buildSingleGuessCardHTML(entry, guessNumber, isLatest) {
         const { item, evalResult } = entry;
         const tileClass = (st) => (st === 'match' ? 'tile-match' : st === 'close' ? 'tile-close' : '');
+        const safeTitle = escapeHtml(item.title);
+        const safeStudio = escapeHtml(item.studio);
+        const safeIndustry = escapeHtml(item.industry);
+        const safeMediaType = escapeHtml(item.mediaType);
+        const safeRated = escapeHtml(item.rated);
+        const safeBoxOffice = escapeHtml(item.boxOffice);
 
         const genresHtml = (item.genres || [])
           .map((g) => {
-            const matched = evalResult.targetGenresLower.has(g.toLowerCase());
+            const matched = evalResult.targetGenresLower.has(String(g).toLowerCase());
             return `<span class="px-3 py-1 rounded-full text-xs font-semibold border ${
               matched ? 'genre-pill-match' : 'genre-pill-miss'
-            }">${g}</span>`;
+            }">${escapeHtml(g)}</span>`;
           })
           .join('');
 
         const studioVisual = item.studioLogoUrl
-          ? `<img src="${item.studioLogoUrl}" alt="${item.studio}" class="w-4 h-4 object-contain" onerror="this.style.display='none'; this.nextElementSibling.style.display='inline';" /><span style="display:none;" class="font-display text-[9px] font-extrabold">${getInitials(item.studio)}</span>`
-          : `<span class="font-display text-[9px] font-extrabold">${getInitials(item.studio)}</span>`;
+          ? `<img src="${escapeHtml(item.studioLogoUrl)}" alt="${safeStudio}" class="w-6 h-6 object-contain" onerror="this.style.display='none'; this.nextElementSibling.style.display='inline';" /><span style="display:none;" class="font-display text-xs font-extrabold">${escapeHtml(getInitials(item.studio))}</span>`
+          : `<span class="font-display text-xs font-extrabold">${escapeHtml(getInitials(item.studio))}</span>`;
+
+        const isStudioVerifying = state.prefs.dataSource === 'both' && !item.aiVerified;
+        const studioLabelHtml = isStudioVerifying
+          ? `PRIMARY STUDIO <span class="inline-block w-1.5 h-1.5 rounded-full animate-pulse ml-0.5 align-middle" style="background: var(--accent-hex);" title="Verifying Primary Studio with Google AI..."></span>`
+          : `PRIMARY STUDIO`;
 
         const getPersonRingStyle = (personState) => {
           if (personState === 'match') {
-            return 'border-color: #34d399; box-shadow: 0 0 10px rgba(52, 211, 153, 0.45);';
+            return 'border-color: #34d399; box-shadow: 0 0 14px rgba(52, 211, 153, 0.72);';
           }
           if (personState === 'close') {
-            return 'border-color: #fbbf24; box-shadow: 0 0 10px rgba(251, 191, 36, 0.45);';
+            return 'border-color: #fbbf24; box-shadow: 0 0 14px rgba(251, 191, 36, 0.72);';
           }
           return 'border-color: var(--border-strong); box-shadow: none;';
         };
 
         const renderPersonHtml = (roleLabel, person, personState) => {
           const safePerson = person || { name: 'Unknown', photoUrl: '' };
-          const initials = getInitials(safePerson.name);
-          const shortName = formatShortPersonName(safePerson.name);
+          const safeName = escapeHtml(safePerson.name);
+          const initials = escapeHtml(getInitials(safePerson.name));
+          const shortName = escapeHtml(formatShortPersonName(safePerson.name));
           const roleBadge =
             personState === 'close'
               ? `<span class="mt-0.5 text-[9px] font-bold uppercase tracking-wider text-amber-400">Supporting</span>`
               : '';
           return `
-            <div class="flex flex-col items-center text-center w-[72px] shrink-0">
+            <div class="flex flex-col items-center text-center w-[72px] shrink-0" title="${safeName}">
               <span class="text-[9px] font-bold uppercase tracking-wider mb-1.5 whitespace-nowrap" style="color: var(--text-muted);">${roleLabel}</span>
               <div
                 class="w-10 h-10 rounded-full border-2 flex items-center justify-center overflow-hidden font-display text-[11px] font-extrabold"
@@ -2499,7 +2785,7 @@ Return ONLY valid JSON:
               >
                 ${
                   safePerson.photoUrl
-                    ? `<img src="${safePerson.photoUrl}" alt="${safePerson.name}" class="w-full h-full object-cover" onerror="this.style.display='none'; this.nextElementSibling.style.display='inline';" /><span style="display:none;">${initials}</span>`
+                    ? `<img src="${escapeHtml(safePerson.photoUrl)}" alt="${safeName}" class="w-full h-full object-cover" onerror="this.style.display='none'; this.nextElementSibling.style.display='inline';" /><span style="display:none;">${initials}</span>`
                     : `<span>${initials}</span>`
                 }
               </div>
@@ -2513,28 +2799,29 @@ Return ONLY valid JSON:
         const supportingHtml = supportingList.length
           ? supportingList
               .map((person) => {
-                const pNameLower = person.name.toLowerCase().trim();
+                const pNameLower = (person.name || '').toLowerCase().trim();
                 let memberState = 'miss';
                 if (pNameLower && evalResult.targetSupportingSet.has(pNameLower)) {
                   memberState = 'match';
                 } else if (pNameLower && pNameLower === evalResult.targetLeadName) {
                   memberState = 'close';
                 }
-                const initials = getInitials(person.name);
-                const shortName = formatShortPersonName(person.name);
+                const safeName = escapeHtml(person.name);
+                const initials = escapeHtml(getInitials(person.name));
+                const shortName = escapeHtml(formatShortPersonName(person.name));
                 const swapBadge =
                   memberState === 'close'
                     ? `<span class="mt-0.5 text-[9px] font-bold uppercase tracking-wider text-amber-400">Lead!</span>`
                     : '';
                 return `
-                  <div class="flex flex-col items-center text-center w-[68px]">
+                  <div class="flex flex-col items-center text-center w-[68px]" title="${safeName}">
                     <div
                       class="w-10 h-10 rounded-full border-2 flex items-center justify-center overflow-hidden font-display text-[11px] font-extrabold shrink-0"
                       style="${getPersonRingStyle(memberState)} background: var(--bg-tile);"
                     >
                       ${
                         person.photoUrl
-                          ? `<img src="${person.photoUrl}" alt="${person.name}" class="w-full h-full object-cover" onerror="this.style.display='none'; this.nextElementSibling.style.display='inline';" /><span style="display:none;">${initials}</span>`
+                          ? `<img src="${escapeHtml(person.photoUrl)}" alt="${safeName}" class="w-full h-full object-cover" onerror="this.style.display='none'; this.nextElementSibling.style.display='inline';" /><span style="display:none;">${initials}</span>`
                           : `<span>${initials}</span>`
                       }
                     </div>
@@ -2547,78 +2834,83 @@ Return ONLY valid JSON:
           : `<span class="text-xs opacity-50 py-3">N/A</span>`;
 
         const posterHtml = item.posterUrl
-          ? `<img src="${item.posterUrl}" alt="${item.title}" class="w-full h-full object-cover" onerror="this.style.display='none'; this.nextElementSibling.classList.remove('hidden');" />
-             <canvas data-fallback-poster="1" data-title="${item.title.replace(/"/g, '&quot;')}" data-year="${item.year}" data-studio="${item.studio.replace(/"/g, '&quot;')}" width="240" height="360" class="hidden w-full h-full object-cover"></canvas>`
-          : `<canvas data-fallback-poster="1" data-title="${item.title.replace(/"/g, '&quot;')}" data-year="${item.year}" data-studio="${item.studio.replace(/"/g, '&quot;')}" width="240" height="360" class="w-full h-full object-cover"></canvas>`;
+          ? `<img src="${escapeHtml(item.posterUrl)}" alt="${safeTitle}" class="w-full h-full object-cover" onerror="this.style.display='none'; this.nextElementSibling.classList.remove('hidden');" />
+             <canvas data-fallback-poster="1" data-title="${safeTitle}" data-year="${escapeHtml(item.year)}" data-studio="${safeStudio}" width="240" height="360" class="hidden w-full h-full object-cover"></canvas>`
+          : `<canvas data-fallback-poster="1" data-title="${safeTitle}" data-year="${escapeHtml(item.year)}" data-studio="${safeStudio}" width="240" height="360" class="w-full h-full object-cover"></canvas>`;
 
         return `
           <article
             id="guess-card-${guessNumber}"
-            class="glass-panel rounded-3xl p-4 sm:p-5 flex flex-col gap-4 ${isLatest ? 'animate-card-in' : ''}"
-            style="border-color: ${isLatest ? 'rgba(var(--accent-rgb), 0.45)' : 'var(--border-color)'};"
+            class="glass-panel rounded-3xl p-4 sm:p-5 flex flex-col gap-4 ${isLatest ? 'animate-card-in neon-card-latest' : ''}"
+            style="border-color: ${isLatest ? 'rgba(var(--accent-rgb), 0.5)' : 'var(--border-color)'};"
           >
-            <!-- Top Section: Compact Poster + Title/Genres + Clean 2-Row Attribute Grid -->
-            <div class="flex flex-col sm:flex-row gap-4 items-stretch">
-              <!-- Left Poster -->
-              <div class="w-28 sm:w-32 md:w-36 aspect-[2/3] rounded-2xl overflow-hidden border shadow-lg shrink-0 mx-auto sm:mx-0 relative" style="border-color: var(--border-strong); background: var(--bg-tile);">
+            <!-- Top Section: Poster + Title/Genres + Precision-Aligned 3x2 Attribute Grid -->
+            <div class="flex flex-col sm:flex-row gap-4 sm:gap-5 items-stretch">
+              <!-- Left Poster (Aligned cleanly with Title + 2-Row Grid) -->
+              <div class="w-32 sm:w-36 md:w-40 aspect-[2/3] rounded-2xl overflow-hidden border shadow-lg shrink-0 mx-auto sm:mx-0 relative self-center sm:self-stretch" style="border-color: var(--border-strong); background: var(--bg-tile);">
                 ${posterHtml}
                 <span class="absolute top-2 left-2 px-2 py-0.5 rounded-full text-[10px] font-extrabold shadow-md accent-bg">
                   #${guessNumber}
                 </span>
               </div>
 
-              <!-- Right Title, Genres & Attribute Tiles -->
+              <!-- Right Title, Genres & Aligned Attribute Tiles -->
               <div class="flex-1 flex flex-col justify-between min-w-0">
                 <div>
                   <div class="flex items-start justify-between gap-2">
-                    <h2 class="font-display text-lg sm:text-xl font-extrabold tracking-tight leading-snug truncate">
-                      ${item.title}
+                    <h2 class="font-display text-lg sm:text-xl font-extrabold tracking-tight leading-snug truncate" title="${safeTitle}">
+                      ${safeTitle}
                     </h2>
                     <span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold border shrink-0 accent-soft-bg">
-                      ${item.industry} &bull; ${item.mediaType}
+                      ${safeIndustry} &bull; ${safeMediaType}
                     </span>
                   </div>
                   <div class="mt-1.5 flex flex-wrap items-center gap-1.5">${genresHtml}</div>
                 </div>
 
-                <!-- 6-Column Attribute Grid:
-                     Row 1: Year (2 cols) | Box Office (2 cols) | Primary Studio (2 cols)
-                     Row 2: Rated (3 cols) | [ IMDb (half) | Letterboxd (half) ] (3 cols) -->
-                <div class="mt-3 grid grid-cols-6 gap-2">
-                  <div class="col-span-2 stat-tile ${tileClass(evalResult.yearState)} rounded-2xl px-2 py-2 flex flex-col items-center justify-center text-center h-[68px]">
+                <!-- Precision-Aligned Attribute Grid:
+                     Col 1: YEAR (Row 1) / RATED (Row 2)
+                     Col 2: BOX OFFICE (Row 1) / [IMDB | LETTERBOXD] half-width tiles (Row 2)
+                     Col 3: PRIMARY STUDIO spanning Rows 1–2 (verified via Google AI) -->
+                <div class="mt-3 attribute-tiles-grid">
+                  <!-- Row 1, Col 1: YEAR -->
+                  <div class="stat-tile ${tileClass(evalResult.yearState)} rounded-2xl px-2.5 py-2 flex flex-col items-center justify-center text-center h-[76px]">
                     <span class="text-[9px] font-bold uppercase tracking-wider opacity-70">YEAR</span>
-                    <span class="mt-1 font-display text-sm font-extrabold">${item.year}${evalResult.yearArrow}</span>
+                    <span class="mt-1 font-display text-sm sm:text-base font-extrabold leading-none">${escapeHtml(item.year)}${evalResult.yearArrow}</span>
                   </div>
 
-                  <div class="col-span-2 stat-tile ${tileClass(evalResult.boState)} rounded-2xl px-2 py-2 flex flex-col items-center justify-center text-center h-[68px]">
+                  <!-- Row 1, Col 2: BOX OFFICE -->
+                  <div class="stat-tile ${tileClass(evalResult.boState)} rounded-2xl px-2.5 py-2 flex flex-col items-center justify-center text-center h-[76px]">
                     <span class="text-[9px] font-bold uppercase tracking-wider opacity-70">BOX OFFICE</span>
-                    <span class="mt-1 font-display text-sm font-extrabold">${item.boxOffice}${evalResult.boArrow}</span>
+                    <span class="mt-1 font-display text-sm sm:text-base font-extrabold leading-none">${safeBoxOffice}${evalResult.boArrow}</span>
                   </div>
 
-                  <div class="col-span-2 stat-tile ${tileClass(evalResult.studioState)} rounded-2xl px-2 py-1.5 flex flex-col items-center justify-center text-center h-[68px]">
-                    <span class="text-[9px] font-bold uppercase tracking-wider opacity-70">PRIMARY STUDIO</span>
-                    <div class="mt-0.5 w-6 h-6 rounded-full bg-white text-slate-900 flex items-center justify-center overflow-hidden shadow-sm shrink-0">
-                      ${studioVisual}
-                    </div>
-                    <span class="mt-0.5 text-[10px] font-bold leading-tight truncate w-full">${item.studio}</span>
-                  </div>
-
-                  <div class="col-span-3 stat-tile ${tileClass(evalResult.ratedState)} rounded-2xl px-2 py-2 flex flex-col items-center justify-center text-center h-[68px]">
+                  <!-- Row 2, Col 1: RATED -->
+                  <div class="stat-tile ${tileClass(evalResult.ratedState)} rounded-2xl px-2.5 py-2 flex flex-col items-center justify-center text-center h-[76px]">
                     <span class="text-[9px] font-bold uppercase tracking-wider opacity-70">RATED</span>
-                    <span class="mt-1 font-display text-sm font-extrabold">${item.rated}</span>
+                    <span class="mt-1 font-display text-sm sm:text-base font-extrabold leading-none">${safeRated}</span>
                   </div>
 
-                  <!-- IMDb and Letterboxd: Half-width tiles side-by-side -->
-                  <div class="col-span-3 grid grid-cols-2 gap-2 h-[68px]">
+                  <!-- Row 2, Col 2: IMDb & Letterboxd (Half-Width Side-by-Side, Flush with Box Office Above) -->
+                  <div class="grid grid-cols-2 gap-2 h-[76px] min-w-0">
                     <div class="stat-tile ${tileClass(evalResult.imdbState)} rounded-2xl px-1.5 py-2 flex flex-col items-center justify-center text-center min-w-0">
                       <span class="text-[9px] font-bold uppercase tracking-wider opacity-70">IMDB</span>
-                      <span class="mt-1 font-display text-xs sm:text-sm font-extrabold whitespace-nowrap">★ ${Number(item.imdbRating).toFixed(1)}${evalResult.imdbArrow}</span>
+                      <span class="mt-1 font-display text-xs sm:text-sm font-extrabold leading-none whitespace-nowrap">★ ${Number(item.imdbRating || 0).toFixed(1)}${evalResult.imdbArrow}</span>
                     </div>
 
                     <div class="stat-tile ${tileClass(evalResult.lbState)} rounded-2xl px-1.5 py-2 flex flex-col items-center justify-center text-center min-w-0">
                       <span class="text-[9px] font-bold uppercase tracking-wider opacity-70">LETTERBOXD</span>
-                      <span class="mt-1 font-display text-xs sm:text-sm font-extrabold whitespace-nowrap">● ${Number(item.letterboxdRating).toFixed(1)}${evalResult.lbArrow}</span>
+                      <span class="mt-1 font-display text-xs sm:text-sm font-extrabold leading-none whitespace-nowrap">● ${Number(item.letterboxdRating || 0).toFixed(1)}${evalResult.lbArrow}</span>
                     </div>
+                  </div>
+
+                  <!-- Col 3 (Spans Row 1 & Row 2 on Desktop): PRIMARY STUDIO -->
+                  <div class="studio-tile-span stat-tile ${tileClass(evalResult.studioState)} rounded-2xl px-3 py-2.5 flex flex-col items-center justify-center text-center" title="${safeStudio}">
+                    <span class="text-[9px] font-bold uppercase tracking-wider opacity-70">${studioLabelHtml}</span>
+                    <div class="mt-2 w-10 h-10 rounded-full bg-white text-slate-900 flex items-center justify-center overflow-hidden shadow-md shrink-0">
+                      ${studioVisual}
+                    </div>
+                    <span class="mt-2 text-xs font-bold leading-snug line-clamp-2 w-full">${safeStudio}</span>
                   </div>
                 </div>
               </div>
@@ -2626,20 +2918,20 @@ Return ONLY valid JSON:
 
             <div class="w-full h-px" style="background: var(--border-color);"></div>
 
-            <!-- Bottom Credits Row: Director, Producer, Lead Actor | Supporting Cast -->
-            <div class="flex flex-col md:flex-row items-center justify-between gap-3.5">
+            <!-- Bottom Credits Row: Baseline-Aligned Labels & Avatars -->
+            <div class="flex flex-col md:flex-row items-center md:items-start justify-between gap-4">
               <div class="flex items-start justify-center gap-3 shrink-0">
                 ${renderPersonHtml('DIRECTOR', item.director, evalResult.directorMatch ? 'match' : 'miss')}
                 ${renderPersonHtml('PRODUCER', item.producer, evalResult.producerMatch ? 'match' : 'miss')}
-                <div class="w-px h-14 self-center" style="background: var(--border-color);"></div>
+                <div class="w-px h-14 mt-4 shrink-0" style="background: var(--border-color);"></div>
                 ${renderPersonHtml('LEAD ACTOR', item.leadActor, evalResult.leadState)}
               </div>
 
-              <div class="hidden md:block w-px h-14 self-center" style="background: var(--border-color);"></div>
+              <div class="hidden md:block w-px h-14 mt-4 shrink-0" style="background: var(--border-color);"></div>
 
               <div class="flex-1 flex flex-col items-center min-w-0 w-full">
                 <span class="text-[9px] font-bold uppercase tracking-wider mb-1.5" style="color: var(--text-muted);">SUPPORTING CAST</span>
-                <div class="flex items-start justify-center gap-2.5 flex-wrap">
+                <div class="flex items-start justify-center gap-3 flex-wrap">
                   ${supportingHtml}
                 </div>
               </div>
@@ -2663,6 +2955,7 @@ Return ONLY valid JSON:
       // 8. Round Lifecycle, Guess Verification & End-of-Round Summary
       // =========================================================================
       async function initNewRound({ mode = 'daily', dayNumber = 142, explicitTitle = null, note = '' } = {}) {
+        const myRoundToken = ++state.roundToken;
         state.mode = mode;
         state.dayNumber = dayNumber;
         state.challengeNote = note;
@@ -2672,10 +2965,13 @@ Return ONLY valid JSON:
         state.gameOver = false;
         state.won = false;
         state.isTargetLoading = true;
+        state.isGuessVerifying = false;
         state.target = null;
 
         document.getElementById('round-summary-banner').classList.add('hidden');
         document.getElementById('give-up-popover').classList.add('hidden');
+        document.getElementById('autocomplete-dropdown').classList.add('hidden');
+        document.getElementById('guess-search-input').value = '';
 
         const noteBanner = document.getElementById('challenge-note-banner');
         if (note) {
@@ -2697,7 +2993,7 @@ Return ONLY valid JSON:
           let targetProfile;
           if (explicitTitle) {
             targetProfile = await resolveFastProfile(explicitTitle, (enriched) => {
-              if (state.target && state.target.title === enriched.title) {
+              if (state.roundToken === myRoundToken && state.target && state.target.title === enriched.title) {
                 state.target = enriched;
                 state.guesses = state.guesses.map((g) => ({
                   ...g,
@@ -2711,31 +3007,36 @@ Return ONLY valid JSON:
               seedNumber: dayNumber,
               isRandom: mode === 'practice',
               formatFilter: state.filter,
-              industryFilter: state.industry
+              industryFilter: state.industry,
+              roundToken: myRoundToken
             });
           }
+
+          if (state.roundToken !== myRoundToken) return;
 
           state.target = targetProfile;
           state.isTargetLoading = false;
           renderGameplayUI();
 
-          // Prefetch Lead Actor & Director other works in background so Hint choices are instant
+          // Prefetch Lead Actor & Director other works (role-separated) in background
           if (targetProfile.leadActor?.id && (!targetProfile.leadOtherWorks || !targetProfile.leadOtherWorks.length)) {
-            fetchPersonTopOtherWorks(targetProfile.leadActor.id, targetProfile.tmdbId).then((works) => {
-              if (state.target && state.target.id === targetProfile.id && works.length) {
+            fetchPersonTopOtherWorks(targetProfile.leadActor.id, targetProfile.tmdbId, 'cast').then((works) => {
+              if (state.roundToken === myRoundToken && state.target && state.target.id === targetProfile.id && works.length) {
                 state.target.leadOtherWorks = works;
               }
             });
           }
           if (targetProfile.director?.id && (!targetProfile.directorOtherWorks || !targetProfile.directorOtherWorks.length)) {
-            fetchPersonTopOtherWorks(targetProfile.director.id, targetProfile.tmdbId).then((works) => {
-              if (state.target && state.target.id === targetProfile.id && works.length) {
+            fetchPersonTopOtherWorks(targetProfile.director.id, targetProfile.tmdbId, 'director').then((works) => {
+              if (state.roundToken === myRoundToken && state.target && state.target.id === targetProfile.id && works.length) {
                 state.target.directorOtherWorks = works;
               }
             });
           }
         } catch (err) {
+          if (state.roundToken !== myRoundToken) return;
           state.isTargetLoading = false;
+          renderGameplayUI();
           document.getElementById('mystery-spinner-icon').classList.add('hidden');
           document.getElementById('empty-card-title').textContent = 'Unable to Load Mystery Title';
           document.getElementById('empty-card-subtitle').textContent =
@@ -2746,24 +3047,29 @@ Return ONLY valid JSON:
       async function handleGuessSelection(candidate) {
         if (state.gameOver || state.isTargetLoading || !state.target || state.isGuessVerifying) return;
 
-        if (
-          state.guesses.some(
-            (g) =>
-              g.item.title.toLowerCase() === candidate.title.toLowerCase() &&
-              String(g.item.year) === String(candidate.year || g.item.year)
-          )
-        ) {
+        const isDuplicate = state.guesses.some(
+          (g) =>
+            (g.item.tmdbId &&
+              candidate.tmdbId &&
+              g.item.tmdbId === candidate.tmdbId &&
+              g.item.tmdbEndpoint === candidate.tmdbEndpoint) ||
+            (g.item.title.toLowerCase() === candidate.title.toLowerCase() &&
+              String(g.item.year) === String(candidate.year || g.item.year))
+        );
+
+        if (isDuplicate) {
           showToast(`You already guessed "${candidate.title}"!`);
           return;
         }
 
+        const myRoundToken = state.roundToken;
         state.isGuessVerifying = true;
         document.getElementById('search-loading-spinner').classList.remove('hidden');
 
         try {
           const guessIndex = state.guesses.length;
           const verifiedItem = await resolveFastProfile(candidate, (enrichedItem) => {
-            if (state.guesses[guessIndex] && state.target) {
+            if (state.roundToken === myRoundToken && state.guesses[guessIndex] && state.target) {
               state.guesses[guessIndex] = {
                 item: enrichedItem,
                 evalResult: evaluateGuessAgainstTarget(enrichedItem, state.target)
@@ -2772,11 +3078,16 @@ Return ONLY valid JSON:
             }
           });
 
+          if (state.roundToken !== myRoundToken) return;
+
           const evalResult = evaluateGuessAgainstTarget(verifiedItem, state.target);
           state.guesses.push({ item: verifiedItem, evalResult });
 
           const isExactMatch =
-            (verifiedItem.tmdbId && state.target.tmdbId && verifiedItem.tmdbId === state.target.tmdbId) ||
+            (verifiedItem.tmdbId &&
+              state.target.tmdbId &&
+              verifiedItem.tmdbId === state.target.tmdbId &&
+              verifiedItem.tmdbEndpoint === state.target.tmdbEndpoint) ||
             (verifiedItem.title.toLowerCase().trim() === state.target.title.toLowerCase().trim() &&
               Math.abs(verifiedItem.year - state.target.year) <= 1);
 
@@ -2784,11 +3095,12 @@ Return ONLY valid JSON:
             concludeRound(true);
           } else if (state.guesses.length >= MAX_GUESSES) {
             concludeRound(false);
-          } else if (state.guesses.length === HINTS_UNLOCK_AFTER) {
-            showToast('💡 5 tries reached — Hints (0/3) are now unlocked!', 3200);
+          } else {
+            if (state.guesses.length === HINTS_UNLOCK_AFTER) {
+              showToast('💡 5 tries reached — Hints (0/3) are now unlocked!', 3200);
+            }
+            renderGameplayUI();
           }
-
-          renderGameplayUI();
         } catch (err) {
           showToast('Could not verify that title. Please try another!');
         } finally {
@@ -3087,7 +3399,7 @@ Return ONLY valid JSON:
           (!state.target.leadOtherWorks || !state.target.leadOtherWorks.length)
         ) {
           btn.textContent = 'Loading...';
-          state.target.leadOtherWorks = await fetchPersonTopOtherWorks(state.target.leadActor.id, state.target.tmdbId);
+          state.target.leadOtherWorks = await fetchPersonTopOtherWorks(state.target.leadActor.id, state.target.tmdbId, 'cast');
         }
         if (
           hintId === 'director-works' &&
@@ -3097,7 +3409,8 @@ Return ONLY valid JSON:
           btn.textContent = 'Loading...';
           state.target.directorOtherWorks = await fetchPersonTopOtherWorks(
             state.target.director.id,
-            state.target.tmdbId
+            state.target.tmdbId,
+            'director'
           );
         }
 
@@ -3207,6 +3520,10 @@ Return ONLY valid JSON:
           const hits = await searchLiveCatalog(q, 'All', 'All');
           if (!hits) return;
           createCandidateList = hits.slice(0, 5);
+          if (!createCandidateList.length) {
+            createResultsEl.innerHTML = `<div class="text-xs py-3 text-center" style="color: var(--text-secondary);">No matching titles found. Try another keyword.</div>`;
+            return;
+          }
           createResultsEl.innerHTML = createCandidateList
             .map(
               (item, idx) => `
@@ -3219,12 +3536,12 @@ Return ONLY valid JSON:
                 <div class="flex items-center gap-3 min-w-0">
                   ${
                     item.posterUrl
-                      ? `<img src="${item.posterUrl}" alt="${item.title}" class="w-9 h-12 rounded-lg object-cover shrink-0" />`
-                      : `<div class="w-9 h-12 rounded-lg flex items-center justify-center text-xs font-bold shrink-0" style="background: var(--bg-tile);">${getInitials(item.title)}</div>`
+                      ? `<img src="${escapeHtml(item.posterUrl)}" alt="${escapeHtml(item.title)}" class="w-9 h-12 rounded-lg object-cover shrink-0" />`
+                      : `<div class="w-9 h-12 rounded-lg flex items-center justify-center text-xs font-bold shrink-0" style="background: var(--bg-tile);">${escapeHtml(getInitials(item.title))}</div>`
                   }
                   <div class="min-w-0">
-                    <div class="text-sm font-bold truncate">${item.title}</div>
-                    <div class="text-xs" style="color: var(--text-secondary);">${item.year || ''} &bull; ${item.industry} ${item.mediaType}</div>
+                    <div class="text-sm font-bold truncate">${escapeHtml(item.title)}</div>
+                    <div class="text-xs" style="color: var(--text-secondary);">${escapeHtml(item.year || '')} &bull; ${escapeHtml(item.industry)} ${escapeHtml(item.mediaType)}</div>
                   </div>
                 </div>
                 <span class="px-3 py-1 rounded-full text-xs font-bold accent-soft-bg">Select</span>
@@ -3264,7 +3581,8 @@ Return ONLY valid JSON:
           note: document.getElementById('create-note-input').value.trim()
         };
         const encoded = btoa(encodeURIComponent(JSON.stringify(payload)));
-        const shareUrl = `${window.location.origin}${window.location.pathname}#challenge=${encoded}`;
+        const baseUrl = window.location.href.split('#')[0];
+        const shareUrl = `${baseUrl}#challenge=${encoded}`;
 
         const ta = document.createElement('textarea');
         ta.value = shareUrl;
@@ -3457,12 +3775,24 @@ Return ONLY valid JSON:
           state.prefs.dataSource = sourceBtn.getAttribute('data-select-source');
           liveSearchCache.clear();
           persistState();
-          updateDataSourceUI();
-          showToast(`Data Engine set to: ${document.getElementById('settings-source-badge').textContent}`);
-          if (state.guesses.length === 0) {
-            initNewRound({ mode: state.mode, dayNumber: state.dayNumber });
-          }
+          applyPreferences();
+          const labelMap = { both: 'Both (TMDB + Google AI)', tmdb: 'TMDB Only', ai: 'Google AI Only' };
+          showToast(`Data Engine switched to ${labelMap[state.prefs.dataSource]}`);
         }
+      });
+
+      document.getElementById('toggle-neon-high').addEventListener('change', (e) => {
+        state.prefs.neonHigh = e.target.checked;
+        persistState();
+        applyPreferences();
+        showToast(state.prefs.neonHigh ? '⚡ Neon High Overdrive enabled!' : 'Classic subtle lighting enabled');
+      });
+
+      document.getElementById('toggle-neon-header-btn').addEventListener('click', () => {
+        state.prefs.neonHigh = !(state.prefs.neonHigh !== false);
+        persistState();
+        applyPreferences();
+        showToast(state.prefs.neonHigh ? '⚡ Neon High: ON' : 'Neon High: OFF');
       });
 
       document.getElementById('toggle-spotlight').addEventListener('change', (e) => {
@@ -3656,10 +3986,31 @@ Return ONLY valid JSON:
         parallaxY += (targetParallaxY - parallaxY) * 0.05;
 
         const isLightTheme = state.prefs.themeId === 'matinee-ivory';
+        const isNeonHigh = state.prefs.neonHigh !== false;
         const rgb = getComputedStyle(document.documentElement).getPropertyValue('--accent-rgb').trim() || '245, 158, 11';
 
         if (cosmosCtx) {
           cosmosCtx.clearRect(0, 0, cw, ch);
+
+          // Soft floating neon ambient orbs when Neon High is active on dark themes
+          if (isNeonHigh && !isLightTheme) {
+            const orb1X = cw * 0.16 + Math.sin(t * 0.28) * 36 + parallaxX * 28;
+            const orb1Y = ch * 0.24 + Math.cos(t * 0.22) * 26 + parallaxY * 28;
+            const g1 = cosmosCtx.createRadialGradient(orb1X, orb1Y, 0, orb1X, orb1Y, Math.max(cw, ch) * 0.28);
+            g1.addColorStop(0, `rgba(${rgb}, 0.11)`);
+            g1.addColorStop(1, `rgba(${rgb}, 0)`);
+            cosmosCtx.fillStyle = g1;
+            cosmosCtx.fillRect(0, 0, cw, ch);
+
+            const orb2X = cw * 0.84 + Math.cos(t * 0.24) * 34 - parallaxX * 24;
+            const orb2Y = ch * 0.72 + Math.sin(t * 0.3) * 28 - parallaxY * 24;
+            const g2 = cosmosCtx.createRadialGradient(orb2X, orb2Y, 0, orb2X, orb2Y, Math.max(cw, ch) * 0.26);
+            g2.addColorStop(0, `rgba(16, 185, 129, 0.08)`);
+            g2.addColorStop(1, `rgba(16, 185, 129, 0)`);
+            cosmosCtx.fillStyle = g2;
+            cosmosCtx.fillRect(0, 0, cw, ch);
+          }
+
           for (let i = 0; i < stars.length; i++) {
             const s = stars[i];
             const sx = (s.x + parallaxX * 22 * s.depth + cw) % cw;
@@ -3667,9 +4018,11 @@ Return ONLY valid JSON:
             const twinkle = 0.65 + 0.35 * Math.sin(t * s.speed + s.phase);
             cosmosCtx.fillStyle = isLightTheme
               ? `rgba(${rgb}, ${(s.alpha * 0.45 * twinkle).toFixed(3)})`
+              : isNeonHigh && i % 5 === 0
+              ? `rgba(${rgb}, ${(s.alpha * 0.9 * twinkle).toFixed(3)})`
               : `rgba(248, 250, 252, ${(s.alpha * twinkle).toFixed(3)})`;
             cosmosCtx.beginPath();
-            cosmosCtx.arc(sx, sy, s.r, 0, Math.PI * 2);
+            cosmosCtx.arc(sx, sy, isNeonHigh && i % 5 === 0 ? s.r * 1.25 : s.r, 0, Math.PI * 2);
             cosmosCtx.fill();
           }
         }
